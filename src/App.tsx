@@ -12,6 +12,14 @@ import AuthCallback from './pages/AuthCallback';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Careers from './pages/Careers';
+import About from './pages/About';
+import Blog from './pages/Blog';
+import Contact from './pages/Contact';
+import Pricing from './pages/Pricing';
+import HelpCenter from './pages/HelpCenter';
+import Privacy from './pages/Privacy';
+import { Terms } from './pages/Terms';
 import { useState, useEffect, useCallback } from 'react';
 import { UserRole, User } from './types';
 import { api } from './lib/api';
@@ -79,10 +87,23 @@ function AppRoutes() {
   const isLanding = location.pathname === '/';
   const isAuth = location.pathname === '/login' || location.pathname === '/register';
   const isCallback = location.pathname === '/auth/callback';
+  const isPublic = ['/careers', '/about', '/blog', '/contact', '/pricing', '/help', '/privacy', '/terms'].includes(location.pathname);
 
   if (isLanding) return <Landing />;
   if (isAuth) return <Routes><Route path="/login" element={<Login />} /><Route path="/register" element={<Register />} /></Routes>;
   if (isCallback) return <AuthCallback />;
+  if (isPublic) return (
+    <Routes>
+      <Route path="/careers" element={<Careers />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/pricing" element={<Pricing />} />
+      <Route path="/help" element={<HelpCenter />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/terms" element={<Terms />} />
+    </Routes>
+  );
   return <DashboardLayout />;
 }
 

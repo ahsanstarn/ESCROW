@@ -4,7 +4,16 @@
   "framework": "vite",
   "installCommand": "npm install",
   "functions": {
-    "api/**/*.ts": {
+    "api/**/index.ts": {
+      "maxDuration": 10
+    },
+    "api/**/[id].ts": {
+      "maxDuration": 10
+    },
+    "api/**/stats.ts": {
+      "maxDuration": 10
+    },
+    "api/seed.ts": {
       "maxDuration": 10
     }
   },
