@@ -59,6 +59,10 @@ class QueryBuilder {
     return url;
   }
 
+  then(resolve: any, reject?: any): any {
+    return this.execute().then(resolve, reject);
+  }
+
   async execute(): Promise<Result> {
     try {
       if (this._countOnly) {
@@ -101,6 +105,10 @@ class InsertBuilder {
     return this.select();
   }
 
+  then(resolve: any, reject?: any): any {
+    return this.execute().then(resolve, reject);
+  }
+
   async execute(): Promise<Result> {
     try {
       const res = await fetch(`${URL_BASE()}/${this.table}`, {
@@ -129,6 +137,10 @@ class UpdateBuilder {
 
   eq(col: string, val: string) { this._col = col; this._val = val; return this; }
 
+  then(resolve: any, reject?: any): any {
+    return this.execute().then(resolve, reject);
+  }
+
   async execute(): Promise<Result> {
     try {
       const url = `${URL_BASE()}/${this.table}?${this._col}=eq.${encodeURIComponent(this._val!)}`;
@@ -151,6 +163,10 @@ class DeleteBuilder {
   constructor(table: string) { this.table = table; }
 
   eq(col: string, val: string) { this._col = col; this._val = val; return this; }
+
+  then(resolve: any, reject?: any): any {
+    return this.execute().then(resolve, reject);
+  }
 
   async execute(): Promise<Result> {
     try {

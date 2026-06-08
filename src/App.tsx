@@ -4,8 +4,11 @@ import { MerchantDashboard } from './pages/MerchantDashboard';
 import { CustomerDashboard } from './pages/CustomerDashboard';
 import { CourierDashboard } from './pages/CourierDashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { SellerDashboard } from './pages/SellerDashboard';
+import { AgencyDashboard } from './pages/AgencyDashboard';
 import { EscrowDetail } from './pages/EscrowDetail';
 import { DisputeDetail } from './pages/DisputeDetail';
+import AuthCallback from './pages/AuthCallback';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -58,9 +61,11 @@ function DashboardLayout() {
         <Routes>
           <Route path="/" element={<Navigate to={`/${currentRole.toLowerCase()}`} replace />} />
           <Route path="/merchant" element={<MerchantDashboard userId={currentUser?.id} />} />
+          <Route path="/seller" element={<SellerDashboard userId={currentUser?.id} />} />
           <Route path="/buyer" element={<CustomerDashboard userId={currentUser?.id} />} />
           <Route path="/courier" element={<CourierDashboard userId={currentUser?.id} />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/agency" element={<AgencyDashboard />} />
           <Route path="/escrow/:id" element={<EscrowDetail userId={currentUser?.id} userRole={currentRole} />} />
           <Route path="/dispute/:id" element={<DisputeDetail userId={currentUser?.id} userRole={currentRole} />} />
         </Routes>
@@ -73,9 +78,11 @@ function AppRoutes() {
   const location = useLocation();
   const isLanding = location.pathname === '/';
   const isAuth = location.pathname === '/login' || location.pathname === '/register';
+  const isCallback = location.pathname === '/auth/callback';
 
   if (isLanding) return <Landing />;
   if (isAuth) return <Routes><Route path="/login" element={<Login />} /><Route path="/register" element={<Register />} /></Routes>;
+  if (isCallback) return <AuthCallback />;
   return <DashboardLayout />;
 }
 
