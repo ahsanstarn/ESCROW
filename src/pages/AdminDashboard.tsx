@@ -35,7 +35,7 @@ export function AdminDashboard() {
     return (
       <div className="p-8 max-w-7xl mx-auto">
         <div className="flex items-center justify-center h-64">
-          <div className="w-6 h-6 border-2 border-escrow-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
         </div>
       </div>
     );
@@ -77,7 +77,7 @@ export function AdminDashboard() {
               <h3 className="text-sm font-semibold text-slate-300 mb-4">Users by Role</h3>
               <div className="space-y-3">
                 {[
-                  { label: 'Merchants', count: analytics.users.merchants, color: 'bg-escrow-500' },
+                  { label: 'Merchants', count: analytics.users.merchants, color: 'bg-brand-500' },
                   { label: 'Buyers', count: analytics.users.buyers, color: 'bg-trust-500' },
                   { label: 'Couriers', count: analytics.users.couriers, color: 'bg-caution-500' },
                 ].map(item => (
@@ -100,7 +100,7 @@ export function AdminDashboard() {
                       <div className={`w-2 h-2 rounded-full ${
                         item.status === 'RELEASED' ? 'bg-trust-500' :
                         item.status === 'DISPUTED' ? 'bg-danger-500' :
-                        item.status === 'DELIVERED' ? 'bg-caution-500' : 'bg-escrow-500'
+                        item.status === 'DELIVERED' ? 'bg-caution-500' : 'bg-brand-500'
                       }`} />
                       <span className="text-sm text-slate-400 flex-1">{item.status.replace('_', ' ')}</span>
                       <span className="text-sm font-medium text-slate-200">{item._count}</span>
@@ -108,7 +108,7 @@ export function AdminDashboard() {
                         <div
                           className={`h-full rounded-full ${
                             item.status === 'RELEASED' ? 'bg-trust-500' :
-                            item.status === 'DISPUTED' ? 'bg-danger-500' : 'bg-escrow-500'
+                            item.status === 'DISPUTED' ? 'bg-danger-500' : 'bg-brand-500'
                           }`}
                           style={{ width: `${total > 0 ? (item._count / total) * 100 : 0}%` }}
                         />

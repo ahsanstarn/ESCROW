@@ -68,7 +68,7 @@ export function EscrowCard({ escrow, showBuyer, showMerchant }: EscrowCardProps)
           className={`absolute inset-y-0 left-0 rounded-full transition-all duration-500 ${
             escrow.status === 'RELEASED' ? 'bg-trust-500' :
             escrow.status === 'DISPUTED' ? 'bg-danger-500' :
-            'bg-escrow-500'
+            'bg-brand-500'
           }`}
           style={{ width: `${progress}%` }}
         />

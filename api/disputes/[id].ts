@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../lib/prisma';
+import { supabase } from '../lib/supabase';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -11,33 +11,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     if (req.method === 'GET') {
-      const dispute = await prisma.dispute.findUnique({
-        where: { id },
-        include: {
-          escrow: true,
-          opener: { select: { id: true, name: true, email: true } },
-          arbiter: { select: { id: true, name: true } },
-          evidence: true,
-        },
-      });
-      if (!dispute) return res.status(404).json({ error: 'Not found' });
+      const { data: dispute, error } = await supabase.from('disputes').select(`
+        *,
+        escrow(*),
+        opener:users!disputes_opened_by_id_fkey(id, name, email),
+        arbiter:users!disputes_arbiter_id_fkey(id, name),
+        evidence(*)
+      `).eq('id', id).single();
+
+      if (error || !dispute) return res.status(404).json({ error: 'Not found' });
       return res.json({ success: true, data: dispute });
     }
 
     if (req.method === 'POST') {
       const { submittedBy, type, url, content } = req.body;
-      const evidence = await prisma.evidence.create({
-        data: { disputeId: id, submittedBy, type, url, content },
-      });
+      const { data: evidence, error } = await supabase.from('evidence').insert({
+        dispute_id: id, submitted_by: submittedBy, type, url, content,
+      }).select().single();
+      if (error) throw error;
       return res.status(201).json({ success: true, data: evidence });
     }
 
     if (req.method === 'PUT') {
       const { outcome, arbiterId, resolutionNotes } = req.body;
-      const dispute = await prisma.dispute.update({
-        where: { id },
-        data: { status: 'RESOLVED', outcome, arbiterId, resolutionNotes, resolvedAt: new Date() },
-      });
+      const { data: dispute, error } = await supabase.from('disputes').update({
+        status: 'RESOLVED', outcome, arbiter_id: arbiterId, resolution_notes: resolutionNotes, resolved_at: new Date().toISOString(),
+      }).eq('id', id).select().single();
+      if (error) throw error;
       return res.json({ success: true, data: dispute });
     }
 

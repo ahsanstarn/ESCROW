@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../../lib/prisma';
+import { supabase } from '../../lib/supabase';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,21 +10,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { id } = req.query as { id: string };
 
   if (req.method === 'GET') {
-    const user = await prisma.user.findUnique({ where: { id } });
+    const { data: user } = await supabase.from('users').select('*').eq('id', id).single();
     if (!user) return res.status(404).json({ error: 'Not found' });
 
-    const whereField = user.role === 'MERCHANT' ? 'merchantId' : 'buyerId';
-    const [totalEscrows, activeEscrows, completedEscrows, disputes] = await Promise.all([
-      prisma.escrow.count({ where: { [whereField]: id } }),
-      prisma.escrow.count({ where: { [whereField]: id, status: { in: ['CREATED', 'DEPOSITED', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED'] } } }),
-      prisma.escrow.count({ where: { [whereField]: id, status: 'RELEASED' } }),
-      prisma.dispute.count({ where: { escrow: { [whereField]: id } } }),
+    const field = user.role === 'MERCHANT' ? 'merchant_id' : 'buyer_id';
+
+    const [totalRes, activeRes, completedRes, disputesRes] = await Promise.all([
+      supabase.from('escrows').select('*', { count: 'exact', head: true }).eq(field, id),
+      supabase.from('escrows').select('*', { count: 'exact', head: true }).eq(field, id).in('status', ['CREATED', 'DEPOSITED', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED']),
+      supabase.from('escrows').select('*', { count: 'exact', head: true }).eq(field, id).eq('status', 'RELEASED'),
+      supabase.from('disputes').select('*', { count: 'exact', head: true }).eq('opened_by_id', id),
     ]);
+
+    const totalEscrows = totalRes.count || 0;
+    const activeEscrows = activeRes.count || 0;
+    const completedEscrows = completedRes.count || 0;
+    const disputes = disputesRes.count || 0;
 
     return res.json({
       success: true,
       data: {
-        user: { id: user.id, name: user.name, role: user.role, trustScore: user.trustScore },
+        user: { id: user.id, name: user.name, role: user.role, trustScore: user.trust_score },
         totalEscrows, activeEscrows, completedEscrows, disputes,
         successRate: totalEscrows > 0 ? ((completedEscrows / totalEscrows) * 100).toFixed(1) : '0',
       },

@@ -39,7 +39,7 @@ export function CustomerDashboard({ userId }: CustomerDashboardProps) {
     return (
       <div className="p-8 max-w-7xl mx-auto">
         <div className="flex items-center justify-center h-64">
-          <div className="w-6 h-6 border-2 border-escrow-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
         </div>
       </div>
     );
@@ -53,10 +53,10 @@ export function CustomerDashboard({ userId }: CustomerDashboardProps) {
       />
 
       <div className="space-y-6">
-        <div className="card p-6 bg-escrow-600/5 border-escrow-600/15">
+        <div className="card p-6 bg-brand-600/5 border-brand-600/15">
           <div className="flex items-start gap-4">
-            <div className="p-3 bg-escrow-600/10 rounded-xl">
-              <Shield className="w-6 h-6 text-escrow-400" />
+            <div className="p-3 bg-brand-600/10 rounded-xl">
+              <Shield className="w-6 h-6 text-brand-400" />
             </div>
             <div>
               <h3 className="text-base font-semibold text-slate-100">Your money is protected</h3>

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../lib/prisma';
+import { supabase } from '../lib/supabase';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,22 +10,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'GET') {
     const { userId, escrowId } = req.query;
     if (userId) {
-      const entries = await prisma.ledgerEntry.findMany({
-        where: { userId: userId as string },
-        orderBy: { createdAt: 'desc' },
-        take: 50,
-        include: { escrow: { select: { id: true, escrowCode: true, status: true } } },
-      });
-      const lastEntry = entries[0];
-      return res.json({ success: true, data: { entries, balance: lastEntry?.balance || 0 } });
+      const { data } = await supabase.from('ledger_entries').select(`
+        *, escrow:escrows(id, escrow_code, status)
+      `).eq('user_id', userId).order('created_at', { ascending: false }).limit(50);
+      const balance = data && data.length > 0 ? data[0].balance : 0;
+      return res.json({ success: true, data: { entries: data || [], balance } });
     }
     if (escrowId) {
-      const entries = await prisma.ledgerEntry.findMany({
-        where: { escrowId: escrowId as string },
-        orderBy: { createdAt: 'asc' },
-        include: { user: { select: { id: true, name: true, email: true } } },
-      });
-      return res.json({ success: true, data: entries });
+      const { data } = await supabase.from('ledger_entries').select(`
+        *, user:users(id, name, email)
+      `).eq('escrow_id', escrowId).order('created_at', { ascending: true });
+      return res.json({ success: true, data: data || [] });
     }
     return res.json({ success: true, data: [] });
   }

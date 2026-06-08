@@ -24,7 +24,7 @@ export const api = {
     action: (id: string, action: string, data: any = {}) =>
       request<{ success: boolean; data: any }>(`/escrows/${id}`, { method: 'POST', body: JSON.stringify({ action, ...data }) }),
     timeline: (id: string) =>
-      request<{ success: boolean; data: any[] }>(`/escrows/${id}/timeline`),
+      request<{ success: boolean; data: any[] }>(`/escrows/${id}`),
   },
   users: {
     list: (role?: string) =>

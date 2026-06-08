@@ -29,14 +29,14 @@ export function EscrowTimeline({ transitions }: EscrowTimelineProps) {
                   <CheckCircle className="w-6 h-6 text-trust-500" />
                 ) : isCurrent ? (
                   <div className="relative">
-                    <Circle className="w-6 h-6 text-escrow-500 fill-escrow-500/20" />
+                    <Circle className="w-6 h-6 text-brand-500 fill-brand-500/20" />
                   </div>
                 ) : (
                   <Circle className="w-6 h-6 text-slate-700" />
                 )}
               </div>
               <p className={`mt-2 text-[11px] font-medium text-center ${
-                isCompleted ? 'text-trust-400' : isCurrent ? 'text-escrow-400' : 'text-slate-600'
+                isCompleted ? 'text-trust-400' : isCurrent ? 'text-brand-400' : 'text-slate-600'
               }`}>
                 {getEscrowStatusLabel(state)}
               </p>

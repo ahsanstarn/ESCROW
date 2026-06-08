@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Sidebar } from './components/layout/Sidebar';
 import { MerchantDashboard } from './pages/MerchantDashboard';
 import { CustomerDashboard } from './pages/CustomerDashboard';
@@ -6,11 +6,14 @@ import { CourierDashboard } from './pages/CourierDashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { EscrowDetail } from './pages/EscrowDetail';
 import { DisputeDetail } from './pages/DisputeDetail';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import { useState, useEffect, useCallback } from 'react';
 import { UserRole, User } from './types';
 import { api } from './lib/api';
 
-function AppInner() {
+function DashboardLayout() {
   const navigate = useNavigate();
   const [currentRole, setCurrentRole] = useState<UserRole>('MERCHANT');
   const [users, setUsers] = useState<User[]>([]);
@@ -39,9 +42,9 @@ function AppInner() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-950">
+      <div className="flex h-screen items-center justify-center bg-black">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-escrow-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <div className="w-8 h-8 border-2 border-brand-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
           <p className="text-sm text-slate-400">Loading platform...</p>
         </div>
       </div>
@@ -49,7 +52,7 @@ function AppInner() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-black">
       <Sidebar currentRole={currentRole} onRoleChange={handleRoleChange} currentUser={currentUser} />
       <main className="flex-1 overflow-y-auto">
         <Routes>
@@ -66,10 +69,20 @@ function AppInner() {
   );
 }
 
+function AppRoutes() {
+  const location = useLocation();
+  const isLanding = location.pathname === '/';
+  const isAuth = location.pathname === '/login' || location.pathname === '/register';
+
+  if (isLanding) return <Landing />;
+  if (isAuth) return <Routes><Route path="/login" element={<Login />} /><Route path="/register" element={<Register />} /></Routes>;
+  return <DashboardLayout />;
+}
+
 export default function App() {
   return (
     <Router>
-      <AppInner />
+      <AppRoutes />
     </Router>
   );
 }

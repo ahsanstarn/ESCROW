@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply bg-slate-950 text-slate-200 font-sans antialiased;
+    @apply bg-black text-slate-200 font-sans antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
@@ -48,16 +48,16 @@
   }
 
   .btn-primary {
-    @apply px-4 py-2.5 bg-escrow-600 hover:bg-escrow-500 text-white font-medium rounded-lg
+    @apply px-4 py-2.5 bg-brand-400 hover:bg-brand-500 text-black font-semibold rounded-lg
            transition-all duration-200 ease-out
-           focus:outline-none focus:ring-2 focus:ring-escrow-500/50 focus:ring-offset-2 focus:ring-offset-slate-950
+           focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:ring-offset-2 focus:ring-offset-black
            active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
     @apply px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium rounded-lg
            border border-slate-700 transition-all duration-200 ease-out
-           focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:ring-offset-2 focus:ring-offset-slate-950;
+           focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:ring-offset-2 focus:ring-offset-black;
   }
 
   .btn-danger {
@@ -75,7 +75,7 @@
   .input-field {
     @apply w-full px-3 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg
            text-slate-200 placeholder:text-slate-500
-           focus:outline-none focus:ring-2 focus:ring-escrow-500/50 focus:border-escrow-500/50
+           focus:outline-none focus:ring-2 focus:ring-brand-400/50 focus:border-brand-400/50
            transition-all duration-200;
   }
 
@@ -84,7 +84,7 @@
   }
 
   .badge-active {
-    @apply badge bg-escrow-600/20 text-escrow-400 border border-escrow-600/30;
+    @apply badge bg-brand-400/20 text-brand-400 border border-brand-400/30;
   }
 
   .badge-success {

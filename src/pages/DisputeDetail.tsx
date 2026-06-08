@@ -73,7 +73,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
     return (
       <div className="p-8 max-w-4xl mx-auto">
         <div className="flex items-center justify-center h-64">
-          <div className="w-6 h-6 border-2 border-escrow-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
         </div>
       </div>
     );
@@ -157,7 +157,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
                 <div key={ev.id} className="p-4 bg-slate-800/30 rounded-lg border border-slate-800/50">
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-slate-700/50 rounded-lg">
-                      <FileText className="w-4 h-4 text-escrow-400" />
+                      <FileText className="w-4 h-4 text-brand-400" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
@@ -165,7 +165,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
                         <span className="text-[11px] text-slate-500">{formatDate(ev.createdAt)}</span>
                       </div>
                       {ev.content && <p className="text-sm text-slate-300">{ev.content}</p>}
-                      {ev.url && <p className="text-xs text-escrow-400 mt-1">{ev.url}</p>}
+                      {ev.url && <p className="text-xs text-brand-400 mt-1">{ev.url}</p>}
                     </div>
                   </div>
                 </div>
@@ -205,12 +205,12 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
             </div>
             <div className="flex items-start gap-3">
               <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                dispute.status !== 'OPEN' ? 'bg-trust-600/20' : 'bg-escrow-600/20'
+                dispute.status !== 'OPEN' ? 'bg-trust-600/20' : 'bg-brand-600/20'
               }`}>
                 {dispute.status !== 'OPEN' ? (
                   <CheckCircle className="w-3.5 h-3.5 text-trust-400" />
                 ) : (
-                  <Clock className="w-3.5 h-3.5 text-escrow-400" />
+                  <Clock className="w-3.5 h-3.5 text-brand-400" />
                 )}
               </div>
               <div>
@@ -257,7 +257,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
           <div className="card p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                <Gavel className="w-4 h-4 text-escrow-400" />
+                <Gavel className="w-4 h-4 text-brand-400" />
                 Admin Resolution
               </h3>
               {!showResolveForm && (

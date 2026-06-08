@@ -70,7 +70,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
     return (
       <div className="p-8 max-w-5xl mx-auto">
         <div className="flex items-center justify-center h-64">
-          <div className="w-6 h-6 border-2 border-escrow-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
         </div>
       </div>
     );
@@ -119,7 +119,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="card p-5">
             <div className="flex items-center gap-3 mb-3">
-              <DollarSign className="w-5 h-5 text-escrow-400" />
+              <DollarSign className="w-5 h-5 text-brand-400" />
               <h3 className="text-sm font-semibold text-slate-300">Transaction</h3>
             </div>
             <div className="space-y-2">
@@ -142,7 +142,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
 
           <div className="card p-5">
             <div className="flex items-center gap-3 mb-3">
-              <User className="w-5 h-5 text-escrow-400" />
+              <User className="w-5 h-5 text-brand-400" />
               <h3 className="text-sm font-semibold text-slate-300">Parties</h3>
             </div>
             <div className="space-y-3">
@@ -165,7 +165,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
 
           <div className="card p-5">
             <div className="flex items-center gap-3 mb-3">
-              <Package className="w-5 h-5 text-escrow-400" />
+              <Package className="w-5 h-5 text-brand-400" />
               <h3 className="text-sm font-semibold text-slate-300">Delivery</h3>
             </div>
             <div className="space-y-3">
@@ -198,7 +198,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
                   <div className="flex items-center gap-3">
                     <div className={`w-2 h-2 rounded-full ${
                       m.status === 'COMPLETED' ? 'bg-trust-500' :
-                      m.status === 'IN_PROGRESS' ? 'bg-escrow-500' : 'bg-slate-600'
+                      m.status === 'IN_PROGRESS' ? 'bg-brand-500' : 'bg-slate-600'
                     }`} />
                     <div>
                       <p className="text-sm text-slate-200">{m.title}</p>
@@ -220,14 +220,14 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
           <h3 className="text-sm font-semibold text-slate-300 mb-4">Your Protection</h3>
           <div className="space-y-4">
             <div className="flex items-start gap-3">
-              <Shield className="w-5 h-5 text-escrow-400 mt-0.5" />
+              <Shield className="w-5 h-5 text-brand-400 mt-0.5" />
               <div>
                 <p className="text-sm text-slate-200">Funds are securely held in a segregated escrow ledger</p>
                 <p className="text-xs text-slate-500 mt-1">The seller cannot access these funds until you confirm delivery</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Clock className="w-5 h-5 text-escrow-400 mt-0.5" />
+              <Clock className="w-5 h-5 text-brand-400 mt-0.5" />
               <div>
                 <p className="text-sm text-slate-200">Auto-release protection</p>
                 <p className="text-xs text-slate-500 mt-1">If no action is taken, funds release automatically after the confirmation window</p>

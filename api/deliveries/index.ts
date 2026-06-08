@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../lib/prisma';
+import { supabase } from '../lib/supabase';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -11,34 +11,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'GET') {
       const { courierId } = req.query;
       if (courierId) {
-        const deliveries = await prisma.delivery.findMany({
-          where: { courierId: courierId as string },
-          orderBy: { createdAt: 'desc' },
-          include: { escrow: { select: { id: true, escrowCode: true, amount: true, status: true, productType: true, description: true } } },
-        });
-        return res.json({ success: true, data: deliveries });
+        const { data, error } = await supabase.from('deliveries').select(`
+          *,
+          escrow:escrows(id, escrow_code, amount, status, product_type, description)
+        `).eq('courier_id', courierId).order('created_at', { ascending: false });
+        if (error) throw error;
+        return res.json({ success: true, data: data || [] });
       }
-      const deliveries = await prisma.delivery.findMany({ orderBy: { createdAt: 'desc' }, take: 50 });
-      return res.json({ success: true, data: deliveries });
+      const { data, error } = await supabase.from('deliveries').select('*').order('created_at', { ascending: false }).limit(50);
+      if (error) throw error;
+      return res.json({ success: true, data: data || [] });
     }
 
     if (req.method === 'POST') {
       const { escrowId, courierId } = req.body;
-      const delivery = await prisma.delivery.create({ data: { escrowId, courierId } });
-      return res.status(201).json({ success: true, data: delivery });
+      const { data, error } = await supabase.from('deliveries').insert({
+        escrow_id: escrowId, courier_id: courierId,
+      }).select().single();
+      if (error) throw error;
+      return res.status(201).json({ success: true, data });
     }
 
     if (req.method === 'PUT') {
       const { id, status, trackingId, proofUrl, notes } = req.body;
-      const delivery = await prisma.delivery.update({
-        where: { id },
-        data: {
-          status, trackingId, proofUrl, notes,
-          pickedUpAt: status === 'PICKED_UP' ? new Date() : undefined,
-          deliveredAt: status === 'DELIVERED' ? new Date() : undefined,
-        },
-      });
-      return res.json({ success: true, data: delivery });
+      const updates: Record<string, unknown> = { status, tracking_id: trackingId, proof_url: proofUrl, notes };
+      if (status === 'PICKED_UP') updates.picked_up_at = new Date().toISOString();
+      if (status === 'DELIVERED') updates.delivered_at = new Date().toISOString();
+
+      const { data, error } = await supabase.from('deliveries').update(updates).eq('id', id).select().single();
+      if (error) throw error;
+      return res.json({ success: true, data });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

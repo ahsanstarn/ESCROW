@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../lib/prisma';
+import { supabase } from '../lib/supabase';
 
 function generateSecret(): string {
   const array = new Uint8Array(32);
@@ -20,17 +20,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (req.method === 'GET') {
       const { userId } = req.query;
-      const configs = await prisma.webhookConfig.findMany({ where: { userId: userId as string } });
-      return res.json({ success: true, data: configs });
+      const { data, error } = await supabase.from('webhook_configs').select('*').eq('user_id', userId as string);
+      if (error) throw error;
+      return res.json({ success: true, data: data || [] });
     }
 
     if (req.method === 'POST') {
       const { userId, url, events } = req.body;
       const secret = generateSecret();
-      const config = await prisma.webhookConfig.create({
-        data: { userId, url, events: events.join(','), secret },
-      });
-      return res.status(201).json({ success: true, data: config });
+      const { data, error } = await supabase.from('webhook_configs').insert({
+        user_id: userId, url, events: events.join(','), secret,
+      }).select().single();
+      if (error) throw error;
+      return res.status(201).json({ success: true, data });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

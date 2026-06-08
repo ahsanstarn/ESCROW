@@ -103,7 +103,7 @@ export function getMilestoneStatusLabel(status: MilestoneStatus): string {
 
 export function getTrustScoreColor(score: number): string {
   if (score >= 80) return 'text-trust-400';
-  if (score >= 60) return 'text-escrow-400';
+  if (score >= 60) return 'text-brand-400';
   if (score >= 40) return 'text-caution-400';
   return 'text-danger-400';
 }

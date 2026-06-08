@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../lib/prisma';
+import { supabase } from '../lib/supabase';
 import { z } from 'zod';
 
 const createSchema = z.object({
@@ -18,14 +18,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (req.method === 'GET') {
       const { role } = req.query;
-      const where = role ? { role: role as string } : {};
-      const users = await prisma.user.findMany({ where, orderBy: { createdAt: 'desc' } });
-      return res.json({ success: true, data: users });
+      let query = supabase.from('users').select('*');
+      if (role) query = query.eq('role', role as string);
+      const { data, error } = await query.order('created_at', { ascending: false });
+      if (error) throw error;
+      return res.json({ success: true, data: data || [] });
     }
 
     if (req.method === 'POST') {
       const data = createSchema.parse(req.body);
-      const user = await prisma.user.create({ data });
+      const { data: user, error } = await supabase.from('users').insert({
+        email: data.email, name: data.name, role: data.role, phone: data.phone,
+      }).select().single();
+      if (error) throw error;
       return res.status(201).json({ success: true, data: user });
     }
 
