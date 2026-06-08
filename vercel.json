@@ -3,20 +3,6 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "installCommand": "npm install",
-  "functions": {
-    "api/**/index.ts": {
-      "maxDuration": 10
-    },
-    "api/**/[id].ts": {
-      "maxDuration": 10
-    },
-    "api/**/stats.ts": {
-      "maxDuration": 10
-    },
-    "api/seed.ts": {
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/((?!assets/|.*\\.).*)", "destination": "/index.html" }
