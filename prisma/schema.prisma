@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String
+  role          String    // BUYER, MERCHANT, COURIER, ADMIN
+  avatarUrl     String?
+  phone         String?
+  kycStatus     String    @default("PENDING") // PENDING, VERIFIED, REJECTED
+  riskScore     Float     @default(0)
+  trustScore    Float     @default(50)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  merchantEscrows    Escrow[]    @relation("MerchantEscrows")
+  buyerEscrows       Escrow[]    @relation("BuyerEscrows")
+  courierEscrows     Escrow[]    @relation("CourierEscrows")
+  courierDeliveries  Delivery[]
+  disputesOpened     Dispute[]   @relation("DisputeOpener")
+  disputesAssigned   Dispute[]   @relation("DisputeArbiter")
+  ledgerEntries      LedgerEntry[]
+  webhookConfigs     WebhookConfig[]
+}
+
+model Escrow {
+  id              String    @id @default(uuid())
+  escrowCode      String    @unique
+  merchantId      String
+  buyerId         String?
+  courierId       String?
+  
+  amount          Float
+  currency        String    @default("USD")
+  platformFee     Float     @default(0)
+  
+  status          String    @default("CREATED") 
+  // CREATED → DEPOSITED → SHIPPED → IN_TRANSIT → DELIVERED → CONFIRMED → RELEASED
+  // Or: CREATED → DEPOSITED → DISPUTED → REFUNDED / RELEASED
+  
+  productType     String    // PHYSICAL, DIGITAL
+  description     String?
+  confirmationWindowHours Int @default(72)
+  
+  trackingId      String?
+  shipmentCarrier String?
+  shipmentDate    DateTime?
+  deliveryDate    DateTime?
+  confirmedAt     DateTime?
+  releasedAt      DateTime?
+  disputeDeadline DateTime?
+  
+  metadata        String?   // JSON string for extra data
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  merchant        User      @relation("MerchantEscrows", fields: [merchantId], references: [id])
+  buyer           User?     @relation("BuyerEscrows", fields: [buyerId], references: [id])
+  courier         User?     @relation("CourierEscrows", fields: [courierId], references: [id])
+  disputes        Dispute[]
+  deliveries     Delivery[]
+  ledgerEntries   LedgerEntry[]
+  milestones      Milestone[]
+  stateTransitions StateTransition[]
+}
+
+model Milestone {
+  id          String    @id @default(uuid())
+  escrowId    String
+  title       String
+  description String?
+  amount      Float
+  status      String    @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, RELEASED
+  completedAt DateTime?
+  releasedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  escrow      Escrow    @relation(fields: [escrowId], references: [id])
+}
+
+model Delivery {
+  id          String    @id @default(uuid())
+  escrowId    String
+  courierId   String
+  status      String    @default("ASSIGNED") // ASSIGNED, PICKED_UP, IN_TRANSIT, DELIVERED, FAILED
+  trackingId  String?
+  carrier     String?
+  pickedUpAt  DateTime?
+  deliveredAt DateTime?
+  proofUrl    String?   // photo/digital proof
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  courier     User      @relation(fields: [courierId], references: [id])
+  escrow      Escrow    @relation(fields: [escrowId], references: [id])
+}
+
+model Dispute {
+  id          String    @id @default(uuid())
+  escrowId    String
+  openedById  String
+  arbiterId   String?
+  reason      String
+  description String
+  status      String    @default("OPEN") // UNDER_REVIEW, RESOLVED, ESCALATED
+  outcome     String?   // FULL_REFUND, PARTIAL_REFUND, FULL_RELEASE, PARTIAL_RELEASE
+  resolutionNotes String?
+  resolvedAt  DateTime?
+  tier        Int       @default(1) // 1=auto, 2=evidence, 3=manual
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  escrow      Escrow    @relation(fields: [escrowId], references: [id])
+  opener      User      @relation("DisputeOpener", fields: [openedById], references: [id])
+  arbiter     User?     @relation("DisputeArbiter", fields: [arbiterId], references: [id])
+  evidence    Evidence[]
+}
+
+model Evidence {
+  id          String    @id @default(uuid())
+  disputeId   String
+  submittedBy String
+  type        String    // PHOTO, FILE, LOG, API_EVENT, TEXT
+  url         String?
+  content     String?
+  createdAt   DateTime  @default(now())
+
+  dispute     Dispute   @relation(fields: [disputeId], references: [id])
+}
+
+model LedgerEntry {
+  id          String    @id @default(uuid())
+  escrowId    String
+  userId      String
+  type        String    // CREDIT, DEBIT, HOLD, RELEASE, FEE, REFUND
+  amount      Float
+  balance     Float     // running balance
+  description String
+  reference   String?   // external reference
+  createdAt   DateTime  @default(now())
+
+  escrow      Escrow    @relation(fields: [escrowId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model StateTransition {
+  id          String    @id @default(uuid())
+  escrowId    String
+  fromState   String
+  toState     String
+  triggeredBy String?
+  reason      String?
+  metadata    String?   // JSON
+  createdAt   DateTime  @default(now())
+
+  escrow      Escrow    @relation(fields: [escrowId], references: [id])
+}
+
+model WebhookConfig {
+  id          String    @id @default(uuid())
+  userId      String
+  url         String
+  events      String    // comma-separated: escrow_created,funds_locked,...
+  secret      String
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model PlatformSettings {
+  id                String  @id @default("singleton")
+  defaultConfirmationHours Int @default(72)
+  maxConfirmationHours     Int @default(168) // 7 days
+  platformFeeBasisPoints   Int @default(250) // 2.5%
+  minEscrowAmount    Float  @default(1)
+  maxEscrowAmount    Float  @default(1000000)
+  updatedAt         DateTime @updatedAt
+}
