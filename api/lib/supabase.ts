@@ -1,3 +1,5 @@
+type Result = { data: any; count: number | null; error: { message: string } | null };
+
 const URL_BASE = () => {
   const url = process.env.SUPABASE_URL;
   if (!url) throw new Error('SUPABASE_URL is not set');
@@ -10,25 +12,26 @@ const KEY = () => {
   return k;
 };
 
-function headers() {
+function headers(extra?: Record<string, string>) {
   return {
     apikey: KEY(),
     Authorization: `Bearer ${KEY()}`,
     'Content-Type': 'application/json',
     Prefer: 'return=representation',
+    ...extra,
   };
 }
 
 class QueryBuilder {
-  private table: string;
-  private _select = '*';
-  private _filters: [string, string, string][] = [];
-  private _inFilters: [string, string[]][] = [];
-  private _order?: { col: string; asc: boolean };
-  private _limit?: number;
-  private _offset?: number;
-  private _countOnly = false;
-  private _single = false;
+  table: string;
+  _select = '*';
+  _filters: [string, string, string][] = [];
+  _inFilters: [string, string[]][] = [];
+  _order?: { col: string; asc: boolean };
+  _limit?: number;
+  _offset?: number;
+  _countOnly = false;
+  _single = false;
 
   constructor(table: string) { this.table = table; }
 
@@ -47,12 +50,7 @@ class QueryBuilder {
   limit(n: number) { this._limit = n; return this; }
 
   private buildUrl(countMode = false): string {
-    let url: string;
-    if (countMode) {
-      url = `${URL_BASE()}/${this.table}?select=${encodeURIComponent(this._select)}`;
-    } else {
-      url = `${URL_BASE()}/${this.table}?select=${encodeURIComponent(this._select)}`;
-    }
+    let url = `${URL_BASE()}/${this.table}?select=${encodeURIComponent(this._select)}`;
     for (const [col, op, val] of this._filters) url += `&${col}=${op}.${encodeURIComponent(val)}`;
     for (const [col, vals] of this._inFilters) url += `&${col}=in.(${vals.map(v => encodeURIComponent(v)).join(',')})`;
     if (this._order && !countMode) url += `&order=${this._order.col}.${this._order.asc ? 'asc' : 'desc'}`;
@@ -61,19 +59,10 @@ class QueryBuilder {
     return url;
   }
 
-  async then(resolve: any, reject?: any) {
-    try {
-      const result = await this.execute();
-      resolve(result);
-    } catch (err) {
-      if (reject) reject(err); else throw err;
-    }
-  }
-
-  async execute(): Promise<{ data: any; count: number | null; error: any }> {
+  async execute(): Promise<Result> {
     try {
       if (this._countOnly) {
-        const res = await fetch(this.buildUrl(true), { headers: { ...headers(), Prefer: 'count=exact', Range: '0-0' } });
+        const res = await fetch(this.buildUrl(true), { headers: headers({ Prefer: 'count=exact', Range: '0-0' }) });
         const countHeader = res.headers.get('content-range');
         const total = countHeader ? parseInt(countHeader.split('/')[1]) : 0;
         return { data: null, count: total, error: null };
@@ -83,10 +72,7 @@ class QueryBuilder {
       const text = await res.text();
       const rows = text ? JSON.parse(text) : [];
 
-      if (!res.ok) {
-        return { data: null, count: null, error: { message: text || res.statusText } };
-      }
-
+      if (!res.ok) return { data: null, count: null, error: { message: text || res.statusText } };
       if (this._single) return { data: rows[0] || null, count: null, error: null };
       return { data: rows, count: null, error: null };
     } catch (err: any) {
@@ -112,22 +98,20 @@ class InsertBuilder {
   }
 
   single() {
-    const q = this.select();
-    q._single = true;
-    return q;
+    return this.select();
   }
 
-  async then(resolve: any, reject?: any) {
+  async execute(): Promise<Result> {
     try {
       const res = await fetch(`${URL_BASE()}/${this.table}`, {
         method: 'POST', headers: headers(), body: JSON.stringify(this.rows),
       });
       const text = await res.text();
       const data = text ? JSON.parse(text) : [];
-      if (!res.ok) resolve({ data: null, error: { message: text } });
-      else resolve({ data: Array.isArray(this.rows) && this.rows.length === 1 ? data[0] : data, error: null });
+      if (!res.ok) return { data: null, count: null, error: { message: text } };
+      return { data: Array.isArray(this.rows) && this.rows.length === 1 ? data[0] : data, count: null, error: null };
     } catch (err: any) {
-      resolve({ data: null, error: { message: err.message } });
+      return { data: null, count: null, error: { message: err.message } };
     }
   }
 }
@@ -145,16 +129,16 @@ class UpdateBuilder {
 
   eq(col: string, val: string) { this._col = col; this._val = val; return this; }
 
-  async then(resolve: any, reject?: any) {
+  async execute(): Promise<Result> {
     try {
       const url = `${URL_BASE()}/${this.table}?${this._col}=eq.${encodeURIComponent(this._val!)}`;
       const res = await fetch(url, { method: 'PATCH', headers: headers(), body: JSON.stringify(this.updates) });
       const text = await res.text();
       const data = text ? JSON.parse(text) : [];
-      if (!res.ok) resolve({ data: null, error: { message: text } });
-      else resolve({ data: data[0] || null, error: null });
+      if (!res.ok) return { data: null, count: null, error: { message: text } };
+      return { data: data[0] || null, count: null, error: null };
     } catch (err: any) {
-      resolve({ data: null, error: { message: err.message } });
+      return { data: null, count: null, error: { message: err.message } };
     }
   }
 }
@@ -168,14 +152,14 @@ class DeleteBuilder {
 
   eq(col: string, val: string) { this._col = col; this._val = val; return this; }
 
-  async then(resolve: any, reject?: any) {
+  async execute(): Promise<Result> {
     try {
       const url = `${URL_BASE()}/${this.table}?${this._col}=eq.${encodeURIComponent(this._val!)}`;
       const res = await fetch(url, { method: 'DELETE', headers: headers() });
-      if (!res.ok) { const t = await res.text(); resolve({ data: null, error: { message: t } }); }
-      else resolve({ data: null, error: null });
+      if (!res.ok) { const t = await res.text(); return { data: null, count: null, error: { message: t } }; }
+      return { data: null, count: null, error: null };
     } catch (err: any) {
-      resolve({ data: null, error: { message: err.message } });
+      return { data: null, count: null, error: { message: err.message } };
     }
   }
 }
@@ -203,12 +187,12 @@ class TableOp {
 
 function rpc(fnName: string, params?: Record<string, any>) {
   return {
-    maybeSingle: async () => {
+    maybeSingle: async (): Promise<Result> => {
       const url = `${URL_BASE()}/rpc/${fnName}`;
       const res = await fetch(url, { method: 'POST', headers: headers(), body: JSON.stringify(params || {}) });
-      if (!res.ok) return { data: null, error: { message: res.statusText } };
+      if (!res.ok) return { data: null, count: null, error: { message: res.statusText } };
       const data = await res.json();
-      return { data, error: null };
+      return { data, count: null, error: null };
     }
   };
 }
