@@ -3,16 +3,13 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "installCommand": "npm install",
-  "env": {
-    "DATABASE_URL": "file:/tmp/dev.db"
-  },
   "functions": {
     "api/**/*.ts": {
-      "maxDuration": 10,
-      "includeFiles": ["prisma/**", "node_modules/.prisma/**", "node_modules/@prisma/client/**"]
+      "maxDuration": 10
     }
   },
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/((?!assets/|.*\\.).*)", "destination": "/index.html" }
   ]
 }
