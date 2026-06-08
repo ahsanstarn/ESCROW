@@ -438,48 +438,178 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <svg className="w-7 h-7" viewBox="0 0 40 40" fill="none">
-                <rect width="40" height="40" rx="8" fill="#A3E635" />
-                <path d="M10 14C12.5 11 15.5 11 18 14C20.5 17 23.5 17 26 14" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-                <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-                <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-              </svg>
-              <span className="text-lg font-bold text-black">Escrow</span>
+      {/* Control your spend with smart rules */}
+      <section className="py-20 px-6 bg-black">
+        <div className="max-w-7xl mx-auto text-center mb-12">
+          <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">Control your spend with smart rules</h2>
+        </div>
+        <div className="max-w-md mx-auto space-y-3">
+          {[
+            { cat: 'Logistics', date: 'March 23, 2022', amount: '$100', color: 'bg-slate-700' },
+            { cat: 'Graphics', date: 'March 25, 2022', amount: '$45', color: 'bg-slate-700' },
+            { cat: 'Retail', date: 'March 27, 2022', amount: '-$241', color: 'bg-white' },
+            { cat: 'Others', date: 'March 25, 2022', amount: '$100', color: 'bg-slate-700' },
+            { cat: 'Tech', date: 'March 29, 2022', amount: '$45', color: 'bg-slate-700' },
+          ].map((t, i) => (
+            <div key={i} className={`${t.color} rounded-lg px-5 py-3 flex items-center justify-between ${t.color === 'bg-white' ? 'text-black' : 'text-slate-300'}`}>
+              <div className="flex items-center gap-3">
+                <div className={`w-2 h-2 rounded-full ${t.color === 'bg-white' ? 'bg-red-400' : 'bg-slate-500'}`} />
+                <span className="text-sm font-medium">{t.cat}</span>
+                <span className="text-xs text-slate-500">{t.date}</span>
+              </div>
+              <span className="text-sm font-semibold">{t.amount}</span>
             </div>
-            <p className="text-sm text-slate-500">The future of secure transactions.</p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-3 text-sm text-black">Product</h4>
-            <ul className="space-y-2 text-sm text-slate-500">
-              <li><a href="#features" className="hover:text-black transition-colors">Features</a></li>
-              <li><a href="#pricing" className="hover:text-black transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">API Docs</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-3 text-sm text-black">Company</h4>
-            <ul className="space-y-2 text-sm text-slate-500">
-              <li><a href="#" className="hover:text-black transition-colors">About</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">Careers</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-3 text-sm text-black">Support</h4>
-            <ul className="space-y-2 text-sm text-slate-500">
-              <li><a href="#help" className="hover:text-black transition-colors">Help Center</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">Contact</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">Privacy</a></li>
-            </ul>
+          ))}
+        </div>
+      </section>
+
+      {/* Never transact online without using Escro protection */}
+      <section className="py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-[#1a1a1a] rounded-3xl overflow-hidden p-10 md:p-14">
+            <div className="grid md:grid-cols-2 gap-12">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">Never transact online without using Escro protection</h2>
+                <p className="text-slate-400 text-sm mb-8 leading-relaxed">
+                  With Escro you can buy and sell anything safely without the risk of chargebacks. Truly secure payments.
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-slate-500 w-12">Pay</span>
+                    <select className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white w-32">
+                      <option>Buying</option>
+                      <option>Services</option>
+                    </select>
+                    <span className="text-xs text-slate-500">Item type</span>
+                    <select className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white w-32">
+                      <option>Services</option>
+                      <option>Products</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-slate-500 w-12">For $</span>
+                    <input type="text" value="1000" className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white w-32" readOnly />
+                    <span className="text-xs text-slate-500">Currency</span>
+                    <select className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white w-32">
+                      <option>USD</option>
+                    </select>
+                  </div>
+                </div>
+                <button className="mt-6 w-full py-3 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors">
+                  Get started now
+                </button>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3 bg-[#2a2a2a] rounded-xl p-4">
+                  <div className="w-8 h-8 rounded-full bg-[#A3E635] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M8 12l2 2 4-4" /></svg>
+                  </div>
+                  <div>
+                    <p className="text-white font-medium text-sm">Pay for services as you go with milestone payments</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    'Buyer and seller agree on schedule',
+                    'Buyer pays Escro.com',
+                    'Seller provides the service',
+                    'Buyer approves the milestone',
+                    'Escro.com pays the seller',
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className={`w-4 h-4 rounded-full border ${i === 0 ? 'border-[#A3E635] bg-[#A3E635]' : 'border-slate-600'} flex items-center justify-center`}>
+                        {i === 0 && <svg className="w-2.5 h-2.5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12l5 5L20 7" /></svg>}
+                      </div>
+                      <span className="text-sm text-slate-300">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-slate-100 text-center text-sm text-slate-400">
-          &copy; 2026 Escrow. All rights reserved.
+      </section>
+
+      {/* Protect every payment */}
+      <section className="py-12 px-6 bg-white text-center">
+        <p className="text-xs text-slate-400 mb-4">Make your business transactions safer and smarter</p>
+        <h2 className="text-3xl md:text-5xl font-bold mb-6">Protect every payment<br />without changing</h2>
+        <div className="flex items-center justify-center gap-4">
+          <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-colors">
+            Try Escro protection
+          </Link>
+          <Link to="/contact" className="inline-flex items-center gap-2 border border-slate-300 text-black px-6 py-3 rounded-lg font-semibold text-sm hover:bg-slate-50 transition-colors">
+            Contact sales
+          </Link>
+        </div>
+      </section>
+
+      {/* Connect your platform */}
+      <section className="py-20 px-6 bg-black">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">Connect your platform<br />with Escrow Trust</h2>
+          <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-8 py-3 rounded-full font-semibold text-sm hover:bg-[#b8ed5a] transition-colors">
+            Reimagine Trust
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-6 bg-black border-t border-slate-800">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div className="flex items-center gap-4">
+              <Link to="/" className="text-sm text-white font-medium hover:text-[#A3E635] transition-colors">Personal</Link>
+              <Link to="/" className="text-sm text-slate-400 hover:text-white transition-colors">Business</Link>
+            </div>
+            <div className="flex items-center gap-6 text-sm text-slate-400">
+              <a href="#features" className="hover:text-white transition-colors">Features</a>
+              <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
+              <a href="#help" className="hover:text-white transition-colors">Help</a>
+              <span className="flex items-center gap-1">EN <ChevronDown className="w-3 h-3" /></span>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-4 gap-8 py-8 border-t border-slate-800">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <svg className="w-7 h-7" viewBox="0 0 40 40" fill="none">
+                  <rect width="40" height="40" rx="8" fill="#A3E635" />
+                  <path d="M10 14C12.5 11 15.5 11 18 14C20.5 17 23.5 17 26 14" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+                  <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+                  <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+                </svg>
+                <span className="text-lg font-bold text-white">Escrow</span>
+              </div>
+              <p className="text-sm text-slate-500">The future of secure transactions.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-sm text-white">Product</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
+                <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
+                <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-sm text-white">Company</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><Link to="/careers" className="hover:text-white transition-colors">Careers</Link></li>
+                <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                <li><Link to="/help" className="hover:text-white transition-colors">Help Center</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-sm text-white">Legal</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy</Link></li>
+                <li><Link to="/terms" className="hover:text-white transition-colors">Terms</Link></li>
+                <li><Link to="/terms" className="hover:text-white transition-colors">Cookies</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
+            &copy; 2026 Escrow. All rights reserved.
+          </div>
         </div>
       </footer>
     </div>

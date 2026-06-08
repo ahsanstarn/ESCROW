@@ -1,4 +1,4 @@
-export type UserRole = 'BUYER' | 'MERCHANT' | 'COURIER' | 'ADMIN';
+export type UserRole = 'BUYER' | 'MERCHANT' | 'COURIER' | 'ADMIN' | 'SELLER' | 'AGENCY';
 
 export type EscrowStatus =
   | 'CREATED'

@@ -4,8 +4,20 @@ import { MerchantDashboard } from './pages/MerchantDashboard';
 import { CustomerDashboard } from './pages/CustomerDashboard';
 import { CourierDashboard } from './pages/CourierDashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
-import { SellerDashboard } from './pages/SellerDashboard';
+import SellerDashboard from './pages/SellerDashboard';
+import SellerOrders from './pages/SellerOrders';
+import SellerWallet from './pages/SellerWallet';
+import SellerDisputes from './pages/SellerDisputes';
+import SellerAnalytics from './pages/SellerAnalytics';
+import SellerApi from './pages/SellerApi';
+import SellerSettings from './pages/SellerSettings';
 import { AgencyDashboard } from './pages/AgencyDashboard';
+import AgencyOverview from './pages/AgencyOverview';
+import AgencyBulkOrders from './pages/AgencyBulkOrders';
+import AgencyEscrowFinance from './pages/AgencyEscrowFinance';
+import AgencyDisputes from './pages/AgencyDisputes';
+import AgencyReports from './pages/AgencyReports';
+import AgencyApi from './pages/AgencyApi';
 import { EscrowDetail } from './pages/EscrowDetail';
 import { DisputeDetail } from './pages/DisputeDetail';
 import AuthCallback from './pages/AuthCallback';
@@ -70,10 +82,21 @@ function DashboardLayout() {
           <Route path="/" element={<Navigate to={`/${currentRole.toLowerCase()}`} replace />} />
           <Route path="/merchant" element={<MerchantDashboard userId={currentUser?.id} />} />
           <Route path="/seller" element={<SellerDashboard userId={currentUser?.id} />} />
+          <Route path="/seller/orders" element={<SellerOrders />} />
+          <Route path="/seller/wallet" element={<SellerWallet />} />
+          <Route path="/seller/disputes" element={<SellerDisputes />} />
+          <Route path="/seller/analytics" element={<SellerAnalytics />} />
+          <Route path="/seller/api" element={<SellerApi />} />
+          <Route path="/seller/settings" element={<SellerSettings />} />
           <Route path="/buyer" element={<CustomerDashboard userId={currentUser?.id} />} />
           <Route path="/courier" element={<CourierDashboard userId={currentUser?.id} />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/agency" element={<AgencyDashboard />} />
+          <Route path="/agency" element={<AgencyOverview />} />
+          <Route path="/agency/bulk-orders" element={<AgencyBulkOrders />} />
+          <Route path="/agency/escrow-finance" element={<AgencyEscrowFinance />} />
+          <Route path="/agency/disputes" element={<AgencyDisputes />} />
+          <Route path="/agency/reports" element={<AgencyReports />} />
+          <Route path="/agency/api" element={<AgencyApi />} />
           <Route path="/escrow/:id" element={<EscrowDetail userId={currentUser?.id} userRole={currentRole} />} />
           <Route path="/dispute/:id" element={<DisputeDetail userId={currentUser?.id} userRole={currentRole} />} />
         </Routes>

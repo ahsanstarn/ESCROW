@@ -1,5 +1,19 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, ArrowLeftRight, CreditCard, BarChart3, Settings, HelpCircle, ChevronDown, LogOut } from 'lucide-react';
+import { useState } from 'react';
+import {
+  LayoutGrid,
+  Package,
+  Wallet,
+  DollarSign,
+  AlertTriangle,
+  BarChart3,
+  Code2,
+  Settings,
+  Shield,
+  HelpCircle,
+  Bell,
+  ChevronDown,
+} from 'lucide-react';
 import { UserRole, User } from '@/types';
 
 interface SidebarProps {
@@ -8,67 +22,124 @@ interface SidebarProps {
   currentUser?: User;
 }
 
-const NAV_ITEMS = [
-  { path: '/merchant', label: 'Home', icon: Home, roles: ['MERCHANT'] as UserRole[] },
-  { path: '/buyer', label: 'Home', icon: Home, roles: ['BUYER'] as UserRole[] },
-  { path: '/courier', label: 'Home', icon: Home, roles: ['COURIER'] as UserRole[] },
-  { path: '/admin', label: 'Home', icon: Home, roles: ['ADMIN'] as UserRole[] },
-  { path: '#', label: 'Transactions', icon: ArrowLeftRight, roles: ['MERCHANT', 'BUYER'] as UserRole[] },
-  { path: '#', label: 'Cards', icon: CreditCard, roles: ['MERCHANT', 'BUYER'] as UserRole[] },
-  { path: '#', label: 'Analytics', icon: BarChart3, roles: ['MERCHANT', 'ADMIN'] as UserRole[] },
-  { path: '#', label: 'Settings', icon: Settings, roles: ['MERCHANT', 'BUYER', 'COURIER', 'ADMIN'] as UserRole[] },
-  { path: '#', label: 'Help Center', icon: HelpCircle, roles: ['MERCHANT', 'BUYER', 'COURIER', 'ADMIN'] as UserRole[] },
-];
-
 const ROLE_LABELS: Record<UserRole, string> = {
   MERCHANT: 'Merchant',
   BUYER: 'Buyer',
   COURIER: 'Courier',
   ADMIN: 'Admin',
+  SELLER: 'Seller',
+  AGENCY: 'Agency',
+};
+
+const SELLER_NAV = [
+  { path: '/seller', label: 'Overview', icon: LayoutGrid },
+  { path: '/seller/orders', label: 'Orders', icon: Package },
+  { path: '/seller/wallet', label: 'Wallet & Payouts', icon: Wallet },
+  { path: '/seller/disputes', label: 'Disputes', icon: AlertTriangle },
+  { path: '/seller/analytics', label: 'Analytics & Trust', icon: BarChart3 },
+  { path: '/seller/api', label: 'API & Webhooks', icon: Code2 },
+  { path: '/seller/settings', label: 'Settings & Compliance', icon: Settings },
+  { path: '/seller/help', label: 'Help & Support', icon: HelpCircle },
+];
+
+const AGENCY_NAV = [
+  { path: '/agency', label: 'Overview', icon: LayoutGrid },
+  { path: '/agency/bulk-orders', label: 'Bulk Orders', icon: Package },
+  { path: '/agency/escrow-finance', label: 'Escrow & Finance', icon: DollarSign },
+  { path: '/agency/disputes', label: 'Disputes & Risk', icon: AlertTriangle },
+  { path: '/agency/reports', label: 'Reports', icon: BarChart3 },
+  { path: '/agency/api', label: 'API', icon: Code2 },
+  { path: '/help', label: 'Help & Support', icon: HelpCircle },
+];
+
+const OTHER_NAV: Record<UserRole, { path: string; label: string; icon: React.ElementType }[]> = {
+  MERCHANT: [
+    { path: '/merchant', label: 'Home', icon: LayoutGrid },
+  ],
+  BUYER: [
+    { path: '/buyer', label: 'Home', icon: LayoutGrid },
+  ],
+  COURIER: [
+    { path: '/courier', label: 'Home', icon: LayoutGrid },
+  ],
+  ADMIN: [
+    { path: '/admin', label: 'Home', icon: LayoutGrid },
+  ],
+  SELLER: [],
+  AGENCY: [],
 };
 
 export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps) {
   const location = useLocation();
-  const filteredNav = NAV_ITEMS.filter(item => item.roles.includes(currentRole));
-  const activePath = filteredNav[0]?.path || '/merchant';
+  const [roleOpen, setRoleOpen] = useState(false);
+
+  const navItems =
+    currentRole === 'SELLER' ? SELLER_NAV :
+    currentRole === 'AGENCY' ? AGENCY_NAV :
+    OTHER_NAV[currentRole] || [];
 
   return (
-    <aside className="w-60 h-screen bg-black border-r border-slate-800/50 flex flex-col">
-      <div className="p-5">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-brand-400 rounded-lg flex items-center justify-center">
-            <span className="text-black font-bold text-sm">E</span>
+    <aside className="w-64 h-screen bg-[#111] border-r border-[#222] flex flex-col flex-shrink-0">
+      {/* Logo */}
+      <div className="p-6">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-[#A3E635] rounded-xl flex items-center justify-center overflow-hidden relative">
+            <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+              <path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0 4 3 6 0" stroke="black" strokeWidth="2" strokeLinecap="round" />
+              <path d="M2 16c2-3 4-3 6 0s4 3 6 0 4-3 6 0 4 3 6 0" stroke="black" strokeWidth="2" strokeLinecap="round" />
+              <path d="M2 8c2-3 4-3 6 0s4 3 6 0 4-3 6 0 4 3 6 0" stroke="black" strokeWidth="2" strokeLinecap="round" />
+            </svg>
           </div>
-          <span className="text-lg font-bold">Escrow</span>
+          <div className="flex flex-col">
+            <span className="text-lg font-bold text-white leading-tight">Escrow</span>
+            <span className="text-[9px] tracking-widest text-slate-500 uppercase leading-tight">Payment Protection</span>
+          </div>
         </Link>
       </div>
 
-      <div className="px-3 mb-2">
+      {/* Role Switcher */}
+      <div className="px-4 mb-4">
         <div className="relative">
-          <select
-            value={currentRole}
-            onChange={(e) => onRoleChange(e.target.value as UserRole)}
-            className="w-full appearance-none bg-slate-800/50 border border-slate-700/50 rounded-lg px-3 py-2 pr-8 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-400/50 cursor-pointer"
+          <button
+            onClick={() => setRoleOpen(!roleOpen)}
+            className="w-full flex items-center justify-between bg-[#1a1a1a] border border-[#333] rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:border-[#444] transition-colors"
           >
-            {(Object.keys(ROLE_LABELS) as UserRole[]).map((role) => (
-              <option key={role} value={role}>{ROLE_LABELS[role]} View</option>
-            ))}
-          </select>
-          <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+            <span>{ROLE_LABELS[currentRole]} View</span>
+            <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${roleOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {roleOpen && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-50">
+              {(Object.keys(ROLE_LABELS) as UserRole[]).map((role) => (
+                <button
+                  key={role}
+                  onClick={() => {
+                    onRoleChange(role);
+                    setRoleOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-[#252525] transition-colors ${
+                    role === currentRole ? 'text-[#A3E635]' : 'text-slate-300'
+                  }`}
+                >
+                  {ROLE_LABELS[role]} View
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
+      {/* Navigation */}
       <nav className="flex-1 px-3 space-y-0.5">
-        {filteredNav.map((item) => {
-          const isActive = item.path !== '#' && location.pathname === item.path;
+        {navItems.map((item) => {
+          const isActive = location.pathname === item.path || ((item.path !== '/seller' && item.path !== '/agency') && location.pathname.startsWith(item.path));
           return (
             <Link
-              key={item.label}
+              key={item.path}
               to={item.path}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 border-l-2 ${
                 isActive
-                  ? 'bg-brand-400/10 text-brand-400'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  ? 'border-l-[#A3E635] bg-[#A3E635]/10 text-[#A3E635]'
+                  : 'border-l-transparent text-slate-400 hover:text-slate-200 hover:bg-[#1a1a1a]'
               }`}
             >
               <item.icon className="w-4 h-4" />
@@ -78,15 +149,19 @@ export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps
         })}
       </nav>
 
-      <div className="p-3 border-t border-slate-800/50">
-        <div className="flex items-center gap-3 px-2 py-2">
-          <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-xs font-semibold text-slate-300">
-            {currentUser?.name?.split(' ').map(n => n[0]).join('') || '?'}
+      {/* Bottom Account */}
+      <div className="p-4 border-t border-[#222]">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-[#A3E635] flex items-center justify-center text-xs font-semibold text-black">
+            {currentUser?.name?.split(' ').map(n => n[0]).join('') || 'A'}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-slate-200 truncate">{currentUser?.name || 'Loading...'}</p>
-            <p className="text-[11px] text-slate-500">{ROLE_LABELS[currentRole]}</p>
+            <p className="text-sm font-medium text-white truncate">{currentUser?.name || 'Account'}</p>
+            <p className="text-[11px] text-slate-500">ID: {currentUser?.id || 'acc_12345'}</p>
           </div>
+          <button className="p-1.5 rounded-md hover:bg-[#1a1a1a] text-slate-400 hover:text-white transition-colors">
+            <Bell className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </aside>
