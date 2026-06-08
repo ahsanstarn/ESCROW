@@ -23,12 +23,23 @@ export function useAuth() {
   }, []);
 
   const signInWithGoogle = useCallback(async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/merchant`,
-      },
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/merchant`,
+          skipBrowserRedirect: false,
+        },
+      });
+      
+      if (error) {
+        console.error('OAuth error:', error);
+        throw error;
+      }
+    } catch (error) {
+      console.error('Sign in error:', error);
+      alert('Failed to sign in with Google. Please check your configuration.');
+    }
   }, []);
 
   const signOut = useCallback(async () => {
