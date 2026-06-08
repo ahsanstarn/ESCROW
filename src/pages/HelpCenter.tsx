@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function HelpCenter() {
+export default function HelpCenter() { // HelpCenter component
   const faqs = [
     { q:'How does escrow work?', a:'Escrow holds funds securely until both parties confirm the transaction is complete. The buyer deposits payment, the seller delivers the goods or service, and once the buyer confirms satisfaction, funds are released to the seller.' },
     { q:'How long does an escrow transaction take?', a:'Transaction duration depends on the confirmation window set by the merchant. Typically, transactions complete within 3-7 days, but you can set windows from 1 to 168 hours.' },
