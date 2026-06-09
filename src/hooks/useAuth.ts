@@ -27,7 +27,7 @@ export function useAuth() {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${typeof window !== 'undefined' ? window.location.origin : 'https://escrow-trust-platform.vercel.app'}/auth/callback`,
+          redirectTo: 'https://escrow-trust-platform.vercel.app/auth/callback',
           skipBrowserRedirect: false,
         },
       });

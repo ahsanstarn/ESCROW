@@ -41,8 +41,8 @@ export default function Landing() { // v2
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-slate-300">
             <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
-            <a href="#help" className="hover:text-white transition-colors">Help</a>
+            <Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link>
+            <Link to="/help" className="hover:text-white transition-colors">Help</Link>
             <button className="flex items-center gap-1 hover:text-white transition-colors">
               EN <ChevronDown className="w-3 h-3" />
             </button>
@@ -61,21 +61,21 @@ export default function Landing() { // v2
       {/* Hero Section */}
       <section className="bg-black pt-24 pb-0 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 items-center min-h-[520px]">
-          <div className="pt-8">
+          <div className="pt-8 animate-fade-in-up">
             <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-8">
               Build trust in every transaction
             </h1>
           </div>
           <div className="relative">
-            <div className="text-right mb-6">
+            <div className="text-right mb-6 animate-fade-in" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
               <p className="text-sm text-slate-300 max-w-xs ml-auto mb-4">
                 Secure escrow for goods, services, and subscriptions — holding funds until delivery is confirmed.
               </p>
               <div className="flex items-center justify-end gap-3">
-                <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-colors">
+                <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-all hover:scale-105">
                   Shop Now
                 </Link>
-                <button className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center hover:border-white/60 transition-colors">
+                <button className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center hover:border-white/60 hover:scale-110 transition-all">
                   <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
                 </button>
               </div>
@@ -174,7 +174,7 @@ export default function Landing() { // v2
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {FEATURES.map((f, i) => (
-                <div key={i} className="bg-[#f5f5f5] rounded-xl p-6 hover:shadow-md transition-shadow">
+                <div key={i} className="bg-[#f5f5f5] rounded-xl p-6 hover:shadow-md hover:scale-105 transition-all" style={{ animation: `fadeInUp 0.5s ease-out ${i * 0.1}s both` }}>
                   <h3 className="font-bold text-sm mb-3 text-black">{f.title}</h3>
                   <p className="text-sm text-slate-500 mb-4 leading-relaxed">{f.desc}</p>
                   <a href="#" className="text-sm font-medium text-black hover:text-[#A3E635] transition-colors">Learn more →</a>
