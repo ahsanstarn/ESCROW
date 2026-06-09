@@ -17,7 +17,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     if (req.method === 'GET') {
-      const { role } = req.query;
+      const { role, id, stats } = req.query;
+
+      if (stats === 'true' && id) {
+        const { data: user } = await supabase.from('users').select('*').eq('id', id as string).single();
+        if (!user) return res.status(404).json({ error: 'Not found' });
+        const field = user.role === 'MERCHANT' ? 'merchant_id' : 'buyer_id';
+        const [totalRes, activeRes, completedRes, disputesRes] = await Promise.all([
+          supabase.from('escrows').select('*', { count: 'exact', head: true }).eq(field, id as string),
+          supabase.from('escrows').select('*', { count: 'exact', head: true }).eq(field, id as string).in('status', ['CREATED', 'DEPOSITED', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED']),
+          supabase.from('escrows').select('*', { count: 'exact', head: true }).eq(field, id as string).eq('status', 'RELEASED'),
+          supabase.from('disputes').select('*', { count: 'exact', head: true }).eq('opened_by_id', id as string),
+        ]);
+        const totalEscrows = totalRes.count || 0;
+        const completedEscrows = completedRes.count || 0;
+        return res.json({
+          success: true,
+          data: {
+            user: { id: user.id, name: user.name, role: user.role, trustScore: user.trust_score },
+            totalEscrows, activeEscrows: activeRes.count || 0, completedEscrows, disputes: disputesRes.count || 0,
+            successRate: totalEscrows > 0 ? ((completedEscrows / totalEscrows) * 100).toFixed(1) : '0',
+          },
+        });
+      }
+
       let query = supabase.from('users').select('*');
       if (role) query = query.eq('role', role as string);
       const { data, error } = await query.order('created_at', { ascending: false });

@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "help": "Help",
+    "login": "Login",
+    "register": "Register",
+    "language": "EN"
+  },
+  "hero": {
+    "title": "Build trust in every transaction",
+    "subtitle": "Secure escrow for goods, services, and subscriptions — holding funds until delivery is confirmed.",
+    "shopNow": "Shop Now",
+    "learnMore": "Learn more"
+  },
+  "features": {
+    "label": "Features",
+    "title": "We keep your payments safe",
+    "desc": "Your funds stay protected at every stage of the transaction. Escrow ensures money moves only when agreed conditions are met.",
+    "seeHow": "See how",
+    "items": [
+      { "title": "Payments you control", "desc": "Set your release conditions, hold transfers conditionally upon approval, or pay out shift milestones with full visibility." },
+      { "title": "Spend like a local, globally", "desc": "Provide a local builder experience with Escrow, creating a local bank details in many regions and countries." },
+      { "title": "Stay secure throughout the transaction", "desc": "Built-in safeguards protect against fraud, non-delivery, and payment disputes from start to finish." },
+      { "title": "Empower your team with permissions", "desc": "Manage your team, your team, and company needs from one powerful central account." }
+    ],
+    "learnMore": "Learn more →"
+  },
+  "about": {
+    "title": "Get to know more about Escrow",
+    "desc": "We are building a trust-first escrow platform designed to protect buyers, sellers, and businesses across modern transactions.",
+    "stats": {
+      "users": "Active Users",
+      "secure": "Escrow Secure",
+      "rating": "Trust Rating"
+    }
+  },
+  "impression": {
+    "title": "Make an impression with escrow",
+    "desc": "Show your customers that payments are protected by default. Funds are securely held and released only after delivery or milestone approval.",
+    "enable": "Enable Escrow Protection"
+  },
+  "international": {
+    "label": "Escrow Payments",
+    "title": "International escrow for your business",
+    "desc": "Join businesses protecting global transactions with escrow-backed payments, ensuring funds move only when conditions are met.",
+    "getStarted": "Get started",
+    "contactSales": "Contact sales"
+  },
+  "stats": {
+    "processed": "USD Processed",
+    "customers": "Customers Trust Escrow",
+    "title": "Over $3.2 billion of transactions protected with Escrow",
+    "desc": "Escrow is the world's most secure payment method from a counterparty risk perspective — safeguarding both buyer and seller, all funds transacted using Escrow are kept in trust."
+  },
+  "steps": {
+    "1": { "title": "Buyer and Seller agree to terms", "desc": "Both parties confirm transaction details" },
+    "2": { "title": "Buyer submits payment to Escrow", "desc": "Funds held securely in escrow" },
+    "3": { "title": "Seller delivers goods or service to buyer", "desc": "Product or service provided" },
+    "4": { "title": "Buyer approves goods or services", "desc": "Buyer confirms satisfaction" },
+    "5": { "title": "Escrow releases payment to seller", "desc": "Transaction complete" },
+    "getStarted": "Get started now",
+    "learnMore": "LEARN MORE ABOUT ESCROW"
+  },
+  "business": {
+    "subtitle": "Teamwork makes the deal work",
+    "title": "Discover the meaning of efficiency with Escrow Business",
+    "holdRelease": "Hold and release payments globally",
+    "explore": "Explore Escrow Payments →",
+    "invoices": "Invoices backed by escrow",
+    "learnInvoices": "Learn more about Escrow Invoices",
+    "cards": "Smart company cards with spending control",
+    "learnCards": "Learn more about Escrow Cards",
+    "exchange": "Hold, exchange, and release at fair rates",
+    "learnExchange": "Explore Escrow Exchange"
+  },
+  "spend": {
+    "title": "Control your spend with smart rules"
+  },
+  "protect": {
+    "title": "Never transact online without using Escro protection",
+    "desc": "With Escro you can buy and sell anything safely without the risk of chargebacks. Truly secure payments.",
+    "milestone": "Pay for services as you go with milestone payments",
+    "steps": [
+      "Buyer and seller agree on schedule",
+      "Buyer pays Escro.com",
+      "Seller provides the service",
+      "Buyer approves the milestone",
+      "Escro.com pays the seller"
+    ],
+    "cta": "Get started now"
+  },
+  "cta": {
+    "subtitle": "Make your business transactions safer and smarter",
+    "title": "Protect every payment without changing",
+    "tryProtection": "Try Escro protection",
+    "contactSales": "Contact sales"
+  },
+  "connect": {
+    "title": "Connect your platform with Escrow Trust",
+    "cta": "Reimagine Trust"
+  },
+  "footer": {
+    "personal": "Personal",
+    "business": "Business",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "pricing": "Pricing",
+    "about": "About",
+    "blog": "Blog",
+    "careers": "Careers",
+    "contact": "Contact",
+    "helpCenter": "Help Center",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies",
+    "copyright": "© 2026 Escrow. All rights reserved."
+  },
+  "login": {
+    "title": "Log in to your account",
+    "email": "Email address or username",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "forgotPassword": "Forgot your password?",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "backHome": "Back to Escrow homepage",
+    "orContinue": "or"
+  },
+  "register": {
+    "title": "Create your account",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Enter your full name",
+    "email": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Create Password",
+    "confirmPassword": "Confirm Password",
+    "confirmPlaceholder": "Confirm your password",
+    "continue": "Continue",
+    "agree": "I agree to Escrow's",
+    "terms": "Terms of Service",
+    "and": "and",
+    "privacy": "privacy policy",
+    "hasAccount": "Don't have an account?",
+    "signIn": "Sign up",
+    "backHome": "Back to Escrow homepage"
+  },
+  "pricing": {
+    "title": "Protect every payment without changing",
+    "desc": "Choose the plan that fits your business needs. All plans include our core escrow protection.",
+    "popular": "Most Popular",
+    "perMonth": "/month",
+    "plans": [
+      { "name": "Starter", "price": "29", "features": ["5 active escrows", "Basic analytics", "Email support", "2 team members", "0.25% platform fee"], "cta": "Get Started" },
+      { "name": "Professional", "price": "79", "features": ["Unlimited escrows", "Advanced analytics", "Priority support", "10 team members", "API access", "Custom branding"], "cta": "Get Started" },
+      { "name": "Enterprise", "price": "Custom", "features": ["Custom volume pricing", "Dedicated account manager", "SLA guarantee", "Unlimited team members", "White-label option", "Custom integrations"], "cta": "Contact Sales" }
+    ]
+  },
+  "help": {
+    "title": "How can we help?",
+    "desc": "Find answers to common questions about escrow, transactions, and our platform.",
+    "search": "Search for help...",
+    "faqTitle": "Frequently Asked Questions"
+  },
+  "aboutPage": {
+    "title": "Making transactions safer for everyone",
+    "desc": "We're building the world's most trusted escrow platform, protecting buyers and sellers in every transaction.",
+    "mission": "Our mission",
+    "missionDesc": "Founded in 2022, Escrow was built on a simple belief: every transaction deserves to be protected. We eliminate the trust gap between buyers and sellers by holding funds securely until both parties are satisfied.",
+    "missionDesc2": "Today, we process over $3.2 billion in transactions annually, serving over 1.5 million customers across 180+ countries.",
+    "values": "Our values",
+    "valuesItems": [
+      { "title": "Trust First", "desc": "Every decision starts with protecting our users" },
+      { "title": "Radical Transparency", "desc": "No hidden fees, no surprises, ever" },
+      { "title": "Global Reach", "desc": "Empowering commerce across borders without barriers" }
+    ]
+  },
+  "blog": {
+    "title": "Insights & Updates",
+    "desc": "Stay informed with the latest news, guides, and industry insights from the Escrow team.",
+    "readMore": "Read more →"
+  },
+  "careers": {
+    "title": "Build the future of trust",
+    "desc": "Help us make online transactions safer for everyone. We're looking for passionate people to join our mission.",
+    "positions": "Open Positions",
+    "apply": "Apply Now →"
+  },
+  "contact": {
+    "title": "Get in touch",
+    "desc": "Have questions about Escrow? We'd love to hear from you.",
+    "name": "Full name",
+    "namePlaceholder": "Enter your name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "message": "Message",
+    "messagePlaceholder": "How can we help?",
+    "send": "Send Message",
+    "sent": "Message sent!",
+    "sentDesc": "We'll get back to you within 24 hours.",
+    "backHome": "Back to homepage"
+  },
+  "dashboard": {
+    "overview": "Overview",
+    "orders": "Orders",
+    "wallet": "Wallet & Payouts",
+    "disputes": "Disputes",
+    "analytics": "Analytics & Trust",
+    "api": "API & Webhooks",
+    "settings": "Settings & Compliance",
+    "help": "Help & Support",
+    "transactions": "Transactions",
+    "cards": "Cards",
+    "bulkOrders": "Bulk Orders",
+    "escrowFinance": "Escrow & Finance",
+    "reports": "Reports"
+  }
+}

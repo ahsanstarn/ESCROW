@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/utils';
 import { api } from '@/lib/api';
 import AccountHeader from '@/components/layout/AccountHeader';
@@ -73,10 +74,10 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
 
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-8 max-w-7xl mx-auto">
-        <div className="flex items-start justify-between mb-8">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">Transactions</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Transactions</h1>
             <p className="mt-1 text-sm text-slate-500">View and manage all your transactions</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
@@ -107,13 +108,13 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-[#A3E635]">
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-black uppercase tracking-wider">Order ID</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-black uppercase tracking-wider">Seller</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-black uppercase tracking-wider">Type</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-black uppercase tracking-wider">Amount</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-black uppercase tracking-wider">Status</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-black uppercase tracking-wider">Timer</th>
-                      <th className="text-left py-3 px-6 text-xs font-semibold text-black uppercase tracking-wider">Action</th>
+                      <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-black uppercase tracking-wider">Order ID</th>
+                      <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-black uppercase tracking-wider">Seller</th>
+                      <th className="hidden md:table-cell text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-black uppercase tracking-wider">Type</th>
+                      <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-black uppercase tracking-wider">Amount</th>
+                      <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-black uppercase tracking-wider">Status</th>
+                      <th className="hidden md:table-cell text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-black uppercase tracking-wider">Timer</th>
+                      <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-black uppercase tracking-wider">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -128,16 +129,16 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
                         : 'Pending';
                       return (
                         <tr key={order.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                          <td className="py-4 px-6 font-medium text-slate-900">{order.escrowCode}</td>
-                          <td className="py-4 px-6 text-slate-700">{order.merchant?.name || 'N/A'}</td>
-                          <td className="py-4 px-6 text-slate-600">{order.productType}</td>
-                          <td className="py-4 px-6 font-semibold text-slate-900">{formatCurrency(order.amount)}</td>
-                          <td className="py-4 px-6">
+                          <td className="py-4 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{order.escrowCode}</td>
+                          <td className="py-4 px-3 sm:px-4 lg:px-6 text-slate-700">{order.merchant?.name || 'N/A'}</td>
+                          <td className="hidden md:table-cell py-4 px-3 sm:px-4 lg:px-6 text-slate-600">{order.productType}</td>
+                          <td className="py-4 px-3 sm:px-4 lg:px-6 font-semibold text-slate-900">{formatCurrency(order.amount)}</td>
+                          <td className="py-4 px-3 sm:px-4 lg:px-6">
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${ds.bg}`}>{ds.label}</span>
                           </td>
-                          <td className="py-4 px-6 text-slate-500">{timer}</td>
-                          <td className="py-4 px-6">
-                            <button className="text-sm font-medium text-blue-600 hover:text-blue-700">View</button>
+                          <td className="hidden md:table-cell py-4 px-3 sm:px-4 lg:px-6 text-slate-500">{timer}</td>
+                          <td className="py-4 px-3 sm:px-4 lg:px-6">
+                            <Link to={`/escrow/${order.id}`} className="text-sm font-medium text-blue-600 hover:text-blue-700">View</Link>
                           </td>
                         </tr>
                       );
@@ -146,7 +147,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
                 </table>
               </div>
               {totalPages > 1 && (
-                <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-3 sm:px-4 lg:px-6 py-4 border-t border-slate-100">
                   <span className="text-sm text-slate-500">Showing {(page - 1) * ITEMS_PER_PAGE + 1} to {Math.min(page * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}</span>
                   <div className="flex items-center gap-1">
                     <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40">

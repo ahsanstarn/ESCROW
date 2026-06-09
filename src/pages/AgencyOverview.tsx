@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { LayoutGrid, Package, DollarSign, Users, TrendingUp, Activity, Bell, CheckCircle, ArrowUpRight, Eye } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 
@@ -52,14 +53,14 @@ export default function AgencyOverview() {
   const areaPoints = `${polylinePoints} 100,100 0,100`;
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-8">
+    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">Agency Overview</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Agency Overview</h1>
           <p className="mt-1 text-sm text-slate-500">Monitor all client transactions and performance metrics</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3">
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-200">
             <CheckCircle className="w-3.5 h-3.5" /> API Active
           </span>
@@ -77,7 +78,7 @@ export default function AgencyOverview() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 lg:mb-8">
         {stats.map((stat, i) => (
           <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
             <div className="flex items-start justify-between mb-3">
@@ -93,7 +94,7 @@ export default function AgencyOverview() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 lg:mb-8">
         {/* Weekly Volume Bar Chart */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Weekly Transaction Volume</h3>
@@ -139,7 +140,7 @@ export default function AgencyOverview() {
         {/* Escrow States Donut */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Escrow States Distribution</h3>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <div className="relative w-32 h-32 flex-shrink-0">
               <div
                 className="w-32 h-32 rounded-full"
@@ -171,21 +172,21 @@ export default function AgencyOverview() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-[#A3E635]">
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Order ID</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Client</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Amount</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Status</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Date</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Action</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Order ID</th>
+                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Client</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Amount</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Status</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Date</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Action</th>
               </tr>
             </thead>
             <tbody>
               {transactions.map((tx, i) => (
                 <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                  <td className="py-3 px-6 font-medium text-slate-900">{tx.id}</td>
-                  <td className="py-3 px-6 text-slate-600">{tx.client}</td>
-                  <td className="py-3 px-6 font-medium text-slate-900">{tx.amount}</td>
-                  <td className="py-3 px-6">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.id}</td>
+                  <td className="py-3 px-6 text-slate-600 hidden md:table-cell">{tx.client}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.amount}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
                       tx.status === 'Funds Held' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
                       tx.status === 'Released' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
@@ -194,11 +195,11 @@ export default function AgencyOverview() {
                       {tx.status}
                     </span>
                   </td>
-                  <td className="py-3 px-6 text-slate-500">{tx.date}</td>
-                  <td className="py-3 px-6">
-                    <button className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-500">{tx.date}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6">
+                    <Link to={`/escrow/${tx.id}`} className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
                       <Eye className="w-3.5 h-3.5" /> View
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

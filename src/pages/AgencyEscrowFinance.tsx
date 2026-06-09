@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, TrendingDown, DollarSign, Lock, Wallet, Clock, ShieldCheck, AlertTriangle, CircleDot, Eye, CheckCircle } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 
@@ -29,15 +30,15 @@ export default function AgencyEscrowFinance() {
   ];
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-8">
+    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">Escrow & Finance</h1>
+      <div className="mb-6 lg:mb-8">
+        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Escrow & Finance</h1>
         <p className="mt-1 text-sm text-slate-500">Track escrow balances, payouts, and financial flow</p>
       </div>
 
       {/* Top Finance Cards with Gradient Backgrounds */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 lg:mb-8">
         <div className="relative overflow-hidden rounded-2xl p-6 text-white" style={{ background: 'linear-gradient(135deg, #065f46 0%, #10b981 100%)' }}>
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-3 opacity-90">
@@ -74,7 +75,7 @@ export default function AgencyEscrowFinance() {
       </div>
 
       {/* Money Flow + Payout Schedule */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
         {/* Money Flow Diagram */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Money Flow Diagram</h3>
@@ -126,7 +127,7 @@ export default function AgencyEscrowFinance() {
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 lg:mb-8">
         <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-emerald-50 rounded-lg">
@@ -160,7 +161,7 @@ export default function AgencyEscrowFinance() {
       </div>
 
       {/* Transaction Flow & Distribution */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Transaction Flow & Distribution</h3>
           <div className="grid grid-cols-2 gap-4">
@@ -186,18 +187,18 @@ export default function AgencyEscrowFinance() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-[#A3E635]">
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-slate-900 uppercase">Client</th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-slate-900 uppercase">Amount</th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-slate-900 uppercase">Status</th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-slate-900 uppercase">Action</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase">Client</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase">Amount</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase">Status</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {transactions.map((tx, i) => (
                   <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                    <td className="py-3 px-4 font-medium text-slate-900">{tx.client}</td>
-                    <td className="py-3 px-4 font-medium text-slate-900">{tx.amount}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.client}</td>
+                    <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.amount}</td>
+                    <td className="py-3 px-3 sm:px-4 lg:px-6">
                       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                         tx.status === 'In Escrow' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
                         tx.status === 'Released' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
@@ -209,8 +210,8 @@ export default function AgencyEscrowFinance() {
                         {tx.status}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      <button className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
+                    <td className="py-3 px-3 sm:px-4 lg:px-6">
+                      <button onClick={() => alert('Viewing transaction for ' + tx.client)} className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
                         <Eye className="w-3.5 h-3.5" /> View
                       </button>
                     </td>

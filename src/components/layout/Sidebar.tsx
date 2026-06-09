@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   LayoutGrid,
   Package,
@@ -15,13 +15,19 @@ import {
   ChevronDown,
   ArrowLeftRight,
   CreditCard,
+  Menu,
+  X,
 } from 'lucide-react';
 import { UserRole, User } from '@/types';
+import { useTranslation } from '@/i18n';
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 
 interface SidebarProps {
   currentRole: UserRole;
   onRoleChange: (role: UserRole) => void;
   currentUser?: User;
+  mobileOpen: boolean;
+  onMobileClose: () => void;
 }
 
 const ROLE_LABELS: Record<UserRole, string> = {
@@ -32,35 +38,6 @@ const ROLE_LABELS: Record<UserRole, string> = {
   SELLER: 'Seller',
   AGENCY: 'Agency',
 };
-
-const SELLER_NAV = [
-  { path: '/seller', label: 'Overview', icon: LayoutGrid },
-  { path: '/seller/orders', label: 'Orders', icon: Package },
-  { path: '/seller/wallet', label: 'Wallet & Payouts', icon: Wallet },
-  { path: '/seller/disputes', label: 'Disputes', icon: AlertTriangle },
-  { path: '/seller/analytics', label: 'Analytics & Trust', icon: BarChart3 },
-  { path: '/seller/api', label: 'API & Webhooks', icon: Code2 },
-  { path: '/seller/settings', label: 'Settings & Compliance', icon: Settings },
-  { path: '/seller/help', label: 'Help & Support', icon: HelpCircle },
-];
-
-const AGENCY_NAV = [
-  { path: '/agency', label: 'Overview', icon: LayoutGrid },
-  { path: '/agency/bulk-orders', label: 'Bulk Orders', icon: Package },
-  { path: '/agency/escrow-finance', label: 'Escrow & Finance', icon: DollarSign },
-  { path: '/agency/disputes', label: 'Disputes & Risk', icon: AlertTriangle },
-  { path: '/agency/reports', label: 'Reports', icon: BarChart3 },
-  { path: '/agency/api', label: 'API', icon: Code2 },
-  { path: '/help', label: 'Help & Support', icon: HelpCircle },
-];
-
-const BUYER_NAV = [
-  { path: '/buyer', label: 'Overview', icon: LayoutGrid },
-  { path: '/buyer/transactions', label: 'Transactions', icon: ArrowLeftRight },
-  { path: '/buyer/cards', label: 'Cards', icon: CreditCard },
-  { path: '/buyer/settings', label: 'Settings', icon: Settings },
-  { path: '/help', label: 'Help Center', icon: HelpCircle },
-];
 
 const OTHER_NAV: Record<UserRole, { path: string; label: string; icon: React.ElementType }[]> = {
   MERCHANT: [
@@ -77,22 +54,59 @@ const OTHER_NAV: Record<UserRole, { path: string; label: string; icon: React.Ele
   AGENCY: [],
 };
 
-export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps) {
+export function Sidebar({ currentRole, onRoleChange, currentUser, mobileOpen, onMobileClose }: SidebarProps) {
   const location = useLocation();
   const [roleOpen, setRoleOpen] = useState(false);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    onMobileClose();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
 
   const navItems =
-    currentRole === 'SELLER' ? SELLER_NAV :
-    currentRole === 'AGENCY' ? AGENCY_NAV :
-    currentRole === 'BUYER' ? BUYER_NAV :
+    currentRole === 'SELLER' ? [
+      { path: '/seller', label: t.dashboard.overview, icon: LayoutGrid },
+      { path: '/seller/orders', label: t.dashboard.orders, icon: Package },
+      { path: '/seller/wallet', label: t.dashboard.wallet, icon: Wallet },
+      { path: '/seller/disputes', label: t.dashboard.disputes, icon: AlertTriangle },
+      { path: '/seller/analytics', label: t.dashboard.analytics, icon: BarChart3 },
+      { path: '/seller/api', label: t.dashboard.api, icon: Code2 },
+      { path: '/seller/settings', label: t.dashboard.settings, icon: Settings },
+      { path: '/help', label: t.dashboard.help, icon: HelpCircle },
+    ] :
+    currentRole === 'AGENCY' ? [
+      { path: '/agency', label: t.dashboard.overview, icon: LayoutGrid },
+      { path: '/agency/bulk-orders', label: t.dashboard.bulkOrders, icon: Package },
+      { path: '/agency/escrow-finance', label: t.dashboard.escrowFinance, icon: DollarSign },
+      { path: '/agency/disputes', label: t.dashboard.disputes, icon: AlertTriangle },
+      { path: '/agency/reports', label: t.dashboard.reports, icon: BarChart3 },
+      { path: '/agency/api', label: t.dashboard.api, icon: Code2 },
+      { path: '/help', label: t.dashboard.help, icon: HelpCircle },
+    ] :
+    currentRole === 'BUYER' ? [
+      { path: '/buyer', label: t.dashboard.overview, icon: LayoutGrid },
+      { path: '/buyer/transactions', label: t.dashboard.transactions, icon: ArrowLeftRight },
+      { path: '/buyer/cards', label: t.dashboard.cards, icon: CreditCard },
+      { path: '/buyer/settings', label: t.dashboard.settings, icon: Settings },
+      { path: '/help', label: t.dashboard.help, icon: HelpCircle },
+    ] :
     OTHER_NAV[currentRole] || [];
 
-  return (
-    <aside className="w-64 h-screen bg-[#111] border-r border-[#222] flex flex-col flex-shrink-0">
+  const sidebarContent = (
+    <>
       {/* Logo */}
-      <div className="p-6">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#A3E635] rounded-xl flex items-center justify-center overflow-hidden relative">
+      <div className="p-4 md:p-6">
+        <Link to="/" className="flex items-center gap-3" onClick={onMobileClose}>
+          <div className="w-10 h-10 bg-[#A3E635] rounded-xl flex items-center justify-center overflow-hidden relative flex-shrink-0">
             <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
               <path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0 4 3 6 0" stroke="black" strokeWidth="2" strokeLinecap="round" />
               <path d="M2 16c2-3 4-3 6 0s4 3 6 0 4-3 6 0 4 3 6 0" stroke="black" strokeWidth="2" strokeLinecap="round" />
@@ -107,7 +121,7 @@ export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps
       </div>
 
       {/* Role Switcher */}
-      <div className="px-4 mb-4">
+      <div className="px-3 md:px-4 mb-4">
         <div className="relative">
           <button
             onClick={() => setRoleOpen(!roleOpen)}
@@ -138,20 +152,21 @@ export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 space-y-0.5">
+      <nav className="flex-1 px-2 md:px-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path || (item.path !== '/seller' && item.path !== '/agency' && item.path !== '/buyer' && item.path !== '/help' && location.pathname.startsWith(item.path));
           return (
             <Link
               key={item.path}
               to={item.path}
+              onClick={onMobileClose}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 border-l-2 ${
                 isActive
                   ? 'border-l-[#A3E635] bg-[#A3E635]/10 text-[#A3E635]'
                   : 'border-l-transparent text-slate-400 hover:text-slate-200 hover:bg-[#1a1a1a]'
               }`}
             >
-              <item.icon className="w-4 h-4" />
+              <item.icon className="w-4 h-4 flex-shrink-0" />
               {item.label}
             </Link>
           );
@@ -159,9 +174,12 @@ export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps
       </nav>
 
       {/* Bottom Account */}
-      <div className="p-4 border-t border-[#222]">
+      <div className="p-3 md:p-4 border-t border-[#222]">
+        <div className="mb-3">
+          <LanguageSwitcher />
+        </div>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-[#A3E635] flex items-center justify-center text-xs font-semibold text-black">
+          <div className="w-9 h-9 rounded-full bg-[#A3E635] flex items-center justify-center text-xs font-semibold text-black flex-shrink-0">
             {currentUser?.name?.split(' ').map(n => n[0]).join('') || 'A'}
           </div>
           <div className="flex-1 min-w-0">
@@ -173,6 +191,31 @@ export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps
           </button>
         </div>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-64 h-screen bg-[#111] border-r border-[#222] flex-col flex-shrink-0">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onMobileClose} />
+          <aside className="absolute inset-y-0 left-0 w-72 bg-[#111] border-r border-[#222] flex flex-col animate-slide-in-left">
+            <button
+              onClick={onMobileClose}
+              className="absolute top-4 right-4 z-10 p-2 rounded-lg bg-[#1a1a1a] text-slate-400 hover:text-white transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

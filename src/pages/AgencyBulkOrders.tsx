@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Package, Plus, Eye, ArrowUpRight, Shield, AlertTriangle, CheckCircle } from 'lucide-react';
 
 export default function AgencyBulkOrders() {
@@ -76,14 +77,14 @@ export default function AgencyBulkOrders() {
   };
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-8">
+    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">Bulk Orders</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Bulk Orders</h1>
           <p className="mt-1 text-sm text-slate-500">Managing {groups.length} bulk order groups</p>
         </div>
-        <button className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A3E635] hover:bg-[#84cc16] text-black font-semibold rounded-xl transition-colors shadow-sm">
+        <button onClick={() => alert('Create Bulk Order form would open here.')} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A3E635] hover:bg-[#84cc16] text-black font-semibold rounded-xl transition-colors shadow-sm">
           <Plus className="w-4 h-4" /> Create Bulk Order
         </button>
       </div>
@@ -136,10 +137,10 @@ export default function AgencyBulkOrders() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
+                <button onClick={() => alert('Viewing details for ' + group.id)} className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
                   <Eye className="w-4 h-4" /> View Details
                 </button>
-                <button className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-black bg-[#A3E635] hover:bg-[#84cc16] rounded-lg transition-colors">
+                <button onClick={() => alert('Release initiated for ' + group.company)} className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-black bg-[#A3E635] hover:bg-[#84cc16] rounded-lg transition-colors">
                   <ArrowUpRight className="w-4 h-4" /> Release All
                 </button>
               </div>

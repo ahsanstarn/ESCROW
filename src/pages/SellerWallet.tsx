@@ -76,16 +76,16 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
 
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-8 max-w-7xl mx-auto">
-        <div className="flex items-start justify-between mb-8">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Wallet & Payouts</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Wallet & Payouts</h1>
             <p className="mt-1 text-sm text-slate-500">Manage your balance, payout methods, and withdrawal history</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 lg:mb-8">
           {walletCards.map((card, i) => (
             <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
               <div className="flex items-start justify-between mb-3">
@@ -99,17 +99,17 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
         </div>
 
         {kycOpen && (
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-start gap-3">
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6 lg:mb-8 flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5" />
             <div className="flex-1">
               <p className="text-sm font-medium text-amber-900">KYC Verification Required</p>
               <p className="text-sm text-amber-700 mt-0.5">Complete your identity verification to enable withdrawals above $10,000.</p>
             </div>
-            <button onClick={() => setKycOpen(false)} className="text-sm text-amber-700 hover:text-amber-900 font-medium">Complete KYC</button>
+            <button onClick={() => alert('KYC verification form would open here.')} className="text-sm text-amber-700 hover:text-amber-900 font-medium">Complete KYC</button>
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 lg:mb-8">
           <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Payout Methods</h2>
@@ -135,11 +135,11 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
                 </div>
               ))}
             </div>
-            <div className="flex gap-3 mt-6">
-              <button className="flex-1 py-2.5 bg-[#A3E635] text-black text-sm font-semibold rounded-xl hover:bg-[#95d630] transition-colors">
+            <div className="flex flex-col sm:flex-row gap-3 mt-6">
+              <button onClick={() => alert('Withdrawal request submitted! Funds will be transferred within 1-2 business days.')} className="flex-1 py-2.5 bg-[#A3E635] text-black text-sm font-semibold rounded-xl hover:bg-[#95d630] transition-colors">
                 Withdraw Funds
               </button>
-              <button className="flex-1 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">
+              <button onClick={() => alert('Instant payout initiated! Funds will arrive within minutes.')} className="flex-1 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-slate-800 transition-colors">
                 Instant Payout
               </button>
             </div>
@@ -165,9 +165,9 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4">
+          <div className="flex items-center justify-between px-3 sm:px-4 lg:px-6 py-4">
             <h2 className="text-lg font-semibold text-slate-900">Escrow History</h2>
-            <button className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+            <button onClick={() => alert('Escrow history export started.')} className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
               <Download className="w-4 h-4" /> Export
             </button>
           </div>
@@ -175,19 +175,19 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-[#A3E635]">
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Escrow ID</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Amount</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Status</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Buyer</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Date</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Escrow ID</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Amount</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Status</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider hidden md:table-cell">Buyer</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {escrows.slice(0, 10).map((escrow) => (
                   <tr key={escrow.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                    <td className="py-3 px-4 font-medium text-slate-900">{escrow.escrowCode}</td>
-                    <td className="py-3 px-4 font-medium text-slate-900">{formatCurrency(escrow.amount)}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-3 sm:px-4 font-medium text-slate-900">{escrow.escrowCode}</td>
+                    <td className="py-3 px-3 sm:px-4 font-medium text-slate-900">{formatCurrency(escrow.amount)}</td>
+                    <td className="py-3 px-3 sm:px-4">
                       <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
                         escrow.status === 'RELEASED' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
                       }`}>
@@ -195,8 +195,8 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
                         {escrow.status}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-700">{escrow.buyer?.name || 'N/A'}</td>
-                    <td className="py-3 px-4 text-slate-700">{new Date(escrow.createdAt).toLocaleDateString()}</td>
+                    <td className="py-3 px-3 sm:px-4 text-slate-700 hidden md:table-cell">{escrow.buyer?.name || 'N/A'}</td>
+                    <td className="py-3 px-3 sm:px-4 text-slate-700">{new Date(escrow.createdAt).toLocaleDateString()}</td>
                   </tr>
                 ))}
                 {escrows.length === 0 && (

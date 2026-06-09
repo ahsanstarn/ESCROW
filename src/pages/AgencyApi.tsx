@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Zap, Activity, CheckCircle, Plus, Copy, Eye, Trash2, FileCode, BookOpen, Globe, Server, Clock, Key } from 'lucide-react';
 
 export default function AgencyApi() {
-  const [apiKey] = useState('sk_live_51HxZ9lK3d...xYz89');
+  const [apiKey] = useState('sk_live_••••••••••••••••••••••••••••••••');
 
   const stats = [
     { label: 'API Status', value: 'Active', icon: Zap, color: 'text-emerald-600', bg: 'bg-emerald-50', sub: 'All systems operational' },
@@ -42,15 +42,15 @@ export default function AgencyApi() {
   };
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-8">
+    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">API & Webhooks</h1>
+      <div className="mb-6 lg:mb-8">
+        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">API & Webhooks</h1>
         <p className="mt-1 text-sm text-slate-500">Manage API keys, webhook endpoints, and monitor activity</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 lg:mb-8">
         {stats.map((stat, i) => (
           <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
             <div className="flex items-center gap-3 mb-3">
@@ -66,7 +66,7 @@ export default function AgencyApi() {
       </div>
 
       {/* API Keys + Webhooks */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
         {/* API Keys */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <div className="flex items-center justify-between mb-5">
@@ -133,7 +133,7 @@ export default function AgencyApi() {
       </div>
 
       {/* Webhook Endpoints Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-6 lg:mb-8">
         <div className="px-6 py-4 border-b border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900">Webhook Endpoints</h3>
         </div>
@@ -141,35 +141,35 @@ export default function AgencyApi() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-[#A3E635]">
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Event Type</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Endpoint URL</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Status</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Last Triggered</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Action</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Event Type</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Endpoint URL</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Status</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Last Triggered</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Action</th>
               </tr>
             </thead>
             <tbody>
               {webhooks.map((wh, i) => (
                 <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                  <td className="py-3 px-6">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <div className="flex items-center gap-2">
                       <Globe className="w-3.5 h-3.5 text-slate-400" />
                       <span className="font-medium text-slate-900">{wh.event}</span>
                     </div>
                   </td>
-                  <td className="py-3 px-6 text-slate-600 truncate max-w-[200px]">{wh.endpoint}</td>
-                  <td className="py-3 px-6">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-600 truncate max-w-[200px] hidden md:table-cell">{wh.endpoint}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5" /> {wh.status}
                     </span>
                   </td>
-                  <td className="py-3 px-6 text-slate-500">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-500 hidden md:table-cell">
                     <div className="flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5" />
                       {wh.lastTriggered}
                     </div>
                   </td>
-                  <td className="py-3 px-6">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <div className="flex items-center gap-2">
                       <button className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
                         <Eye className="w-4 h-4" />
@@ -195,27 +195,27 @@ export default function AgencyApi() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-[#A3E635]">
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Method</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Endpoint</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Status</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Time</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Method</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Endpoint</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Status</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Time</th>
               </tr>
             </thead>
             <tbody>
               {recentActivity.map((act, i) => (
                 <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                  <td className="py-3 px-6">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium ${getMethodStyle(act.method)}`}>
                       {act.method}
                     </span>
                   </td>
-                  <td className="py-3 px-6 font-medium text-slate-900">{act.endpoint}</td>
-                  <td className="py-3 px-6">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{act.endpoint}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 hidden md:table-cell">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getStatusStyle(act.status)}`}>
                       {act.status}
                     </span>
                   </td>
-                  <td className="py-3 px-6 text-slate-500">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-500 hidden md:table-cell">
                     <div className="flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5" />
                       {act.time}

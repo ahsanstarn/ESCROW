@@ -50,7 +50,7 @@ class QueryBuilder {
   limit(n: number) { this._limit = n; return this; }
 
   private buildUrl(countMode = false): string {
-    let url = `${URL_BASE()}/${this.table}?select=${encodeURIComponent(this._select)}`;
+    let url = `${URL_BASE()}/${this.table}?select=${this._select}`;
     for (const [col, op, val] of this._filters) url += `&${col}=${op}.${encodeURIComponent(val)}`;
     for (const [col, vals] of this._inFilters) url += `&${col}=in.(${vals.map(v => encodeURIComponent(v)).join(',')})`;
     if (this._order && !countMode) url += `&order=${this._order.col}.${this._order.asc ? 'asc' : 'desc'}`;

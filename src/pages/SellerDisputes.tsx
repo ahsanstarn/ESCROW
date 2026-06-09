@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/utils';
 import { api } from '@/lib/api';
 import AccountHeader from '@/components/layout/AccountHeader';
@@ -53,17 +54,17 @@ export default function SellerDisputes({ userId, userName }: SellerDisputesProps
 
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-8 max-w-7xl mx-auto">
-        <div className="flex items-start justify-between mb-8">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Disputes</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Disputes</h1>
             <p className="mt-1 text-sm text-slate-500">Manage and resolve buyer disputes efficiently</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
         {disputedEscrows.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-4 mb-8 flex items-start gap-3">
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-4 mb-6 lg:mb-8 flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5" />
             <div className="flex-1">
               <p className="text-sm font-medium text-red-900">Urgent: {disputedEscrows.length} dispute{disputedEscrows.length > 1 ? 's' : ''} require your immediate action</p>
@@ -75,7 +76,7 @@ export default function SellerDisputes({ userId, userName }: SellerDisputesProps
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 lg:mb-8">
           {stats.map((stat, i) => (
             <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
               <div className="flex items-start justify-between mb-3">
@@ -96,14 +97,14 @@ export default function SellerDisputes({ userId, userName }: SellerDisputesProps
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-[#A3E635]">
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Dispute ID</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Order ID</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Buyer</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Reason</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Amount</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Stage</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Timer</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Action</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Dispute ID</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Order ID</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Buyer</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider hidden md:table-cell">Reason</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Amount</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Stage</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider hidden md:table-cell">Timer</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -120,23 +121,23 @@ export default function SellerDisputes({ userId, userName }: SellerDisputesProps
                 ) : (
                   disputedEscrows.map((escrow) => (
                     <tr key={escrow.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                      <td className="py-3 px-4 font-medium text-slate-900">DSP-{escrow.id.slice(0, 6)}</td>
-                      <td className="py-3 px-4 text-slate-700">{escrow.escrowCode}</td>
-                      <td className="py-3 px-4 text-slate-700">{escrow.buyer?.name || 'N/A'}</td>
-                      <td className="py-3 px-4 text-slate-700 max-w-[200px] truncate">{escrow.description || 'Dispute raised'}</td>
-                      <td className="py-3 px-4 font-medium text-slate-900">{formatCurrency(escrow.amount)}</td>
-                      <td className="py-3 px-4">
+                      <td className="py-3 px-3 sm:px-4 font-medium text-slate-900">DSP-{escrow.id.slice(0, 6)}</td>
+                      <td className="py-3 px-3 sm:px-4 text-slate-700">{escrow.escrowCode}</td>
+                      <td className="py-3 px-3 sm:px-4 text-slate-700">{escrow.buyer?.name || 'N/A'}</td>
+                      <td className="py-3 px-3 sm:px-4 text-slate-700 max-w-[200px] truncate hidden md:table-cell">{escrow.description || 'Dispute raised'}</td>
+                      <td className="py-3 px-3 sm:px-4 font-medium text-slate-900">{formatCurrency(escrow.amount)}</td>
+                      <td className="py-3 px-3 sm:px-4">
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-medium">
                           <FileText className="w-3 h-3" /> Under Review
                         </span>
                       </td>
-                      <td className="py-3 px-4">
+                      <td className="py-3 px-3 sm:px-4 hidden md:table-cell">
                         <span className="text-xs font-medium text-red-600">2d 14h</span>
                       </td>
-                      <td className="py-3 px-4">
-                        <button className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors">
+                      <td className="py-3 px-3 sm:px-4">
+                        <Link to={`/escrow/${escrow.id}`} className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors">
                           Submit Evidence
-                        </button>
+                        </Link>
                       </td>
                     </tr>
                   ))

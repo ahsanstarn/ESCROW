@@ -37,7 +37,7 @@ export function CustomerDashboard({ userId }: CustomerDashboardProps) {
 
   if (loading) {
     return (
-      <div className="p-8 max-w-7xl mx-auto">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div className="flex items-center justify-center h-64">
           <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
         </div>
@@ -46,7 +46,7 @@ export function CustomerDashboard({ userId }: CustomerDashboardProps) {
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto animate-fade-in">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto animate-fade-in">
       <PageHeader
         title="Your Protected Payments"
         subtitle="Your money is held securely until you confirm delivery"

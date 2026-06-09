@@ -30,7 +30,7 @@ export const api = {
     list: (role?: string) =>
       request<{ success: boolean; data: any[] }>(`/users${role ? `?role=${role}` : ''}`),
     get: (id: string) => request<{ success: boolean; data: any }>(`/users/${id}`),
-    stats: (id: string) => request<{ success: boolean; data: any }>(`/users/${id}/stats`),
+    stats: (id: string) => request<{ success: boolean; data: any }>(`/users?stats=true&id=${id}`),
     create: (data: any) =>
       request<{ success: boolean; data: any }>('/users', { method: 'POST', body: JSON.stringify(data) }),
   },

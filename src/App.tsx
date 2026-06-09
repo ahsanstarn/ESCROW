@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { LanguageProvider } from './i18n';
 import { Sidebar } from './components/layout/Sidebar';
 import { MerchantDashboard } from './pages/MerchantDashboard';
 import { CustomerDashboard } from './pages/CustomerDashboard';
@@ -39,12 +40,46 @@ import { Terms } from './pages/Terms';
 import { useState, useEffect, useCallback } from 'react';
 import { UserRole, User } from './types';
 import { api } from './lib/api';
+import { Menu, Bell, ChevronDown } from 'lucide-react';
+
+const ROLE_LABELS: Record<UserRole, string> = {
+  MERCHANT: 'Merchant',
+  BUYER: 'Buyer',
+  COURIER: 'Courier',
+  ADMIN: 'Admin',
+  SELLER: 'Seller',
+  AGENCY: 'Agency',
+};
+
+function MobileHeader({ currentRole, onMenuToggle }: { currentRole: UserRole; onMenuToggle: () => void }) {
+  return (
+    <div className="md:hidden flex items-center justify-between px-4 py-3 bg-[#111] border-b border-[#222] sticky top-0 z-40">
+      <button onClick={onMenuToggle} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a1a1a] transition-colors">
+        <Menu className="w-5 h-5" />
+      </button>
+      <div className="flex items-center gap-2">
+        <div className="w-7 h-7 bg-[#A3E635] rounded-lg flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
+            <path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0 4 3 6 0" stroke="black" strokeWidth="2" strokeLinecap="round" />
+            <path d="M2 16c2-3 4-3 6 0s4 3 6 0 4-3 6 0 4 3 6 0" stroke="black" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </div>
+        <span className="text-sm font-bold text-white">Escrow</span>
+      </div>
+      <button className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a1a1a] transition-colors relative">
+        <Bell className="w-5 h-5" />
+        <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+      </button>
+    </div>
+  );
+}
 
 function DashboardLayout() {
   const navigate = useNavigate();
   const [currentRole, setCurrentRole] = useState<UserRole>('MERCHANT');
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -80,34 +115,37 @@ function DashboardLayout() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-black">
-      <Sidebar currentRole={currentRole} onRoleChange={handleRoleChange} currentUser={currentUser} />
-      <main className="flex-1 overflow-y-auto">
-        <Routes>
-          <Route path="/" element={<Navigate to={`/${currentRole.toLowerCase()}`} replace />} />
-          <Route path="/merchant" element={<MerchantDashboard userId={currentUser?.id} />} />
-          <Route path="/seller" element={<SellerDashboard userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/seller/orders" element={<SellerOrders userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/seller/wallet" element={<SellerWallet userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/seller/disputes" element={<SellerDisputes userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/seller/analytics" element={<SellerAnalytics userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/seller/api" element={<SellerApi userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/seller/settings" element={<SellerSettings userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/buyer" element={<BuyerOverview userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/buyer/transactions" element={<BuyerTransactions userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/buyer/cards" element={<BuyerCards userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/buyer/settings" element={<BuyerSettings userId={currentUser?.id} userName={currentUser?.name} />} />
-          <Route path="/courier" element={<CourierDashboard userId={currentUser?.id} />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/agency" element={<AgencyOverview />} />
-          <Route path="/agency/bulk-orders" element={<AgencyBulkOrders />} />
-          <Route path="/agency/escrow-finance" element={<AgencyEscrowFinance />} />
-          <Route path="/agency/disputes" element={<AgencyDisputes />} />
-          <Route path="/agency/reports" element={<AgencyReports />} />
-          <Route path="/agency/api" element={<AgencyApi />} />
-          <Route path="/escrow/:id" element={<EscrowDetail userId={currentUser?.id} userRole={currentRole} />} />
-          <Route path="/dispute/:id" element={<DisputeDetail userId={currentUser?.id} userRole={currentRole} />} />
-        </Routes>
-      </main>
+      <Sidebar currentRole={currentRole} onRoleChange={handleRoleChange} currentUser={currentUser} mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} />
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+        <MobileHeader currentRole={currentRole} onMenuToggle={() => setMobileOpen(true)} />
+        <main className="flex-1 overflow-y-auto">
+          <Routes>
+            <Route path="/" element={<Navigate to={`/${currentRole.toLowerCase()}`} replace />} />
+            <Route path="/merchant" element={<MerchantDashboard userId={currentUser?.id} />} />
+            <Route path="/seller" element={<SellerDashboard userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/seller/orders" element={<SellerOrders userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/seller/wallet" element={<SellerWallet userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/seller/disputes" element={<SellerDisputes userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/seller/analytics" element={<SellerAnalytics userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/seller/api" element={<SellerApi userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/seller/settings" element={<SellerSettings userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/buyer" element={<BuyerOverview userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/buyer/transactions" element={<BuyerTransactions userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/buyer/cards" element={<BuyerCards userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/buyer/settings" element={<BuyerSettings userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/courier" element={<CourierDashboard userId={currentUser?.id} />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/agency" element={<AgencyOverview />} />
+            <Route path="/agency/bulk-orders" element={<AgencyBulkOrders />} />
+            <Route path="/agency/escrow-finance" element={<AgencyEscrowFinance />} />
+            <Route path="/agency/disputes" element={<AgencyDisputes />} />
+            <Route path="/agency/reports" element={<AgencyReports />} />
+            <Route path="/agency/api" element={<AgencyApi />} />
+            <Route path="/escrow/:id" element={<EscrowDetail userId={currentUser?.id} userRole={currentRole} />} />
+            <Route path="/dispute/:id" element={<DisputeDetail userId={currentUser?.id} userRole={currentRole} />} />
+          </Routes>
+        </main>
+      </div>
     </div>
   );
 }
@@ -139,8 +177,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <LanguageProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </LanguageProvider>
   );
 }

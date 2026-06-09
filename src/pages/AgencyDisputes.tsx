@@ -69,15 +69,15 @@ export default function AgencyDisputes() {
   };
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-8">
+    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">Disputes & Risk</h1>
+      <div className="mb-6 lg:mb-8">
+        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Disputes & Risk</h1>
         <p className="mt-1 text-sm text-slate-500">Monitor disputes, resolution metrics, and risk alerts</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 lg:mb-8">
         {stats.map((stat, i) => (
           <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
             <div className="flex items-center gap-3 mb-3">
@@ -92,7 +92,7 @@ export default function AgencyDisputes() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
         {/* Dispute Trend Over Time */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Dispute Trend Over Time</h3>
@@ -143,7 +143,7 @@ export default function AgencyDisputes() {
       </div>
 
       {/* Risk Score + Alerts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 lg:mb-8">
         {/* Risk Score Scale */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Risk Score Scale</h3>
@@ -200,30 +200,30 @@ export default function AgencyDisputes() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-[#A3E635]">
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Dispute ID</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Order ID</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Client</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Amount</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Priority</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Opened</th>
-                <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Action</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Dispute ID</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Order ID</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Client</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Amount</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Priority</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Opened</th>
+                <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Action</th>
               </tr>
             </thead>
             <tbody>
               {activeDisputes.map((d, i) => (
                 <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                  <td className="py-3 px-6 font-medium text-slate-900">{d.id}</td>
-                  <td className="py-3 px-6 text-slate-600">{d.orderId}</td>
-                  <td className="py-3 px-6 text-slate-600">{d.client}</td>
-                  <td className="py-3 px-6 font-medium text-slate-900">{d.amount}</td>
-                  <td className="py-3 px-6">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{d.id}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-600 hidden md:table-cell">{d.orderId}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-600">{d.client}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{d.amount}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${getPriorityStyle(d.priority)}`}>
                       {d.priority}
                     </span>
                   </td>
-                  <td className="py-3 px-6 text-slate-500">{d.opened}</td>
-                  <td className="py-3 px-6">
-                    <button className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
+                  <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-500 hidden md:table-cell">{d.opened}</td>
+                  <td className="py-3 px-3 sm:px-4 lg:px-6">
+                    <button onClick={() => alert('Viewing dispute ' + d.id)} className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
                       <Eye className="w-3.5 h-3.5" /> View
                     </button>
                   </td>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/utils';
 import { api } from '@/lib/api';
 import AccountHeader from '@/components/layout/AccountHeader';
@@ -85,16 +86,16 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
 
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-8 max-w-7xl mx-auto">
-        <div className="flex items-start justify-between mb-8">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Analytics & Trust</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Analytics & Trust</h1>
             <p className="mt-1 text-sm text-slate-500">Monitor performance metrics and build buyer trust</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6 lg:mb-8">
           {performanceMetrics.map((stat, i) => (
             <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
               <div className="flex items-start justify-between mb-3">
@@ -107,7 +108,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 lg:mb-8">
           <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Strategic Insights</h2>
             <div className="space-y-4">
@@ -169,9 +170,9 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-8">
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Performance Trend</h2>
-          <div className="flex items-end gap-3 h-48 mb-4">
+          <div className="flex items-end gap-2 sm:gap-3 h-48 mb-4">
             {monthlyTrend.map((metric, i) => {
               const max = Math.max(...monthlyTrend.map(m => m.delivered));
               const height = max > 0 ? (metric.delivered / max) * 100 : 0;
@@ -188,7 +189,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Trust Score Breakdown</h2>
             <div className="space-y-4">
@@ -214,27 +215,27 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
                   <p className="text-sm font-medium text-slate-900">Enable instant payouts</p>
                   <p className="text-xs text-slate-500 mt-0.5">Get funds in your account within minutes.</p>
                 </div>
-                <button className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
+                <Link to="/seller/wallet" className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
                   Enable
-                </button>
+                </Link>
               </div>
               <div className="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
                 <div>
                   <p className="text-sm font-medium text-slate-900">Complete advanced KYC</p>
                   <p className="text-xs text-slate-500 mt-0.5">Unlock higher transaction limits.</p>
                 </div>
-                <button className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
+                <Link to="/seller/settings" className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
                   Complete
-                </button>
+                </Link>
               </div>
               <div className="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
                 <div>
                   <p className="text-sm font-medium text-slate-900">Set up webhook alerts</p>
                   <p className="text-xs text-slate-500 mt-0.5">Receive real-time order updates.</p>
                 </div>
-                <button className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
+                <Link to="/seller/api" className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
                   Configure
-                </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -71,7 +71,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
 
   if (loading) {
     return (
-      <div className="p-8 max-w-4xl mx-auto">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
         <div className="flex items-center justify-center h-64">
           <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
         </div>
@@ -81,7 +81,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
 
   if (!dispute) {
     return (
-      <div className="p-8 max-w-4xl mx-auto">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
         <div className="card p-12 text-center">
           <p className="text-slate-400">Dispute not found</p>
           <button onClick={() => navigate(-1)} className="btn-secondary mt-4">Go Back</button>
@@ -91,7 +91,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
   }
 
   return (
-    <div className="p-8 max-w-4xl mx-auto animate-fade-in">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto animate-fade-in">
       <div className="mb-6">
         <Link to="/" className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors">
           <ArrowLeft className="w-4 h-4" />

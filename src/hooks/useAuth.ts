@@ -1,50 +1,105 @@
 import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/lib/supabase';
-import type { Session, User } from '@supabase/supabase-js';
+
+interface AuthSession {
+  access_token: string;
+  refresh_token: string;
+  expires_at: number;
+  user: { id: string; email: string; user_metadata: any } | null;
+}
 
 export function useAuth() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<AuthSession | null>(null);
+  const [user, setUser] = useState<AuthSession['user']>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
+    const stored = localStorage.getItem('escrow_session');
+    if (stored) {
+      try {
+        const parsed: AuthSession = JSON.parse(stored);
+        if (parsed.expires_at && parsed.expires_at > Date.now() / 1000) {
+          setSession(parsed);
+          setUser(parsed.user);
+        } else if (parsed.refresh_token) {
+          refreshSession(parsed.refresh_token);
+        } else {
+          localStorage.removeItem('escrow_session');
+        }
+      } catch {
+        localStorage.removeItem('escrow_session');
+      }
+    }
+    setLoading(false);
   }, []);
+
+  const refreshSession = async (refreshToken: string) => {
+    try {
+      const res = await fetch('/api/auth?action=refresh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      });
+      if (res.ok) {
+        const data: AuthSession = await res.json();
+        setSession(data);
+        setUser(data.user);
+        localStorage.setItem('escrow_session', JSON.stringify(data));
+      } else {
+        localStorage.removeItem('escrow_session');
+        setSession(null);
+        setUser(null);
+      }
+    } catch {
+      localStorage.removeItem('escrow_session');
+      setSession(null);
+      setUser(null);
+    }
+  };
 
   const signInWithGoogle = useCallback(async () => {
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: 'https://escrow-trust-platform.vercel.app/auth/callback',
-          skipBrowserRedirect: false,
-        },
-      });
-      
-      if (error) {
-        console.error('OAuth error:', error);
-        throw error;
-      }
+      const res = await fetch('/api/auth?action=login');
+      const { url } = await res.json();
+      window.location.href = url;
     } catch (error) {
       console.error('Sign in error:', error);
-      alert('Failed to sign in with Google. Please check your configuration.');
+      alert('Failed to sign in with Google.');
+    }
+  }, []);
+
+  const handleCallback = useCallback(async (code: string) => {
+    try {
+      const res = await fetch('/api/auth?action=callback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+      if (!res.ok) throw new Error('Auth failed');
+      const data: AuthSession = await res.json();
+      setSession(data);
+      setUser(data.user);
+      localStorage.setItem('escrow_session', JSON.stringify(data));
+      return true;
+    } catch (error) {
+      console.error('Callback error:', error);
+      return false;
     }
   }, []);
 
   const signOut = useCallback(async () => {
-    await supabase.auth.signOut();
-  }, []);
+    try {
+      if (session?.access_token) {
+        await fetch('/api/auth?action=logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ access_token: session.access_token }),
+        });
+      }
+    } catch { /* empty */ }
+    localStorage.removeItem('escrow_session');
+    setSession(null);
+    setUser(null);
+  }, [session]);
 
-  return { session, user, loading, signInWithGoogle, signOut };
+  return { session, user, loading, signInWithGoogle, handleCallback, signOut };
 }

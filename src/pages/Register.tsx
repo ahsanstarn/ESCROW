@@ -92,17 +92,17 @@ export default function Register() {
       </div>
 
       {/* Right Panel - White */}
-      <div className="w-full lg:w-[55%] flex items-center justify-center p-8 md:p-12 bg-white">
+      <div className="w-full lg:w-[55%] flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12 bg-white">
         <div className="w-full max-w-[380px]">
-          <div className="flex justify-center mb-6">
-            <ShieldLogo className="w-12 h-12" />
+          <div className="flex justify-center mb-4 md:mb-6">
+            <ShieldLogo className="w-10 h-10 md:w-12 md:h-12" />
           </div>
 
-          <h2 className="text-2xl font-bold text-center text-black mb-6">Create your account</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-center text-black mb-4 md:mb-6">Create your account</h2>
 
           <button
             onClick={signInWithGoogle}
-            className="w-full py-2.5 border border-slate-200 rounded-lg text-black font-medium text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 mb-4"
+            className="w-full py-2.5 border border-slate-200 rounded-lg text-black font-medium text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 mb-4 min-h-[44px]"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
@@ -122,7 +122,7 @@ export default function Register() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Full name</label>
               <input
@@ -130,7 +130,7 @@ export default function Register() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your full name"
-                className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-black text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 focus:border-[#A3E635]/50 transition-all"
+                className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-black text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 focus:border-[#A3E635]/50 transition-all min-h-[44px]"
               />
             </div>
             <div>
@@ -140,7 +140,7 @@ export default function Register() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-black text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 focus:border-[#A3E635]/50 transition-all"
+                className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-black text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 focus:border-[#A3E635]/50 transition-all min-h-[44px]"
               />
             </div>
             <div>
@@ -150,7 +150,7 @@ export default function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Create Password"
-                className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-black text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 focus:border-[#A3E635]/50 transition-all"
+                className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-black text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 focus:border-[#A3E635]/50 transition-all min-h-[44px]"
               />
               <p className="text-xs text-slate-400 mt-1">Must be at least 8 characters</p>
             </div>
@@ -161,11 +161,11 @@ export default function Register() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm your password"
-                className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-black text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 focus:border-[#A3E635]/50 transition-all"
+                className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-black text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 focus:border-[#A3E635]/50 transition-all min-h-[44px]"
               />
             </div>
 
-            <button type="submit" className="w-full py-2.5 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors text-sm">
+            <button type="submit" className="w-full py-2.5 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors text-sm min-h-[44px]">
               Continue
             </button>
           </form>
@@ -177,15 +177,15 @@ export default function Register() {
               onChange={(e) => setAgreed(e.target.checked)}
               className="w-4 h-4 mt-0.5 rounded border-slate-300 text-[#A3E635] focus:ring-[#A3E635]"
             />
-            <span className="text-sm text-slate-500">
+            <span className="text-xs md:text-sm text-slate-500">
               I agree to Escrow's{' '}
-              <a href="#" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">Terms of Service</a>
+              <Link to="/terms" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">Terms of Service</Link>
               {' '}and{' '}
-              <a href="#" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">privacy policy</a>
+              <Link to="/privacy" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">privacy policy</Link>
             </span>
           </div>
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-4 md:mt-6 text-center text-sm text-slate-500">
             Don't have an account?{' '}
             <Link to="/login" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">Sign up</Link>
           </p>
