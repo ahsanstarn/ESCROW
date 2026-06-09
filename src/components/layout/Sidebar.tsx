@@ -13,6 +13,8 @@ import {
   HelpCircle,
   Bell,
   ChevronDown,
+  ArrowLeftRight,
+  CreditCard,
 } from 'lucide-react';
 import { UserRole, User } from '@/types';
 
@@ -52,13 +54,19 @@ const AGENCY_NAV = [
   { path: '/help', label: 'Help & Support', icon: HelpCircle },
 ];
 
+const BUYER_NAV = [
+  { path: '/buyer', label: 'Overview', icon: LayoutGrid },
+  { path: '/buyer/transactions', label: 'Transactions', icon: ArrowLeftRight },
+  { path: '/buyer/cards', label: 'Cards', icon: CreditCard },
+  { path: '/buyer/settings', label: 'Settings', icon: Settings },
+  { path: '/help', label: 'Help Center', icon: HelpCircle },
+];
+
 const OTHER_NAV: Record<UserRole, { path: string; label: string; icon: React.ElementType }[]> = {
   MERCHANT: [
     { path: '/merchant', label: 'Home', icon: LayoutGrid },
   ],
-  BUYER: [
-    { path: '/buyer', label: 'Home', icon: LayoutGrid },
-  ],
+  BUYER: [],
   COURIER: [
     { path: '/courier', label: 'Home', icon: LayoutGrid },
   ],
@@ -76,6 +84,7 @@ export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps
   const navItems =
     currentRole === 'SELLER' ? SELLER_NAV :
     currentRole === 'AGENCY' ? AGENCY_NAV :
+    currentRole === 'BUYER' ? BUYER_NAV :
     OTHER_NAV[currentRole] || [];
 
   return (
@@ -131,7 +140,7 @@ export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps
       {/* Navigation */}
       <nav className="flex-1 px-3 space-y-0.5">
         {navItems.map((item) => {
-          const isActive = location.pathname === item.path || ((item.path !== '/seller' && item.path !== '/agency') && location.pathname.startsWith(item.path));
+          const isActive = location.pathname === item.path || (item.path !== '/seller' && item.path !== '/agency' && item.path !== '/buyer' && item.path !== '/help' && location.pathname.startsWith(item.path));
           return (
             <Link
               key={item.path}

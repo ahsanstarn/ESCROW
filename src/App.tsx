@@ -11,6 +11,10 @@ import SellerDisputes from './pages/SellerDisputes';
 import SellerAnalytics from './pages/SellerAnalytics';
 import SellerApi from './pages/SellerApi';
 import SellerSettings from './pages/SellerSettings';
+import BuyerOverview from './pages/BuyerOverview';
+import BuyerTransactions from './pages/BuyerTransactions';
+import BuyerCards from './pages/BuyerCards';
+import BuyerSettings from './pages/BuyerSettings';
 import { AgencyDashboard } from './pages/AgencyDashboard';
 import AgencyOverview from './pages/AgencyOverview';
 import AgencyBulkOrders from './pages/AgencyBulkOrders';
@@ -88,7 +92,10 @@ function DashboardLayout() {
           <Route path="/seller/analytics" element={<SellerAnalytics />} />
           <Route path="/seller/api" element={<SellerApi />} />
           <Route path="/seller/settings" element={<SellerSettings />} />
-          <Route path="/buyer" element={<CustomerDashboard userId={currentUser?.id} />} />
+          <Route path="/buyer" element={<BuyerOverview />} />
+          <Route path="/buyer/transactions" element={<BuyerTransactions />} />
+          <Route path="/buyer/cards" element={<BuyerCards />} />
+          <Route path="/buyer/settings" element={<BuyerSettings />} />
           <Route path="/courier" element={<CourierDashboard userId={currentUser?.id} />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/agency" element={<AgencyOverview />} />
