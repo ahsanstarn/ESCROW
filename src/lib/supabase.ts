@@ -31,11 +31,19 @@ export const supabase = {
       localStorage.removeItem('escrow_session');
       return { error: null };
     },
-    signInWithOAuth: async () => {
-      const res = await fetch('/api/auth?action=login');
-      const { url } = await res.json();
-      window.location.href = url;
-      return { data: { url }, error: null };
+    signInWithOAuth: async (options?: { provider: string }) => {
+      try {
+        const supabase = await getSupabase();
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: `${window.location.origin}/auth/callback`,
+          },
+        });
+        return { data, error };
+      } catch (err) {
+        return { data: null, error: { message: 'Failed to initialize Google login. Please try again.' } };
+      }
     },
   },
 };

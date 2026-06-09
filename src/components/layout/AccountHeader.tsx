@@ -1,4 +1,5 @@
 import { Bell, User } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 interface AccountHeaderProps {
   userId?: string;
@@ -15,14 +16,30 @@ export default function AccountHeader({ userId, userName, accountId }: AccountHe
     .join('')
     .toUpperCase()
     .slice(0, 2);
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  useEffect(() => {
+    if (!userId) return;
+    // Fetch disputes count as notification indicator
+    fetch(`/api/disputes?openedById=${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.data) {
+          setNotificationCount(data.data.filter((d: any) => d.status === 'OPEN').length);
+        }
+      })
+      .catch(() => {});
+  }, [userId]);
 
   return (
     <div className="flex items-center gap-3">
       <button className="p-2 rounded-xl bg-white shadow-sm border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors relative">
         <Bell className="w-5 h-5" />
-        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[9px] text-white flex items-center justify-center font-bold">
-          3
-        </span>
+        {notificationCount > 0 && (
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[9px] text-white flex items-center justify-center font-bold">
+            {notificationCount}
+          </span>
+        )}
       </button>
       <div className="flex items-center gap-3 bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
         <div className="w-8 h-8 rounded-full bg-[#A3E635] flex items-center justify-center text-xs font-semibold text-black">

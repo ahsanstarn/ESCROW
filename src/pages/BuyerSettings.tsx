@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import AccountHeader from '@/components/layout/AccountHeader';
-import { Shield, Lock, BellRing } from 'lucide-react';
 
 interface BuyerSettingsProps {
   userId?: string;
@@ -8,12 +7,10 @@ interface BuyerSettingsProps {
 }
 
 export default function BuyerSettings({ userId, userName }: BuyerSettingsProps) {
-  const [fullName, setFullName] = useState('John Buyer');
-  const [email, setEmail] = useState('buyer@example.com');
-  const [phone, setPhone] = useState('+1 (555) 123-4567');
-  const [twoFactor, setTwoFactor] = useState(true);
-  const [loginAlerts, setLoginAlerts] = useState(true);
-  const [txAlerts, setTxAlerts] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+  const [twoFactor, setTwoFactor] = useState(false);
+  const [emailNotifs, setEmailNotifs] = useState(true);
+  const [language, setLanguage] = useState('English');
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
@@ -32,94 +29,75 @@ export default function BuyerSettings({ userId, userName }: BuyerSettingsProps) 
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Profile */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-              <h2 className="font-bold text-slate-900 mb-4">Profile Information</h2>
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Full Name</label>
-                    <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50" />
-                  </div>
-                </div>
+        <div className="max-w-2xl space-y-6">
+          {/* Personal info */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+            <h2 className="font-bold text-slate-900 mb-6">Personal info</h2>
+            <div className="space-y-5">
+              <div className="flex items-center justify-between">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Phone Number</label>
-                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50" />
+                  <p className="text-sm font-medium text-slate-900">Email</p>
+                  <p className="text-sm text-slate-500">buyer@example.com</p>
                 </div>
-                <button onClick={handleSave} className="px-6 py-2.5 bg-[#A3E635] text-black font-semibold text-sm rounded-lg hover:bg-[#b8ed5a] transition-colors">
-                  {saved ? 'Saved!' : 'Save Changes'}
-                </button>
+                <button className="text-sm text-slate-500 hover:text-slate-700 transition-colors">Change</button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-slate-900">Password</p>
+                  <p className="text-sm text-slate-500">••••••••</p>
+                </div>
+                <button className="text-sm text-slate-500 hover:text-slate-700 transition-colors">Change</button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-slate-900">Phone verification</p>
+                  <p className="text-sm text-slate-500">Not verified</p>
+                </div>
+                <button className="text-sm text-slate-500 hover:text-slate-700 transition-colors">Verify now</button>
               </div>
             </div>
+          </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-              <h2 className="font-bold text-slate-900 mb-4">Payment Methods</h2>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-6 bg-slate-800 rounded flex items-center justify-center"><span className="text-[8px] text-white font-bold">VISA</span></div>
-                    <div>
-                      <p className="text-sm font-medium text-slate-900">Visa •••• 4819</p>
-                      <p className="text-xs text-slate-500">Expires 09/26</p>
-                    </div>
-                  </div>
-                  <span className="text-xs bg-[#A3E635]/20 text-black px-2 py-1 rounded-full font-semibold">Default</span>
-                </div>
-                <button className="w-full p-3 border-2 border-dashed border-slate-200 rounded-xl text-sm text-slate-500 hover:border-[#A3E635] hover:text-[#A3E635] transition-colors">
-                  + Add Payment Method
+          {/* Preferences */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+            <h2 className="font-bold text-slate-900 mb-6">Preferences</h2>
+            <div className="space-y-5">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-slate-900">Language</p>
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="text-sm text-slate-700 bg-transparent border-none focus:outline-none focus:ring-0 cursor-pointer"
+                >
+                  <option>English</option>
+                  <option>French</option>
+                  <option>Spanish</option>
+                </select>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-slate-900">Dark Mode</p>
+                <button onClick={() => setDarkMode(!darkMode)} className={`w-12 h-6 rounded-full relative cursor-pointer transition-colors ${darkMode ? 'bg-[#A3E635]' : 'bg-slate-300'}`}>
+                  <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${darkMode ? 'right-0.5' : 'left-0.5'}`} />
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-slate-900">Two-Factor Auth</p>
+                <button onClick={() => setTwoFactor(!twoFactor)} className={`w-12 h-6 rounded-full relative cursor-pointer transition-colors ${twoFactor ? 'bg-[#A3E635]' : 'bg-slate-300'}`}>
+                  <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${twoFactor ? 'right-0.5' : 'left-0.5'}`} />
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-slate-900">Email Notification</p>
+                <button onClick={() => setEmailNotifs(!emailNotifs)} className={`w-12 h-6 rounded-full relative cursor-pointer transition-colors ${emailNotifs ? 'bg-[#A3E635]' : 'bg-slate-300'}`}>
+                  <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${emailNotifs ? 'right-0.5' : 'left-0.5'}`} />
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Sidebar Settings */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-              <h2 className="font-bold text-slate-900 mb-4">Security</h2>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <Lock className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-700">Two-Factor Auth</span>
-                  </div>
-                  <button onClick={() => setTwoFactor(!twoFactor)} className={`w-10 h-5 rounded-full relative cursor-pointer transition-colors ${twoFactor ? 'bg-[#A3E635]' : 'bg-slate-300'}`}>
-                    <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${twoFactor ? 'right-0.5' : 'left-0.5'}`} />
-                  </button>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <BellRing className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-700">Login Alerts</span>
-                  </div>
-                  <button onClick={() => setLoginAlerts(!loginAlerts)} className={`w-10 h-5 rounded-full relative cursor-pointer transition-colors ${loginAlerts ? 'bg-[#A3E635]' : 'bg-slate-300'}`}>
-                    <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${loginAlerts ? 'right-0.5' : 'left-0.5'}`} />
-                  </button>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <Shield className="w-4 h-4 text-slate-600" />
-                    <span className="text-sm text-slate-700">Transaction Alerts</span>
-                  </div>
-                  <button onClick={() => setTxAlerts(!txAlerts)} className={`w-10 h-5 rounded-full relative cursor-pointer transition-colors ${txAlerts ? 'bg-[#A3E635]' : 'bg-slate-300'}`}>
-                    <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all ${txAlerts ? 'right-0.5' : 'left-0.5'}`} />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-              <h2 className="font-bold text-slate-900 mb-4">Danger Zone</h2>
-              <button className="w-full py-2.5 border border-red-300 text-red-600 font-semibold text-sm rounded-lg hover:bg-red-50 transition-colors">
-                Delete Account
-              </button>
-            </div>
-          </div>
+          <button onClick={handleSave} className="w-full py-3 bg-[#A3E635] text-black font-semibold text-sm rounded-xl hover:bg-[#b8ed5a] transition-colors">
+            {saved ? 'Saved!' : 'Save Changes'}
+          </button>
         </div>
       </div>
     </div>

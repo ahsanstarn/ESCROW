@@ -1,53 +1,31 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabase } from '../lib/supabase';
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 
-const VALID_TRANSITIONS: Record<string, string[]> = {
-  CREATED: ['DEPOSITED', 'CANCELLED'],
-  DEPOSITED: ['SHIPPED', 'DISPUTED', 'CANCELLED'],
-  SHIPPED: ['IN_TRANSIT', 'DELIVERED', 'DISPUTED'],
-  IN_TRANSIT: ['DELIVERED', 'DISPUTED'],
-  DELIVERED: ['CONFIRMED', 'DISPUTED'],
-  CONFIRMED: ['RELEASED'],
-  RELEASED: [],
-  DISPUTED: ['REFUNDED', 'RELEASED', 'CONFIRMED', 'CANCELLED'],
-  REFUNDED: [],
-  CANCELLED: [],
-};
+const BASE = () => `${process.env.SUPABASE_URL}/rest/v1`;
+const KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' });
 
-function calcFee(amount: number, bp: number = 250): number {
-  return Math.round((amount * bp) / 10000 * 100) / 100;
+async function sbGet(table: string, params: Record<string, string> = {}) {
+  const url = new URL(`${BASE()}/${table}`);
+  url.searchParams.set('select', '*');
+  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
+  const res = await fetch(url.toString(), { headers: HDRS() });
+  const text = await res.text();
+  return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
 }
 
-async function transitionEscrow(escrowId: string, toState: string, triggeredBy?: string, reason?: string) {
-  const { data: escrow } = await supabase.from('escrows').select('*').eq('id', escrowId).single();
-  if (!escrow) throw new Error('Escrow not found');
+async function sbPost(table: string, row: Record<string, any> | Record<string, any>[]) {
+  const res = await fetch(`${BASE()}/${table}`, { method: 'POST', headers: HDRS(), body: JSON.stringify(row) });
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : [];
+  return { data: Array.isArray(data) ? data[0] : data, error: res.ok ? null : { message: text } };
+}
 
-  const fromState = escrow.status;
-  const allowed = VALID_TRANSITIONS[fromState] || [];
-  if (!allowed.includes(toState)) {
-    throw new Error(`Invalid transition: ${fromState} → ${toState}`);
-  }
-
-  const updates: Record<string, unknown> = { status: toState };
-  const now = new Date().toISOString();
-
-  if (toState === 'SHIPPED') updates.shipment_date = now;
-  else if (toState === 'DELIVERED') {
-    updates.delivery_date = now;
-    if (!escrow.dispute_deadline) {
-      updates.dispute_deadline = new Date(Date.now() + escrow.confirmation_window_hours * 3600000).toISOString();
-    }
-  } else if (toState === 'CONFIRMED') updates.confirmed_at = now;
-  else if (toState === 'RELEASED') updates.released_at = now;
-
-  await supabase.from('escrows').update(updates).eq('id', escrowId);
-  await supabase.from('state_transitions').insert({
-    escrow_id: escrowId, from_state: fromState, to_state: toState, triggered_by: triggeredBy, reason,
-  });
-
-  return { fromState, toState, escrowId };
+async function sbPatch(table: string, updates: Record<string, any>, filterCol: string, filterVal: string) {
+  const res = await fetch(`${BASE()}/${table}?${filterCol}=eq.${encodeURIComponent(filterVal)}`, { method: 'PATCH', headers: HDRS(), body: JSON.stringify(updates) });
+  const text = await res.text();
+  return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
 }
 
 const createSchema = z.object({
@@ -61,6 +39,10 @@ const createSchema = z.object({
   metadata: z.record(z.unknown()).optional(),
 });
 
+function calcFee(amount: number, bp: number = 250): number {
+  return Math.round((amount * bp) / 10000 * 100) / 100;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
@@ -70,36 +52,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (req.method === 'GET') {
       const { merchantId, buyerId, status, page = '1', limit = '50' } = req.query;
-      const from = (Number(page) - 1) * Number(limit);
-      const to = from + Number(limit) - 1;
 
-      let query = supabase.from('escrows').select(`
-        *,
-        merchant:users!escrows_merchant_id_fkey(id, name, email),
-        buyer:users!escrows_buyer_id_fkey(id, name, email),
-        disputes(id),
-        milestones(id)
-      `, { count: 'exact' });
+      let select = '*, merchant:users!escrows_merchant_id_fkey(id, name, email), buyer:users!escrows_buyer_id_fkey(id, name, email), disputes(id), milestones(id)';
+      const params: Record<string, string> = { select, order: 'created_at.desc', limit: String(limit) };
+      if (merchantId) params.merchant_id = `eq.${merchantId}`;
+      if (buyerId) params.buyer_id = `eq.${buyerId}`;
+      if (status) params.status = `eq.${status}`;
 
-      if (merchantId) query = query.eq('merchant_id', merchantId);
-      if (buyerId) query = query.eq('buyer_id', buyerId);
-      if (status) query = query.eq('status', status);
+      const url = new URL(`${BASE()}/escrows`);
+      for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
 
-      const { data, count, error } = await query.order('created_at', { ascending: false }).range(from, to);
-      if (error) throw error;
+      const res2 = await fetch(url.toString(), { headers: { ...HDRS(), Range: `${(Number(page) - 1) * Number(limit)}-${Number(page) * Number(limit) - 1}` } });
+      const text = await res2.text();
+      const data = text ? JSON.parse(text) : [];
+      const cr = res2.headers.get('content-range');
+      const total = cr ? parseInt(cr.split('/')[1]) : 0;
 
-      const enriched = data?.map(e => ({
+      const enriched = data.map((e: any) => ({
         ...e,
         _count: { disputes: e.disputes?.length || 0, milestones: e.milestones?.length || 0 },
-      })) || [];
+      }));
 
-      return res.json({ success: true, data: enriched, total: count || 0 });
+      return res.json({ success: true, data: enriched, total });
     }
 
     if (req.method === 'POST') {
       const data = createSchema.parse(req.body);
       const platformFee = calcFee(data.amount);
-      const { data: escrow, error } = await supabase.from('escrows').insert({
+      const { data: escrow, error } = await sbPost('escrows', {
         escrow_code: `ESC-${Date.now()}-${uuidv4().slice(0, 8).toUpperCase()}`,
         merchant_id: data.merchantId,
         buyer_id: data.buyerId,
@@ -111,7 +91,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         confirmation_window_hours: data.confirmationWindowHours,
         metadata: data.metadata ? JSON.stringify(data.metadata) : null,
         status: 'CREATED',
-      }).select().single();
+      });
 
       if (error) throw error;
       return res.status(201).json({ success: true, data: escrow });

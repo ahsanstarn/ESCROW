@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/utils';
 import { api } from '@/lib/api';
 import AccountHeader from '@/components/layout/AccountHeader';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import {
   TrendingUp,
   AlertTriangle,
@@ -74,14 +75,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
   ];
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-[#f0f5f0] flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#A3E635] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm text-slate-500">Loading analytics...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner fullScreen message="Loading analytics..." />;
   }
 
   return (

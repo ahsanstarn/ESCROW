@@ -11,6 +11,7 @@ export function useAuth() {
   const [session, setSession] = useState<AuthSession | null>(null);
   const [user, setUser] = useState<AuthSession['user']>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem('escrow_session');
@@ -24,9 +25,11 @@ export function useAuth() {
           refreshSession(parsed.refresh_token);
         } else {
           localStorage.removeItem('escrow_session');
+          setError('Session expired. Please sign in again.');
         }
       } catch {
         localStorage.removeItem('escrow_session');
+        setError('Invalid session data. Please sign in again.');
       }
     }
     setLoading(false);
@@ -44,15 +47,18 @@ export function useAuth() {
         setSession(data);
         setUser(data.user);
         localStorage.setItem('escrow_session', JSON.stringify(data));
+        setError(null);
       } else {
         localStorage.removeItem('escrow_session');
         setSession(null);
         setUser(null);
+        setError('Session refresh failed. Please sign in again.');
       }
     } catch {
       localStorage.removeItem('escrow_session');
       setSession(null);
       setUser(null);
+      setError('Network error during session refresh.');
     }
   };
 
@@ -63,7 +69,7 @@ export function useAuth() {
       window.location.href = url;
     } catch (error) {
       console.error('Sign in error:', error);
-      alert('Failed to sign in with Google.');
+      setError('Failed to initiate Google sign in.');
     }
   }, []);
 
@@ -79,9 +85,11 @@ export function useAuth() {
       setSession(data);
       setUser(data.user);
       localStorage.setItem('escrow_session', JSON.stringify(data));
+      setError(null);
       return true;
     } catch (error) {
       console.error('Callback error:', error);
+      setError('Authentication failed. Please try again.');
       return false;
     }
   }, []);
@@ -95,11 +103,16 @@ export function useAuth() {
           body: JSON.stringify({ access_token: session.access_token }),
         });
       }
-    } catch { /* empty */ }
+    } catch {
+      // Logout endpoint may fail, but we still clear local state
+    }
     localStorage.removeItem('escrow_session');
     setSession(null);
     setUser(null);
+    setError(null);
   }, [session]);
 
-  return { session, user, loading, signInWithGoogle, handleCallback, signOut };
+  const clearError = useCallback(() => setError(null), []);
+
+  return { session, user, loading, error, clearError, signInWithGoogle, handleCallback, signOut };
 }

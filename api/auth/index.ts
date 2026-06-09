@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,9 +19,52 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       case 'login': {
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+          return res.json({ url: null, devMode: true });
+        }
         const redirectUrl = `${req.headers.origin || 'https://escrow-trust-platform.vercel.app'}/auth/callback`;
         const authUrl = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectUrl)}`;
         return res.json({ url: authUrl });
+      }
+
+      case 'dev-login': {
+        const { email } = req.body || {};
+        if (!email) return res.status(400).json({ error: 'Missing email' });
+        let user: any = null;
+        if (SUPABASE_URL && SUPABASE_SERVICE_KEY) {
+          try {
+            const userRes = await fetch(`${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email as string)}&select=*`, {
+              headers: { apikey: SUPABASE_SERVICE_KEY, Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`, 'Content-Type': 'application/json' },
+            });
+            if (userRes.ok) {
+              const users = await userRes.json();
+              user = users?.[0];
+              if (!user?.id) {
+                const name = (email as string).split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+                const newUserRes = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
+                  method: 'POST',
+                  headers: { apikey: SUPABASE_SERVICE_KEY, Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+                  body: JSON.stringify({ email: email as string, name, role: 'BUYER', kyc_status: 'PENDING', trust_score: 50, risk_score: 0 }),
+                });
+                if (newUserRes.ok) {
+                  const newUsers = await newUserRes.json();
+                  user = Array.isArray(newUsers) ? newUsers[0] : newUsers;
+                }
+              }
+            }
+          } catch { /* fallback below */ }
+        }
+        if (!user?.id) {
+          const name = (email as string).split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+          user = { id: `dev-${(email as string).replace(/[^a-z0-9]/g, '-')}`, email: email as string, name, role: 'BUYER' };
+        }
+        const mockSession = {
+          access_token: `dev_token_${user.id}`,
+          refresh_token: `dev_refresh_${user.id}`,
+          expires_at: Math.floor(Date.now() / 1000) + 86400,
+          user: { id: user.id, email: user.email, user_metadata: { name: user.name, role: user.role } },
+        };
+        return res.json(mockSession);
       }
 
       case 'callback': {

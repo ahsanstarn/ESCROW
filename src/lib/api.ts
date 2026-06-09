@@ -6,10 +6,19 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     ...options,
   });
   if (!res.ok) {
-    const error = await res.json().catch(() => ({ error: 'Request failed' }));
+    let error;
+    try {
+      error = await res.json();
+    } catch {
+      error = { error: `Request failed with status ${res.status}` };
+    }
     throw new Error(error.error || `HTTP ${res.status}`);
   }
-  return res.json();
+  try {
+    return await res.json();
+  } catch {
+    throw new Error('Invalid response from server');
+  }
 }
 
 export const api = {
@@ -30,6 +39,8 @@ export const api = {
     list: (role?: string) =>
       request<{ success: boolean; data: any[] }>(`/users${role ? `?role=${role}` : ''}`),
     get: (id: string) => request<{ success: boolean; data: any }>(`/users/${id}`),
+    getByEmail: (email: string) =>
+      request<{ success: boolean; data: any }>(`/users?email=${encodeURIComponent(email)}`),
     stats: (id: string) => request<{ success: boolean; data: any }>(`/users?stats=true&id=${id}`),
     create: (data: any) =>
       request<{ success: boolean; data: any }>('/users', { method: 'POST', body: JSON.stringify(data) }),
@@ -61,6 +72,18 @@ export const api = {
   },
   analytics: {
     platform: () => request<{ success: boolean; data: any }>('/analytics'),
+  },
+  bankAccounts: {
+    list: (userId: string) =>
+      request<{ success: boolean; data: any[] }>(`/bank-accounts?userId=${userId}`),
+    create: (data: any) =>
+      request<{ success: boolean; data: any }>('/bank-accounts', { method: 'POST', body: JSON.stringify(data) }),
+    delete: (id: string) =>
+      request<{ success: boolean }>(`/bank-accounts?id=${id}`, { method: 'DELETE' }),
+  },
+  users2: {
+    update: (data: any) =>
+      request<{ success: boolean; data: any }>('/users/update', { method: 'PUT', body: JSON.stringify(data) }),
   },
   webhooks: {
     config: (userId: string) =>

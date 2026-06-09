@@ -6,6 +6,8 @@ import { CountdownTimer } from '@/components/ui/CountdownTimer';
 import { Escrow, UserRole } from '@/types';
 import { formatCurrency, formatDate, getEscrowStatusLabel, getEscrowStatusColor } from '@/lib/utils';
 import { api } from '@/lib/api';
+import { useToast } from '@/components/ui/Toast';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { ArrowLeft, Shield, Package, Clock, DollarSign, User, AlertTriangle, Truck, CheckCircle } from 'lucide-react';
 
 interface EscrowDetailProps {
@@ -16,6 +18,7 @@ interface EscrowDetailProps {
 export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [escrow, setEscrow] = useState<Escrow | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
@@ -30,9 +33,10 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
     if (!id) return;
     api.escrows.get(id).then(res => {
       setEscrow(res.data);
-      setLoading(false);
-    }).catch(() => setLoading(false));
-  }, [id]);
+    }).catch(() => {
+      showToast('Failed to load escrow details', 'error');
+    }).finally(() => setLoading(false));
+  }, [id, showToast]);
 
   const handleAction = async (action: string, data: any = {}) => {
     if (!id) return;
@@ -43,8 +47,9 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
       setEscrow(res.data);
       setShowDisputeForm(false);
       setShowShipForm(false);
+      showToast(`Action "${action}" completed successfully`, 'success');
     } catch (err) {
-      alert((err as Error).message);
+      showToast((err as Error).message || 'Action failed', 'error');
     }
     setActionLoading(false);
   };
@@ -69,9 +74,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
   if (loading) {
     return (
       <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
-        <div className="flex items-center justify-center h-64">
-          <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
-        </div>
+        <LoadingSpinner message="Loading escrow..." />
       </div>
     );
   }

@@ -6,13 +6,14 @@ const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-
 
 async function sbGet(table: string, params: Record<string, string> = {}) {
   const url = new URL(`${BASE()}/${table}`);
+  url.searchParams.set('select', '*');
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
   const res = await fetch(url.toString(), { headers: HDRS() });
   const text = await res.text();
   return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
 }
 
-async function sbPost(table: string, row: Record<string, any> | Record<string, any>[]) {
+async function sbPost(table: string, row: Record<string, any>) {
   const res = await fetch(`${BASE()}/${table}`, { method: 'POST', headers: HDRS(), body: JSON.stringify(row) });
   const text = await res.text();
   const data = text ? JSON.parse(text) : [];
@@ -33,49 +34,35 @@ async function sbDelete(table: string, filterCol: string, filterVal: string) {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
     if (req.method === 'GET') {
-      const { courierId } = req.query;
-      if (courierId) {
-        const { data, error } = await sbGet('deliveries', {
-          select: '*, escrow:escrows(id, escrow_code, amount, status, product_type, description)',
-          courier_id: `eq.${courierId}`,
-          order: 'created_at.desc',
-        });
-        if (error) throw new Error(error.message);
-        return res.json({ success: true, data: data || [] });
-      }
-      const { data, error } = await sbGet('deliveries', {
-        select: '*',
-        order: 'created_at.desc',
-        limit: '50',
-      });
+      const { userId } = req.query;
+      if (!userId) return res.status(400).json({ error: 'Missing userId' });
+      const { data, error } = await sbGet('bank_accounts', { user_id: `eq.${userId}`, select: '*' });
       if (error) throw new Error(error.message);
       return res.json({ success: true, data: data || [] });
     }
 
     if (req.method === 'POST') {
-      const { escrowId, courierId } = req.body;
-      const { data, error } = await sbPost('deliveries', {
-        escrow_id: escrowId, courier_id: courierId,
+      const { userId, bankName, accountNumber, currency } = req.body;
+      if (!userId || !bankName || !accountNumber) return res.status(400).json({ error: 'Missing required fields' });
+      const { data, error } = await sbPost('bank_accounts', {
+        user_id: userId, bank_name: bankName, account_number: accountNumber, currency: currency || 'USD',
       });
       if (error) throw new Error(error.message);
       return res.status(201).json({ success: true, data });
     }
 
-    if (req.method === 'PUT') {
-      const { id, status, trackingId, proofUrl, notes } = req.body;
-      const updates: Record<string, unknown> = { status, tracking_id: trackingId, proof_url: proofUrl, notes };
-      if (status === 'PICKED_UP') updates.picked_up_at = new Date().toISOString();
-      if (status === 'DELIVERED') updates.delivered_at = new Date().toISOString();
-
-      const { data, error } = await sbPatch('deliveries', updates, 'id', id);
+    if (req.method === 'DELETE') {
+      const { id } = req.query;
+      if (!id) return res.status(400).json({ error: 'Missing id' });
+      const { error } = await sbDelete('bank_accounts', 'id', id as string);
       if (error) throw new Error(error.message);
-      return res.json({ success: true, data });
+      return res.json({ success: true });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

@@ -7,12 +7,6 @@ interface BuyerCardsProps {
   userName?: string;
 }
 
-const cards = [
-  { name: 'Visa Business', number: '•••• 4819', expiry: '09/26', color: 'from-[#A3E635] to-[#78c800]', textColor: 'text-black', limit: '$10,000', spent: '$3,200' },
-  { name: 'Mastercard', number: '•••• 8934', expiry: '11/25', color: 'from-teal-400 to-teal-600', textColor: 'text-white', limit: '$5,000', spent: '$1,800' },
-  { name: 'Virtual Card', number: '•••• 7813', expiry: '03/27', color: 'from-slate-700 to-slate-900', textColor: 'text-white', limit: '$2,500', spent: '$950' },
-];
-
 export default function BuyerCards({ userId, userName }: BuyerCardsProps) {
   const [onlineTx, setOnlineTx] = useState(true);
   const [txNotifs, setTxNotifs] = useState(true);
@@ -29,36 +23,20 @@ export default function BuyerCards({ userId, userName }: BuyerCardsProps) {
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {cards.map((card, i) => (
-            <div key={i} className={`rounded-2xl p-6 bg-gradient-to-br ${card.color} shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer`}>
-              <div className="flex items-center justify-between mb-8">
-                <span className={`text-sm font-bold tracking-wider ${card.textColor}`}>ESCROW</span>
-                <CreditCard className={`w-6 h-6 ${card.textColor} opacity-50`} />
-              </div>
-              <p className={`text-lg font-mono tracking-widest mb-4 ${card.textColor}`}>{card.number}</p>
-              <div className="flex justify-between items-end">
-                <div>
-                  <p className={`text-[10px] ${card.textColor} opacity-60`}>CARD HOLDER</p>
-                  <p className={`text-xs font-medium ${card.textColor}`}>BUYER ACCOUNT</p>
-                </div>
-                <div className="text-right">
-                  <p className={`text-[10px] ${card.textColor} opacity-60`}>EXPIRES</p>
-                  <p className={`text-xs font-medium ${card.textColor}`}>{card.expiry}</p>
-                </div>
-              </div>
-              <div className="mt-4 pt-4 border-t border-white/20 flex justify-between">
-                <div>
-                  <p className={`text-[10px] ${card.textColor} opacity-60`}>LIMIT</p>
-                  <p className={`text-xs font-bold ${card.textColor}`}>{card.limit}</p>
-                </div>
-                <div className="text-right">
-                  <p className={`text-[10px] ${card.textColor} opacity-60`}>SPENT</p>
-                  <p className={`text-xs font-bold ${card.textColor}`}>{card.spent}</p>
-                </div>
-              </div>
+        {/* Empty state */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 md:p-12 mb-8">
+          <div className="flex flex-col items-center text-center max-w-sm mx-auto">
+            <div className="w-16 h-16 rounded-full bg-[#A3E635]/20 flex items-center justify-center mb-4">
+              <CreditCard className="w-8 h-8 text-[#A3E635]" />
             </div>
-          ))}
+            <h2 className="font-bold text-lg text-slate-900 mb-2">No Payment Cards Yet</h2>
+            <p className="text-sm text-slate-500 mb-6">
+              Add a payment card to start making secure transactions.
+            </p>
+            <button className="px-6 py-2.5 bg-[#A3E635] text-black font-semibold text-sm rounded-lg hover:bg-[#b8ed5a] transition-colors">
+              + Add New Card
+            </button>
+          </div>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">

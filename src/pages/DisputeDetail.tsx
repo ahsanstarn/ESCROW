@@ -4,6 +4,8 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { Dispute, UserRole } from '@/types';
 import { formatCurrency, formatDate, getDisputeStatusLabel, getDisputeStatusColor } from '@/lib/utils';
 import { api } from '@/lib/api';
+import { useToast } from '@/components/ui/Toast';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { ArrowLeft, Shield, FileText, Upload, Clock, User, AlertTriangle, CheckCircle, Gavel } from 'lucide-react';
 
 interface DisputeDetailProps {
@@ -14,6 +16,7 @@ interface DisputeDetailProps {
 export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [dispute, setDispute] = useState<Dispute | null>(null);
   const [loading, setLoading] = useState(true);
   const [newEvidence, setNewEvidence] = useState('');
@@ -28,9 +31,10 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
     if (!id) return;
     api.disputes.get(id).then(res => {
       setDispute(res.data);
-      setLoading(false);
-    }).catch(() => setLoading(false));
-  }, [id]);
+    }).catch(() => {
+      showToast('Failed to load dispute details', 'error');
+    }).finally(() => setLoading(false));
+  }, [id, showToast]);
 
   const submitEvidence = async () => {
     if (!id || !newEvidence.trim()) return;
@@ -43,8 +47,9 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
       const res = await api.disputes.get(id);
       setDispute(res.data);
       setNewEvidence('');
+      showToast('Evidence submitted successfully', 'success');
     } catch (err) {
-      alert((err as Error).message);
+      showToast((err as Error).message || 'Failed to submit evidence', 'error');
     }
   };
 
@@ -61,8 +66,9 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
       setDispute(res.data);
       setShowResolveForm(false);
       setResolution({ outcome: '', resolutionNotes: '' });
+      showToast('Dispute resolved successfully', 'success');
     } catch (err) {
-      alert((err as Error).message);
+      showToast((err as Error).message || 'Failed to resolve dispute', 'error');
     }
     setResolving(false);
   };
@@ -72,9 +78,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
   if (loading) {
     return (
       <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
-        <div className="flex items-center justify-center h-64">
-          <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
-        </div>
+        <LoadingSpinner message="Loading dispute..." />
       </div>
     );
   }

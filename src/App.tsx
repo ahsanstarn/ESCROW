@@ -2,27 +2,17 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocat
 import { LanguageProvider } from './i18n';
 import { Sidebar } from './components/layout/Sidebar';
 import { MerchantDashboard } from './pages/MerchantDashboard';
-import { CustomerDashboard } from './pages/CustomerDashboard';
 import { CourierDashboard } from './pages/CourierDashboard';
-import { AdminDashboard } from './pages/AdminDashboard';
 import SellerDashboard from './pages/SellerDashboard';
 import SellerOrders from './pages/SellerOrders';
-import SellerWallet from './pages/SellerWallet';
-import SellerDisputes from './pages/SellerDisputes';
-import SellerAnalytics from './pages/SellerAnalytics';
-import SellerApi from './pages/SellerApi';
-import SellerSettings from './pages/SellerSettings';
 import BuyerOverview from './pages/BuyerOverview';
 import BuyerTransactions from './pages/BuyerTransactions';
-import BuyerCards from './pages/BuyerCards';
-import BuyerSettings from './pages/BuyerSettings';
-import { AgencyDashboard } from './pages/AgencyDashboard';
-import AgencyOverview from './pages/AgencyOverview';
-import AgencyBulkOrders from './pages/AgencyBulkOrders';
-import AgencyEscrowFinance from './pages/AgencyEscrowFinance';
-import AgencyDisputes from './pages/AgencyDisputes';
-import AgencyReports from './pages/AgencyReports';
-import AgencyApi from './pages/AgencyApi';
+import BankAccounts from './pages/BankAccounts';
+import Profile from './pages/Profile';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminUsers from './pages/AdminUsers';
+import AdminUserDetail from './pages/AdminUserDetail';
+import AdminKyc from './pages/AdminKyc';
 import { EscrowDetail } from './pages/EscrowDetail';
 import { DisputeDetail } from './pages/DisputeDetail';
 import AuthCallback from './pages/AuthCallback';
@@ -40,18 +30,13 @@ import { Terms } from './pages/Terms';
 import { useState, useEffect, useCallback } from 'react';
 import { UserRole, User } from './types';
 import { api } from './lib/api';
-import { Menu, Bell, ChevronDown } from 'lucide-react';
+import { useAuth } from './hooks/useAuth';
+import { Menu, Bell } from 'lucide-react';
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
+import { ToastProvider, useToast } from './components/ui/Toast';
+import { LoadingScreen } from './components/ui/LoadingSpinner';
 
-const ROLE_LABELS: Record<UserRole, string> = {
-  MERCHANT: 'Merchant',
-  BUYER: 'Buyer',
-  COURIER: 'Courier',
-  ADMIN: 'Admin',
-  SELLER: 'Seller',
-  AGENCY: 'Agency',
-};
-
-function MobileHeader({ currentRole, onMenuToggle }: { currentRole: UserRole; onMenuToggle: () => void }) {
+function MobileHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
   return (
     <div className="md:hidden flex items-center justify-between px-4 py-3 bg-[#111] border-b border-[#222] sticky top-0 z-40">
       <button onClick={onMenuToggle} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a1a1a] transition-colors">
@@ -76,73 +61,111 @@ function MobileHeader({ currentRole, onMenuToggle }: { currentRole: UserRole; on
 
 function DashboardLayout() {
   const navigate = useNavigate();
-  const [currentRole, setCurrentRole] = useState<UserRole>('MERCHANT');
-  const [users, setUsers] = useState<User[]>([]);
+  const { session, loading: authLoading } = useAuth();
+  const { showToast } = useToast();
+  const [currentRole, setCurrentRole] = useState<UserRole>(() => {
+    const saved = localStorage.getItem('escrow_role');
+    return (saved as UserRole) || 'SELLER';
+  });
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const fetchUsers = useCallback(async () => {
+  const fetchUser = useCallback(async () => {
+    if (!session?.user?.email) {
+      setLoading(false);
+      return;
+    }
+    const sessionRole = session.user?.user_metadata?.role?.toLowerCase() as UserRole | undefined;
+    const sessionName = session.user?.user_metadata?.name || session.user?.email;
+
     try {
       let res = await api.users.list();
       if (res.data.length === 0) {
-        await fetch('/api/seed', { method: 'POST' });
-        res = await api.users.list();
+        try {
+          await fetch('/api/seed', { method: 'POST' });
+          res = await api.users.list();
+        } catch {
+          showToast('Failed to initialize platform data', 'error');
+        }
       }
-      setUsers(res.data);
-    } catch { /* empty */ }
+      const matched = res.data.find((u: User) => u.email === session.user?.email);
+      if (matched) {
+        setCurrentUser(matched);
+        const savedRole = localStorage.getItem('escrow_role') as UserRole;
+        if (!savedRole) setCurrentRole(matched.role);
+      } else {
+        const fallbackRole = sessionRole || 'SELLER';
+        setCurrentUser({ id: session.user?.id || '', email: session.user?.email || '', name: sessionName, role: fallbackRole, kycStatus: 'VERIFIED', riskScore: 0, trustScore: 80, createdAt: new Date().toISOString() });
+        const savedRole = localStorage.getItem('escrow_role') as UserRole;
+        if (!savedRole) setCurrentRole(fallbackRole);
+      }
+    } catch {
+      const fallbackRole = sessionRole || 'SELLER';
+      setCurrentUser({ id: session.user?.id || '', email: session.user?.email || '', name: sessionName, role: fallbackRole, kycStatus: 'VERIFIED', riskScore: 0, trustScore: 80, createdAt: new Date().toISOString() });
+      const savedRole = localStorage.getItem('escrow_role') as UserRole;
+      if (!savedRole) setCurrentRole(fallbackRole);
+      showToast('Could not load user data. Using default profile.', 'info');
+    }
     setLoading(false);
-  }, []);
-
-  useEffect(() => { fetchUsers(); }, [fetchUsers]);
-
-  const currentUser = users.find(u => u.role === currentRole);
+  }, [session, showToast]);
 
   const handleRoleChange = (role: UserRole) => {
     setCurrentRole(role);
-    navigate(`/${role.toLowerCase()}`);
+    localStorage.setItem('escrow_role', role);
+    navigate(`/${role.toLowerCase()}`, { replace: true });
   };
 
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-black">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-brand-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm text-slate-400">Loading platform...</p>
-        </div>
-      </div>
-    );
+  useEffect(() => {
+    if (!authLoading) {
+      if (!session) {
+        navigate('/login', { replace: true });
+        return;
+      }
+      fetchUser();
+    }
+  }, [session, authLoading, fetchUser, navigate]);
+
+  if (authLoading || loading) {
+    return <LoadingScreen />;
   }
+
+  if (!session) return null;
 
   return (
     <div className="flex h-screen overflow-hidden bg-black">
-      <Sidebar currentRole={currentRole} onRoleChange={handleRoleChange} currentUser={currentUser} mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} />
+      <Sidebar currentRole={currentRole} currentUser={currentUser || undefined} mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} onRoleChange={handleRoleChange} />
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
-        <MobileHeader currentRole={currentRole} onMenuToggle={() => setMobileOpen(true)} />
+        <MobileHeader onMenuToggle={() => setMobileOpen(true)} />
         <main className="flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Navigate to={`/${currentRole.toLowerCase()}`} replace />} />
-            <Route path="/merchant" element={<MerchantDashboard userId={currentUser?.id} />} />
+
             <Route path="/seller" element={<SellerDashboard userId={currentUser?.id} userName={currentUser?.name} />} />
-            <Route path="/seller/orders" element={<SellerOrders userId={currentUser?.id} userName={currentUser?.name} />} />
-            <Route path="/seller/wallet" element={<SellerWallet userId={currentUser?.id} userName={currentUser?.name} />} />
-            <Route path="/seller/disputes" element={<SellerDisputes userId={currentUser?.id} userName={currentUser?.name} />} />
-            <Route path="/seller/analytics" element={<SellerAnalytics userId={currentUser?.id} userName={currentUser?.name} />} />
-            <Route path="/seller/api" element={<SellerApi userId={currentUser?.id} userName={currentUser?.name} />} />
-            <Route path="/seller/settings" element={<SellerSettings userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/seller/transactions" element={<SellerOrders userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/seller/bank-accounts" element={<BankAccounts userId={currentUser?.id} userName={currentUser?.name} role="seller" />} />
+            <Route path="/seller/profile" element={<Profile userId={currentUser?.id} userName={currentUser?.name} role="seller" />} />
+
+            <Route path="/merchant" element={<MerchantDashboard userId={currentUser?.id} />} />
+
             <Route path="/buyer" element={<BuyerOverview userId={currentUser?.id} userName={currentUser?.name} />} />
             <Route path="/buyer/transactions" element={<BuyerTransactions userId={currentUser?.id} userName={currentUser?.name} />} />
-            <Route path="/buyer/cards" element={<BuyerCards userId={currentUser?.id} userName={currentUser?.name} />} />
-            <Route path="/buyer/settings" element={<BuyerSettings userId={currentUser?.id} userName={currentUser?.name} />} />
+            <Route path="/buyer/bank-accounts" element={<BankAccounts userId={currentUser?.id} userName={currentUser?.name} role="buyer" />} />
+            <Route path="/buyer/profile" element={<Profile userId={currentUser?.id} userName={currentUser?.name} role="buyer" />} />
+
             <Route path="/courier" element={<CourierDashboard userId={currentUser?.id} />} />
+
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/agency" element={<AgencyOverview />} />
-            <Route path="/agency/bulk-orders" element={<AgencyBulkOrders />} />
-            <Route path="/agency/escrow-finance" element={<AgencyEscrowFinance />} />
-            <Route path="/agency/disputes" element={<AgencyDisputes />} />
-            <Route path="/agency/reports" element={<AgencyReports />} />
-            <Route path="/agency/api" element={<AgencyApi />} />
+            <Route path="/admin/users" element={<AdminUsers userId={currentUser?.id} />} />
+            <Route path="/admin/users/:id" element={<AdminUserDetail />} />
+            <Route path="/admin/kyc" element={<AdminKyc />} />
+
+            <Route path="/agency" element={<SellerDashboard userId={currentUser?.id} userName={currentUser?.name} />} />
+
             <Route path="/escrow/:id" element={<EscrowDetail userId={currentUser?.id} userRole={currentRole} />} />
             <Route path="/dispute/:id" element={<DisputeDetail userId={currentUser?.id} userRole={currentRole} />} />
+
+            <Route path="*" element={<Navigate to={`/${currentRole.toLowerCase()}`} replace />} />
           </Routes>
         </main>
       </div>
@@ -177,10 +200,14 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <Router>
-        <AppRoutes />
-      </Router>
-    </LanguageProvider>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <ToastProvider>
+          <Router>
+            <AppRoutes />
+          </Router>
+        </ToastProvider>
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }

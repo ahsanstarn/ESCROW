@@ -1,208 +1,138 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/utils';
 import { api } from '@/lib/api';
-import AccountHeader from '@/components/layout/AccountHeader';
-import {
-  Wallet,
-  ArrowUpRight,
-  Clock,
-  AlertTriangle,
-  TrendingUp,
-  ChevronDown,
-  ChevronUp,
-  Package,
-  Truck,
-  CheckCircle,
-  XCircle,
-} from 'lucide-react';
-import { Escrow, UserStats, User } from '@/types';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { Eye, X } from 'lucide-react';
+import { Escrow, User } from '@/types';
 
 interface SellerDashboardProps {
   userId?: string;
   userName?: string;
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const map: Record<string, { bg: string; icon: React.ReactNode; label: string }> = {
-    RELEASED: { bg: 'bg-emerald-50 text-emerald-700', icon: <CheckCircle className="w-3 h-3" />, label: 'Released' },
-    DEPOSITED: { bg: 'bg-[#A3E635]/20 text-emerald-800', icon: <Clock className="w-3 h-3" />, label: 'Funds Held' },
-    SHIPPED: { bg: 'bg-[#A3E635]/20 text-emerald-800', icon: <Clock className="w-3 h-3" />, label: 'Shipped' },
-    IN_TRANSIT: { bg: 'bg-[#A3E635]/20 text-emerald-800', icon: <Clock className="w-3 h-3" />, label: 'In Transit' },
-    DELIVERED: { bg: 'bg-amber-50 text-amber-700', icon: <Package className="w-3 h-3" />, label: 'Delivered' },
-    CONFIRMED: { bg: 'bg-emerald-50 text-emerald-700', icon: <CheckCircle className="w-3 h-3" />, label: 'Confirmed' },
-    DISPUTED: { bg: 'bg-red-50 text-red-700', icon: <XCircle className="w-3 h-3" />, label: 'Disputed' },
-    CREATED: { bg: 'bg-slate-100 text-slate-700', icon: <Clock className="w-3 h-3" />, label: 'Created' },
-    REFUNDED: { bg: 'bg-amber-50 text-amber-700', icon: <AlertTriangle className="w-3 h-3" />, label: 'Refunded' },
-    CANCELLED: { bg: 'bg-slate-100 text-slate-500', icon: <XCircle className="w-3 h-3" />, label: 'Cancelled' },
-  };
-  const s = map[status] || { bg: 'bg-slate-100 text-slate-700', icon: null, label: status };
-  return (
-    <span className={`inline-flex items-center gap-1 px-2 md:px-2.5 py-1 rounded-full text-[10px] md:text-xs font-medium ${s.bg}`}>
-      {s.icon} {s.label}
-    </span>
-  );
-}
-
-function RiskBadge({ risk }: { risk: string }) {
-  const color = risk === 'Low' ? 'bg-emerald-50 text-emerald-700' : risk === 'Medium' ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-700';
-  return <span className={`inline-flex items-center px-2 py-1 rounded-full text-[10px] md:text-xs font-medium ${color}`}>{risk}</span>;
-}
-
-function getRiskLevel(score: number): string {
-  if (score >= 80) return 'Low';
-  if (score >= 50) return 'Medium';
-  return 'High';
-}
-
 export default function SellerDashboard({ userId, userName }: SellerDashboardProps) {
   const [escrows, setEscrows] = useState<Escrow[]>([]);
-  const [stats, setStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [expanded, setExpanded] = useState<number | null>(0);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [buyers, setBuyers] = useState<User[]>([]);
+  const [creating, setCreating] = useState(false);
+  const [form, setForm] = useState({ buyerId: '', amount: '', description: '', productType: 'DIGITAL' as 'DIGITAL' | 'PHYSICAL' });
 
   useEffect(() => {
     if (!userId) return;
     Promise.all([
       api.escrows.list({ merchantId: userId }),
-      api.users.stats(userId),
-    ]).then(([escrowRes, statsRes]) => {
+      api.users.list('BUYER'),
+    ]).then(([escrowRes, buyerRes]) => {
       setEscrows(escrowRes.data || []);
-      setStats(statsRes.data || null);
+      setBuyers(buyerRes.data || []);
     }).catch(() => {}).finally(() => setLoading(false));
   }, [userId]);
 
-  const activeEscrows = escrows.filter(e => ['CREATED', 'DEPOSITED', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED'].includes(e.status));
-  const disputes = escrows.filter(e => e.status === 'DISPUTED');
-  const nextRelease = escrows.find(e => e.status === 'DELIVERED' || e.status === 'CONFIRMED');
+  const thisMonth = useMemo(() => {
+    const now = new Date();
+    return escrows.filter(e => {
+      const d = new Date(e.createdAt);
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+  }, [escrows]);
 
-  const statCards = [
-    { label: 'Available Balance', value: formatCurrency((stats?.completedEscrows || 0) * 500), subtitle: 'Ready to withdraw', icon: Wallet, color: 'text-emerald-600' },
-    { label: 'Funds in Escrow', value: formatCurrency(activeEscrows.reduce((sum, e) => sum + e.amount, 0)), subtitle: 'Awaiting release', icon: Clock, color: 'text-blue-600' },
-    { label: 'Next Expected Release', value: nextRelease ? new Date(nextRelease.updatedAt).toLocaleDateString() : 'N/A', subtitle: nextRelease ? 'Upcoming' : 'No pending releases', icon: ArrowUpRight, color: 'text-purple-600' },
-    { label: 'Disputes Requiring Action', value: String(disputes.length), subtitle: disputes.length > 0 ? 'Urgent attention needed' : 'All clear', icon: AlertTriangle, color: 'text-red-500' },
-    { label: 'Trust Score', value: `${stats?.user?.trustScore || 0}/100`, subtitle: (stats?.user?.trustScore || 0) >= 80 ? 'Excellent standing' : 'Good standing', icon: TrendingUp, color: 'text-emerald-600' },
-  ];
+  const totalReceived = useMemo(() => escrows.reduce((s, e) => s + e.amount, 0), [escrows]);
+  const recentEscrows = useMemo(() => [...escrows].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5), [escrows]);
 
-  const attentionItems = activeEscrows.slice(0, 3).map(e => ({
-    id: e.id,
-    text: `${e.escrowCode} - ${e.status === 'DELIVERED' ? 'Confirm delivery' : e.status === 'SHIPPED' ? 'Track shipment' : 'Action needed'}`,
-    type: e.status === 'DELIVERED' ? 'delivery' : e.status === 'SHIPPED' ? 'shipping' : 'general',
-    urgent: e.status === 'DELIVERED',
-  }));
+  const handleCreate = async () => {
+    if (!form.buyerId || !form.amount || !userId) return;
+    setCreating(true);
+    try {
+      await api.escrows.create({
+        merchantId: userId,
+        buyerId: form.buyerId,
+        amount: parseFloat(form.amount),
+        productType: form.productType,
+        description: form.description,
+      });
+      const res = await api.escrows.list({ merchantId: userId });
+      setEscrows(res.data || []);
+      setShowCreateModal(false);
+      setForm({ buyerId: '', amount: '', description: '', productType: 'DIGITAL' });
+    } catch (err) {
+      console.error('Failed to create escrow:', err);
+    }
+    setCreating(false);
+  };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-[#f0f5f0] flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#A3E635] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm text-slate-500">Loading dashboard...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner fullScreen message="Loading dashboard..." />;
   }
 
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 md:gap-4 mb-6 md:mb-8">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-slate-900">Overview</h1>
-            <p className="mt-1 text-xs md:text-sm text-slate-500">Manage your escrows, payouts, and business metrics</p>
+            <p className="text-sm text-slate-500 mb-1">Dashboard</p>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Welcome back, {userName?.split(' ')[0] || 'User'}</h1>
           </div>
-          <AccountHeader userId={userId} userName={userName} accountId={userId} />
+          <button onClick={() => setShowCreateModal(true)} className="mt-3 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-[#A3E635] text-black font-semibold text-sm rounded-lg hover:bg-[#b8ed5a] transition-colors">
+            + New transaction
+          </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 md:gap-4 mb-6 md:mb-8">
-          {statCards.map((stat, i) => (
-            <div key={i} className="bg-white rounded-xl md:rounded-2xl p-3.5 md:p-5 shadow-sm border border-slate-100">
-              <div className="flex items-start justify-between mb-2 md:mb-3">
-                <stat.icon className={`w-4 h-4 md:w-5 md:h-5 ${stat.color}`} />
-              </div>
-              <p className="text-[10px] md:text-xs text-slate-500 mb-0.5 md:mb-1">{stat.label}</p>
-              <p className="text-base md:text-xl font-bold text-slate-900">{stat.value}</p>
-              <p className="text-[10px] md:text-xs text-slate-400 mt-0.5 md:mt-1">{stat.subtitle}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 lg:mb-8">
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <p className="text-sm text-slate-500 mb-1">Transactions this month</p>
+            <p className="text-2xl font-bold text-slate-900">{thisMonth.length}</p>
+            <div className="mt-3 flex items-end gap-1 h-8">
+              {Array.from({ length: 7 }, (_, i) => (
+                <div key={i} className="flex-1 bg-[#A3E635] rounded-sm" style={{ height: `${Math.max(20, (thisMonth.filter((_, j) => j <= i).length / Math.max(thisMonth.length, 1)) * 100)}%` }} />
+              ))}
             </div>
-          ))}
-        </div>
-
-        <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-slate-100 mb-6 md:mb-8">
-          <h2 className="text-base md:text-lg font-semibold text-slate-900 mb-3 md:mb-4">What Needs Attention</h2>
-          <div className="space-y-2">
-            {attentionItems.length === 0 ? (
-              <p className="text-sm text-slate-500 py-4 text-center">No items requiring attention right now.</p>
-            ) : (
-              attentionItems.map((item, i) => (
-                <div key={item.id} className="border border-slate-100 rounded-xl overflow-hidden">
-                  <button
-                    onClick={() => setExpanded(expanded === i ? null : i)}
-                    className="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 text-left hover:bg-slate-50 transition-colors"
-                  >
-                    <div className={`w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${item.urgent ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}`}>
-                      {item.type === 'delivery' ? <Truck className="w-3.5 h-3.5 md:w-4 md:h-4" /> : item.type === 'shipping' ? <Package className="w-3.5 h-3.5 md:w-4 md:h-4" /> : <AlertTriangle className="w-3.5 h-3.5 md:w-4 md:h-4" />}
-                    </div>
-                    <span className="flex-1 text-xs md:text-sm font-medium text-slate-900 truncate">{item.text}</span>
-                    {expanded === i ? <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />}
-                  </button>
-                  {expanded === i && (
-                    <div className="px-3 md:px-4 pb-3 md:pb-4 pl-10 md:pl-16">
-                      <p className="text-xs md:text-sm text-slate-500 mb-2 md:mb-3">
-                        {item.type === 'delivery'
-                          ? 'This order has been marked as shipped. Please confirm delivery once the package reaches the buyer.'
-                          : item.type === 'shipping'
-                          ? 'Upload tracking information and shipping proof to proceed with escrow release.'
-                          : 'This item requires your attention.'}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <Link to={`/escrow/${item.id}`} className="px-3 md:px-4 py-1.5 md:py-2 bg-[#A3E635] text-black text-xs md:text-sm font-medium rounded-lg hover:bg-[#95d630] transition-colors">
-                          {item.type === 'delivery' ? 'Mark as Delivered' : item.type === 'shipping' ? 'Upload Proof' : 'View'}
-                        </Link>
-                        <Link to={`/escrow/${item.id}`} className="px-3 md:px-4 py-1.5 md:py-2 bg-slate-100 text-slate-700 text-xs md:text-sm font-medium rounded-lg hover:bg-slate-200 transition-colors">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))
-            )}
+          </div>
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <p className="text-sm text-slate-500 mb-1">Amount received</p>
+            <p className="text-2xl font-bold text-slate-900">{formatCurrency(totalReceived)}</p>
+          </div>
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 sm:col-span-2 lg:col-span-1">
+            <p className="text-sm text-slate-500 mb-1">Volume in USD</p>
+            <p className="text-2xl font-bold text-slate-900">{formatCurrency(totalReceived)}</p>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4">
-            <h2 className="text-base md:text-lg font-semibold text-slate-900">Orders & Escrow Status</h2>
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <h2 className="font-bold text-slate-900">Recent Transactions</h2>
+            <Link to="/seller/transactions" className="text-sm text-slate-500 hover:text-slate-700">View all →</Link>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-xs md:text-sm">
+            <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#A3E635]">
-                  <th className="text-left py-2.5 md:py-3 px-3 md:px-4 text-black font-semibold text-[10px] md:text-xs uppercase tracking-wider">Order ID</th>
-                  <th className="text-left py-2.5 md:py-3 px-3 md:px-4 text-black font-semibold text-[10px] md:text-xs uppercase tracking-wider hidden sm:table-cell">Buyer</th>
-                  <th className="text-left py-2.5 md:py-3 px-3 md:px-4 text-black font-semibold text-[10px] md:text-xs uppercase tracking-wider">Amount</th>
-                  <th className="text-left py-2.5 md:py-3 px-3 md:px-4 text-black font-semibold text-[10px] md:text-xs uppercase tracking-wider">Status</th>
-                  <th className="text-left py-2.5 md:py-3 px-3 md:px-4 text-black font-semibold text-[10px] md:text-xs uppercase tracking-wider hidden md:table-cell">Risk</th>
-                  <th className="text-left py-2.5 md:py-3 px-3 md:px-4 text-black font-semibold text-[10px] md:text-xs uppercase tracking-wider hidden lg:table-cell">Created</th>
-                  <th className="text-left py-2.5 md:py-3 px-3 md:px-4 text-black font-semibold text-[10px] md:text-xs uppercase tracking-wider">Action</th>
+                <tr className="bg-[#f0f5f0]">
+                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Transaction</th>
+                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Date</th>
+                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Amount</th>
+                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Status</th>
+                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {escrows.length === 0 ? (
-                  <tr>
-                    <td colSpan={7} className="py-6 md:py-8 text-center text-slate-500">No orders found.</td>
-                  </tr>
+                {recentEscrows.length === 0 ? (
+                  <tr><td colSpan={5} className="py-8 text-center text-slate-500">No transactions yet. Create your first escrow!</td></tr>
                 ) : (
-                  escrows.slice(0, 10).map((order) => (
-                    <tr key={order.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                      <td className="py-2.5 md:py-3 px-3 md:px-4 font-medium text-slate-900">{order.escrowCode}</td>
-                      <td className="py-2.5 md:py-3 px-3 md:px-4 text-slate-700 hidden sm:table-cell">{order.buyer?.name || 'N/A'}</td>
-                      <td className="py-2.5 md:py-3 px-3 md:px-4 font-medium text-slate-900">{formatCurrency(order.amount)}</td>
-                      <td className="py-2.5 md:py-3 px-3 md:px-4"><StatusBadge status={order.status} /></td>
-                      <td className="py-2.5 md:py-3 px-3 md:px-4 hidden md:table-cell"><RiskBadge risk={getRiskLevel(order.platformFee > 50 ? 30 : 80)} /></td>
-                      <td className="py-2.5 md:py-3 px-3 md:px-4 text-slate-700 hidden lg:table-cell">{new Date(order.createdAt).toLocaleDateString()}</td>
-                      <td className="py-2.5 md:py-3 px-3 md:px-4">
-                        <Link to={`/escrow/${order.id}`} className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#95d630] transition-colors">
-                          View
+                  recentEscrows.map(order => (
+                    <tr key={order.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                      <td className="py-4 px-5 font-medium text-slate-900">{order.description || order.escrowCode}</td>
+                      <td className="py-4 px-5 text-slate-500">{new Date(order.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+                      <td className="py-4 px-5 font-semibold text-slate-900">{formatCurrency(order.amount)}</td>
+                      <td className="py-4 px-5">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                          {order.status === 'RELEASED' || order.status === 'CONFIRMED' ? 'Completed' : order.status === 'DISPUTED' ? 'Disputed' : 'Pending'}
+                        </span>
+                      </td>
+                      <td className="py-4 px-5">
+                        <Link to={`/escrow/${order.id}`} className="p-1.5 hover:bg-slate-100 rounded-lg inline-flex transition-colors">
+                          <Eye className="w-4 h-4 text-slate-400" />
                         </Link>
                       </td>
                     </tr>
@@ -213,6 +143,45 @@ export default function SellerDashboard({ userId, userName }: SellerDashboardPro
           </div>
         </div>
       </div>
+
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowCreateModal(false)} />
+          <div className="relative bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-bold text-slate-900">New Transaction</h2>
+              <button onClick={() => setShowCreateModal(false)} className="p-1 hover:bg-slate-100 rounded-lg"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Select Buyer</label>
+                <select value={form.buyerId} onChange={e => setForm({ ...form, buyerId: e.target.value })} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50">
+                  <option value="">Choose a buyer</option>
+                  {buyers.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Amount (USD)</label>
+                <input type="number" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} placeholder="0.00" className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Product Type</label>
+                <select value={form.productType} onChange={e => setForm({ ...form, productType: e.target.value as 'DIGITAL' | 'PHYSICAL' })} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50">
+                  <option value="DIGITAL">Digital Service</option>
+                  <option value="PHYSICAL">Physical Product</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Description</label>
+                <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Describe the transaction..." rows={3} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 resize-none" />
+              </div>
+              <button onClick={handleCreate} disabled={creating || !form.buyerId || !form.amount} className="w-full py-2.5 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors disabled:opacity-50">
+                {creating ? 'Creating...' : 'Create Escrow'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

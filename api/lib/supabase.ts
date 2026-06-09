@@ -1,218 +1,149 @@
-type Result = { data: any; count: number | null; error: { message: string } | null };
+const getBaseUrl = () => `${process.env.SUPABASE_URL}/rest/v1`;
+const getKey = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const getHeaders = () => ({
+  apikey: getKey(),
+  Authorization: `Bearer ${getKey()}`,
+  'Content-Type': 'application/json',
+  Prefer: 'return=representation',
+});
 
-const URL_BASE = () => {
-  const url = process.env.SUPABASE_URL;
-  if (!url) throw new Error('SUPABASE_URL is not set');
-  return `${url}/rest/v1`;
-};
+export async function sbQuery(table: string, params?: { select?: string; filters?: Record<string, string>; order?: string; limit?: number; single?: boolean; countOnly?: boolean }) {
+  const url = new URL(`${getBaseUrl()}/${table}`);
+  url.searchParams.set('select', params?.select || '*');
+  if (params?.filters) {
+    for (const [k, v] of Object.entries(params.filters)) {
+      url.searchParams.set(k, v);
+    }
+  }
+  if (params?.order) url.searchParams.set('order', params.order);
+  if (params?.limit) url.searchParams.set('limit', String(params.limit));
 
-const KEY = () => {
-  const k = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!k) throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set');
-  return k;
-};
+  const headers: Record<string, string> = { ...getHeaders() };
+  if (params?.countOnly) {
+    headers.Prefer = 'count=exact';
+    headers.Range = '0-0';
+  }
 
-function headers(extra?: Record<string, string>) {
-  return {
-    apikey: KEY(),
-    Authorization: `Bearer ${KEY()}`,
-    'Content-Type': 'application/json',
-    Prefer: 'return=representation',
-    ...extra,
-  };
+  const res = await fetch(url.toString(), { headers });
+  if (params?.countOnly) {
+    const cr = res.headers.get('content-range');
+    const total = cr ? parseInt(cr.split('/')[1]) : 0;
+    return { data: null, count: total, error: null };
+  }
+  const text = await res.text();
+  const rows = text ? JSON.parse(text) : [];
+  if (!res.ok) return { data: null, error: { message: text || res.statusText } };
+  if (params?.single) return { data: rows[0] || null, error: null };
+  return { data: rows, error: null };
 }
 
-class QueryBuilder {
+export async function sbInsert(table: string, row: Record<string, any> | Record<string, any>[], opts?: { single?: boolean }) {
+  const res = await fetch(`${getBaseUrl()}/${table}`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify(row),
+  });
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : [];
+  if (!res.ok) return { data: null, error: { message: text } };
+  if (opts?.single) return { data: Array.isArray(data) ? data[0] : data, error: null };
+  return { data, error: null };
+}
+
+export async function sbUpdate(table: string, updates: Record<string, any>, filter: { col: string; val: string }) {
+  const url = `${getBaseUrl()}/${table}?${filter.col}=eq.${encodeURIComponent(filter.val)}`;
+  const res = await fetch(url, { method: 'PATCH', headers: getHeaders(), body: JSON.stringify(updates) });
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : [];
+  if (!res.ok) return { data: null, error: { message: text } };
+  return { data: data[0] || null, error: null };
+}
+
+export async function sbDelete(table: string, filter: { col: string; val: string }) {
+  const url = `${getBaseUrl()}/${table}?${filter.col}=eq.${encodeURIComponent(filter.val)}`;
+  const res = await fetch(url, { method: 'DELETE', headers: getHeaders() });
+  if (!res.ok) { const t = await res.text(); return { data: null, error: { message: t } }; }
+  return { data: null, error: null };
+}
+
+export async function sbRpc(fnName: string, params?: Record<string, any>) {
+  const url = `${getBaseUrl()}/rpc/${fnName}`;
+  const res = await fetch(url, { method: 'POST', headers: getHeaders(), body: JSON.stringify(params || {}) });
+  if (!res.ok) return { data: null, error: { message: res.statusText } };
+  const data = await res.json();
+  return { data, error: null };
+}
+
+class Query {
   table: string;
   _select = '*';
   _filters: [string, string, string][] = [];
-  _inFilters: [string, string[]][] = [];
-  _order?: { col: string; asc: boolean };
-  _limit?: number;
-  _offset?: number;
-  _countOnly = false;
   _single = false;
+  _countOnly = false;
+  _order?: string;
+  _limit?: number;
 
   constructor(table: string) { this.table = table; }
-
-  select(cols = '*', opts?: { count?: string; head?: boolean }) {
-    this._select = cols;
-    if (opts?.head) this._countOnly = true;
-    return this;
-  }
-
+  select(cols = '*', opts?: { count?: string; head?: boolean }) { this._select = cols; if (opts?.head) this._countOnly = true; return this; }
   eq(col: string, val: string) { this._filters.push([col, 'eq', val]); return this; }
-  in(col: string, vals: string[]) { this._inFilters.push([col, vals]); return this; }
-  gte(col: string, val: string) { this._filters.push([col, 'gte', val]); return this; }
   single() { this._single = true; return this; }
-  order(col: string, opts?: { ascending?: boolean }) { this._order = { col, asc: opts?.ascending ?? true }; return this; }
-  range(from: number, to: number) { this._offset = from; this._limit = to - from + 1; return this; }
+  order(col: string, opts?: { ascending?: boolean }) { this._order = `${col}.${opts?.ascending !== false ? 'asc' : 'desc'}`; return this; }
   limit(n: number) { this._limit = n; return this; }
 
-  private buildUrl(countMode = false): string {
-    let url = `${URL_BASE()}/${this.table}?select=${this._select}`;
-    for (const [col, op, val] of this._filters) url += `&${col}=${op}.${encodeURIComponent(val)}`;
-    for (const [col, vals] of this._inFilters) url += `&${col}=in.(${vals.map(v => encodeURIComponent(v)).join(',')})`;
-    if (this._order && !countMode) url += `&order=${this._order.col}.${this._order.asc ? 'asc' : 'desc'}`;
-    if (this._limit != null && !countMode) url += `&limit=${this._limit}`;
-    if (this._offset != null && !countMode) url += `&offset=${this._offset}`;
-    return url;
-  }
-
   then(resolve: any, reject?: any): any {
-    return this.execute().then(resolve, reject);
-  }
-
-  async execute(): Promise<Result> {
-    try {
-      if (this._countOnly) {
-        const res = await fetch(this.buildUrl(true), { headers: headers({ Prefer: 'count=exact', Range: '0-0' }) });
-        const countHeader = res.headers.get('content-range');
-        const total = countHeader ? parseInt(countHeader.split('/')[1]) : 0;
-        return { data: null, count: total, error: null };
-      }
-
-      const res = await fetch(this.buildUrl(), { headers: headers() });
-      const text = await res.text();
-      const rows = text ? JSON.parse(text) : [];
-
-      if (!res.ok) return { data: null, count: null, error: { message: text || res.statusText } };
-      if (this._single) return { data: rows[0] || null, count: null, error: null };
-      return { data: rows, count: null, error: null };
-    } catch (err: any) {
-      return { data: null, count: null, error: { message: err.message } };
-    }
+    const filters: Record<string, string> = {};
+    for (const [col, op, val] of this._filters) filters[col] = `${op}.${val}`;
+    const p: any = { select: this._select, filters, single: this._single, countOnly: this._countOnly };
+    if (this._order) p.order = this._order;
+    if (this._limit) p.limit = this._limit;
+    return sbQuery(this.table, p).then(resolve, reject);
   }
 }
 
-class InsertBuilder {
-  private table: string;
-  private rows: Record<string, any>[];
-
-  constructor(table: string, rows: Record<string, any>[]) {
-    this.table = table;
-    this.rows = rows;
-  }
-
+class Insert {
+  table: string;
+  rows: Record<string, any>[];
+  constructor(table: string, rows: Record<string, any>[]) { this.table = table; this.rows = rows; }
   select(cols = '*') {
-    const q = new QueryBuilder(this.table);
-    q._select = cols;
-    q._single = true;
-    return q;
+    const self = this;
+    return {
+      single() {
+        return { then(resolve: any, reject?: any) { return sbInsert(self.table, self.rows.length === 1 ? self.rows[0] : self.rows, { single: true }).then(resolve, reject); } };
+      },
+      then(resolve: any, reject?: any) { return sbInsert(self.table, self.rows.length === 1 ? self.rows[0] : self.rows).then(resolve, reject); },
+    };
   }
-
-  single() {
-    return this.select();
-  }
-
-  then(resolve: any, reject?: any): any {
-    return this.execute().then(resolve, reject);
-  }
-
-  async execute(): Promise<Result> {
-    try {
-      const res = await fetch(`${URL_BASE()}/${this.table}`, {
-        method: 'POST', headers: headers(), body: JSON.stringify(this.rows),
-      });
-      const text = await res.text();
-      const data = text ? JSON.parse(text) : [];
-      if (!res.ok) return { data: null, count: null, error: { message: text } };
-      return { data: Array.isArray(this.rows) && this.rows.length === 1 ? data[0] : data, count: null, error: null };
-    } catch (err: any) {
-      return { data: null, count: null, error: { message: err.message } };
-    }
-  }
+  single() { return this.select().single(); }
+  then(resolve: any, reject?: any) { return sbInsert(this.table, this.rows.length === 1 ? this.rows[0] : this.rows).then(resolve, reject); }
 }
 
-class UpdateBuilder {
-  private table: string;
-  private updates: Record<string, any>;
-  private _col?: string;
-  private _val?: string;
-
-  constructor(table: string, updates: Record<string, any>) {
-    this.table = table;
-    this.updates = updates;
-  }
-
+class Update {
+  table: string;
+  updates: Record<string, any>;
+  _col?: string;
+  _val?: string;
+  constructor(table: string, updates: Record<string, any>) { this.table = table; this.updates = updates; }
   eq(col: string, val: string) { this._col = col; this._val = val; return this; }
-
-  then(resolve: any, reject?: any): any {
-    return this.execute().then(resolve, reject);
-  }
-
-  async execute(): Promise<Result> {
-    try {
-      const url = `${URL_BASE()}/${this.table}?${this._col}=eq.${encodeURIComponent(this._val!)}`;
-      const res = await fetch(url, { method: 'PATCH', headers: headers(), body: JSON.stringify(this.updates) });
-      const text = await res.text();
-      const data = text ? JSON.parse(text) : [];
-      if (!res.ok) return { data: null, count: null, error: { message: text } };
-      return { data: data[0] || null, count: null, error: null };
-    } catch (err: any) {
-      return { data: null, count: null, error: { message: err.message } };
-    }
-  }
+  then(resolve: any, reject?: any) { return sbUpdate(this.table, this.updates, { col: this._col!, val: this._val! }).then(resolve, reject); }
 }
 
-class DeleteBuilder {
-  private table: string;
-  private _col?: string;
-  private _val?: string;
-
+class Del {
+  table: string;
+  _col?: string;
+  _val?: string;
   constructor(table: string) { this.table = table; }
-
   eq(col: string, val: string) { this._col = col; this._val = val; return this; }
-
-  then(resolve: any, reject?: any): any {
-    return this.execute().then(resolve, reject);
-  }
-
-  async execute(): Promise<Result> {
-    try {
-      const url = `${URL_BASE()}/${this.table}?${this._col}=eq.${encodeURIComponent(this._val!)}`;
-      const res = await fetch(url, { method: 'DELETE', headers: headers() });
-      if (!res.ok) { const t = await res.text(); return { data: null, count: null, error: { message: t } }; }
-      return { data: null, count: null, error: null };
-    } catch (err: any) {
-      return { data: null, count: null, error: { message: err.message } };
-    }
-  }
+  then(resolve: any, reject?: any) { return sbDelete(this.table, { col: this._col!, val: this._val! }).then(resolve, reject); }
 }
 
-class TableOp {
+class Table {
   constructor(private table: string) {}
-
-  select(cols = '*', opts?: { count?: string; head?: boolean }) {
-    const q = new QueryBuilder(this.table);
-    return q.select(cols, opts);
-  }
-
-  insert(row: Record<string, any> | Record<string, any>[]) {
-    return new InsertBuilder(this.table, Array.isArray(row) ? row : [row]);
-  }
-
-  update(updates: Record<string, any>) {
-    return new UpdateBuilder(this.table, updates);
-  }
-
-  delete() {
-    return new DeleteBuilder(this.table);
-  }
+  select(cols = '*', opts?: { count?: string; head?: boolean }) { return new Query(this.table).select(cols, opts); }
+  insert(row: Record<string, any> | Record<string, any>[]) { return new Insert(this.table, Array.isArray(row) ? row : [row]); }
+  update(updates: Record<string, any>) { return new Update(this.table, updates); }
+  delete() { return new Del(this.table); }
 }
 
-function rpc(fnName: string, params?: Record<string, any>) {
-  return {
-    maybeSingle: async (): Promise<Result> => {
-      const url = `${URL_BASE()}/rpc/${fnName}`;
-      const res = await fetch(url, { method: 'POST', headers: headers(), body: JSON.stringify(params || {}) });
-      if (!res.ok) return { data: null, count: null, error: { message: res.statusText } };
-      const data = await res.json();
-      return { data, count: null, error: null };
-    }
-  };
-}
+function from(table: string) { return new Table(table); }
 
-function from(table: string) { return new TableOp(table); }
-
-export const supabase = { from, rpc };
+export const supabase = { from };

@@ -1,17 +1,60 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
 import { ShieldLogo } from '@/components/ui/Logo';
+import { supabase } from '@/lib/supabase';
 
 export default function Login() {
-  const { signInWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleGoogleLogin = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+      if (authError) {
+        setError(authError.message || 'Google login failed. Please try again.');
+        setLoading(false);
+        return;
+      }
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        setError('Google login is not configured. Please use email login.');
+        setLoading(false);
+      }
+    } catch (err) {
+      setError('Failed to start Google login. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = '/merchant';
+    if (!email) return;
+    setError('');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth?action=dev-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data.access_token) {
+        localStorage.setItem('escrow_session', JSON.stringify(data));
+        const role = data.user?.user_metadata?.role || 'SELLER';
+        window.location.href = `/${role.toLowerCase()}`;
+      } else {
+        setError(data.error || 'Login failed. Try one of the seed emails.');
+      }
+    } catch {
+      setError('Login failed. Please try again.');
+    }
+    setLoading(false);
   };
 
   return (
@@ -66,9 +109,16 @@ export default function Login() {
 
           <h2 className="text-xl md:text-2xl font-bold text-center text-black mb-4 md:mb-6">Log in to your account</h2>
 
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
+              {error}
+            </div>
+          )}
+
           <button
-            onClick={signInWithGoogle}
-            className="w-full py-2.5 border border-slate-200 rounded-lg text-black font-medium text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 mb-4 min-h-[44px]"
+            onClick={handleGoogleLogin}
+            disabled={loading}
+            className="w-full py-2.5 border border-slate-200 rounded-lg text-black font-medium text-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 mb-4 min-h-[44px] disabled:opacity-50"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
@@ -90,7 +140,7 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Email address or username</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
               <input
                 type="email"
                 value={email}
@@ -127,8 +177,8 @@ export default function Login() {
               <a href="/help" className="text-sm text-[#A3E635] hover:text-[#b8ed5a] font-medium">Forgot your password?</a>
             </div>
 
-            <button type="submit" className="w-full py-2.5 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors text-sm min-h-[44px]">
-              Sign In
+            <button type="submit" disabled={loading} className="w-full py-2.5 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors text-sm min-h-[44px] disabled:opacity-50">
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
