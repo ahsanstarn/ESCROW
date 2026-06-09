@@ -24,7 +24,7 @@ const BUSINESS_CARDS = [
   { title: 'Set and manage escrow permissions with your team', link: '', color: 'bg-[#2a2a2a]', textColor: 'text-white', span: 'md:col-span-1' },
 ];
 
-export default function Landing() {
+export default function Landing() { // v2
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Navigation */}
