@@ -85,17 +85,17 @@ function DashboardLayout() {
         <Routes>
           <Route path="/" element={<Navigate to={`/${currentRole.toLowerCase()}`} replace />} />
           <Route path="/merchant" element={<MerchantDashboard userId={currentUser?.id} />} />
-          <Route path="/seller" element={<SellerDashboard userId={currentUser?.id} />} />
-          <Route path="/seller/orders" element={<SellerOrders />} />
-          <Route path="/seller/wallet" element={<SellerWallet />} />
-          <Route path="/seller/disputes" element={<SellerDisputes />} />
-          <Route path="/seller/analytics" element={<SellerAnalytics />} />
-          <Route path="/seller/api" element={<SellerApi />} />
-          <Route path="/seller/settings" element={<SellerSettings />} />
-          <Route path="/buyer" element={<BuyerOverview />} />
-          <Route path="/buyer/transactions" element={<BuyerTransactions />} />
-          <Route path="/buyer/cards" element={<BuyerCards />} />
-          <Route path="/buyer/settings" element={<BuyerSettings />} />
+          <Route path="/seller" element={<SellerDashboard userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/seller/orders" element={<SellerOrders userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/seller/wallet" element={<SellerWallet userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/seller/disputes" element={<SellerDisputes userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/seller/analytics" element={<SellerAnalytics userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/seller/api" element={<SellerApi userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/seller/settings" element={<SellerSettings userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/buyer" element={<BuyerOverview userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/buyer/transactions" element={<BuyerTransactions userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/buyer/cards" element={<BuyerCards userId={currentUser?.id} userName={currentUser?.name} />} />
+          <Route path="/buyer/settings" element={<BuyerSettings userId={currentUser?.id} userName={currentUser?.name} />} />
           <Route path="/courier" element={<CourierDashboard userId={currentUser?.id} />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/agency" element={<AgencyOverview />} />

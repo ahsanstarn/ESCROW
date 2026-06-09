@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { formatCurrency } from '@/lib/utils';
+import { api } from '@/lib/api';
+import AccountHeader from '@/components/layout/AccountHeader';
 import {
-  Bell,
-  User,
   Wallet,
   Building2,
   CreditCard,
@@ -10,69 +10,81 @@ import {
   AlertTriangle,
   CheckCircle,
   Clock,
-  ArrowUpRight,
   Zap,
   Shield,
-  ChevronRight,
   Download,
 } from 'lucide-react';
+import { Escrow, UserStats } from '@/types';
 
-const walletCards = [
-  { label: 'Available Balance', value: formatCurrency(124560), subtitle: 'Ready to withdraw', icon: Wallet, color: 'text-emerald-600' },
-  { label: 'Escrow Balance', value: formatCurrency(345200), subtitle: 'Held in active orders', icon: Clock, color: 'text-blue-600' },
-  { label: 'Platform Fees', value: formatCurrency(12340), subtitle: 'This month', icon: Zap, color: 'text-amber-600' },
-  { label: 'Risk Reserve', value: formatCurrency(25000), subtitle: 'Dispute buffer', icon: Shield, color: 'text-red-500' },
-];
+interface SellerWalletProps {
+  userId?: string;
+  userName?: string;
+}
 
-const payoutMethods = [
-  { id: '1', type: 'HDFC Bank', label: 'HDFC Bank ****2132', verified: true, icon: Building2 },
-  { id: '2', type: 'UPI', label: 'seller@okhdfcbank', verified: true, icon: CreditCard },
-];
-
-const payoutHistory = [
-  { id: 'PO-1234', amount: 95000, method: 'HDFC Bank', status: 'Completed', date: 'Jan 15, 2025 02:30 PM' },
-  { id: 'PO-1233', amount: 125000, method: 'HDFC Bank', status: 'Completed', date: 'Jan 15, 2025 10:15 AM' },
-  { id: 'PO-1232', amount: 65000, method: 'UPI', status: 'Processing', date: 'Jan 9, 2025 04:45 PM' },
-  { id: 'PO-1231', amount: 57500, method: 'HDFC Bank', status: 'Completed', date: 'Jan 9, 2025 11:00 AM' },
-  { id: 'PO-1230', amount: 42000, method: 'UPI', status: 'Completed', date: 'Jan 5, 2025 09:20 AM' },
-];
-
-const thisMonth = [
-  { label: 'Total Withdrawal', value: formatCurrency(342500) },
-  { label: 'Commission Charges', value: formatCurrency(12340) },
-  { label: 'Net Receivable', value: formatCurrency(329160) },
-  { label: 'Pending Release', value: formatCurrency(156000) },
-];
-
-export default function SellerWallet() {
+export default function SellerWallet({ userId, userName }: SellerWalletProps) {
+  const [escrows, setEscrows] = useState<Escrow[]>([]);
+  const [stats, setStats] = useState<UserStats | null>(null);
+  const [loading, setLoading] = useState(true);
   const [kycOpen, setKycOpen] = useState(true);
+
+  useEffect(() => {
+    if (!userId) return;
+    Promise.all([
+      api.escrows.list({ merchantId: userId }),
+      api.users.stats(userId),
+    ]).then(([escrowRes, statsRes]) => {
+      setEscrows(escrowRes.data || []);
+      setStats(statsRes.data || null);
+    }).catch(() => {}).finally(() => setLoading(false));
+  }, [userId]);
+
+  const activeEscrows = escrows.filter(e => ['CREATED', 'DEPOSITED', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED'].includes(e.status));
+  const releasedEscrows = escrows.filter(e => e.status === 'RELEASED');
+  const escrowBalance = activeEscrows.reduce((sum, e) => sum + e.amount, 0);
+  const totalFees = escrows.reduce((sum, e) => sum + e.platformFee, 0);
+  const availableBalance = releasedEscrows.reduce((sum, e) => sum + (e.amount - e.platformFee), 0);
+
+  const walletCards = [
+    { label: 'Available Balance', value: formatCurrency(availableBalance || 0), subtitle: 'Ready to withdraw', icon: Wallet, color: 'text-emerald-600' },
+    { label: 'Escrow Balance', value: formatCurrency(escrowBalance), subtitle: 'Held in active orders', icon: Clock, color: 'text-blue-600' },
+    { label: 'Platform Fees', value: formatCurrency(totalFees), subtitle: 'Total fees', icon: Zap, color: 'text-amber-600' },
+    { label: 'Risk Reserve', value: formatCurrency(escrowBalance * 0.05), subtitle: 'Dispute buffer', icon: Shield, color: 'text-red-500' },
+  ];
+
+  const payoutMethods = [
+    { id: '1', type: 'Bank Account', label: 'Primary Bank Account', verified: true, icon: Building2 },
+    { id: '2', type: 'Digital Wallet', label: 'Digital Wallet', verified: true, icon: CreditCard },
+  ];
+
+  const thisMonth = [
+    { label: 'Total Escrows', value: formatCurrency(escrows.reduce((s, e) => s + e.amount, 0)) },
+    { label: 'Platform Fees', value: formatCurrency(totalFees) },
+    { label: 'Completed Escrows', value: String(releasedEscrows.length) },
+    { label: 'Active Escrows', value: String(activeEscrows.length) },
+  ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#f0f5f0] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-[#A3E635] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-slate-500">Loading wallet...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
       <div className="p-8 max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Wallet & Payouts</h1>
             <p className="mt-1 text-sm text-slate-500">Manage your balance, payout methods, and withdrawal history</p>
           </div>
-          <div className="flex items-center gap-4">
-            <button className="p-2 rounded-xl bg-white shadow-sm border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-3 bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
-              <div className="w-8 h-8 rounded-full bg-[#A3E635] flex items-center justify-center text-xs font-semibold text-black">
-                <User className="w-4 h-4" />
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-medium text-slate-900">Seller Account</p>
-                <p className="text-[11px] text-slate-500">ID: acc_12345</p>
-              </div>
-            </div>
-          </div>
+          <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
-        {/* Wallet Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {walletCards.map((card, i) => (
             <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
@@ -86,7 +98,6 @@ export default function SellerWallet() {
           ))}
         </div>
 
-        {/* KYC Alert */}
         {kycOpen && (
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5" />
@@ -99,7 +110,6 @@ export default function SellerWallet() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Payout Methods */}
           <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Payout Methods</h2>
@@ -135,9 +145,8 @@ export default function SellerWallet() {
             </div>
           </div>
 
-          {/* This Month */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-            <h2 className="text-lg font-semibold text-slate-900 mb-4">This Month</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-4">Summary</h2>
             <div className="space-y-4">
               {thisMonth.map((item, i) => (
                 <div key={i} className="flex items-center justify-between">
@@ -149,16 +158,15 @@ export default function SellerWallet() {
             <div className="mt-6 pt-4 border-t border-slate-100">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-slate-900">Total Balance</span>
-                <span className="text-lg font-bold text-slate-900">{formatCurrency(485260)}</span>
+                <span className="text-lg font-bold text-slate-900">{formatCurrency(availableBalance + escrowBalance)}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Payout History */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4">
-            <h2 className="text-lg font-semibold text-slate-900">Payout History</h2>
+            <h2 className="text-lg font-semibold text-slate-900">Escrow History</h2>
             <button className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
               <Download className="w-4 h-4" /> Export
             </button>
@@ -167,30 +175,35 @@ export default function SellerWallet() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-[#A3E635]">
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Transaction ID</th>
+                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Escrow ID</th>
                   <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Amount</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Method</th>
                   <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Status</th>
-                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Date & Time</th>
+                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Buyer</th>
+                  <th className="text-left py-3 px-4 text-black font-semibold text-xs uppercase tracking-wider">Date</th>
                 </tr>
               </thead>
               <tbody>
-                {payoutHistory.map((payout, i) => (
-                  <tr key={i} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                    <td className="py-3 px-4 font-medium text-slate-900">{payout.id}</td>
-                    <td className="py-3 px-4 font-medium text-slate-900">{formatCurrency(payout.amount)}</td>
-                    <td className="py-3 px-4 text-slate-700">{payout.method}</td>
+                {escrows.slice(0, 10).map((escrow) => (
+                  <tr key={escrow.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 font-medium text-slate-900">{escrow.escrowCode}</td>
+                    <td className="py-3 px-4 font-medium text-slate-900">{formatCurrency(escrow.amount)}</td>
                     <td className="py-3 px-4">
                       <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
-                        payout.status === 'Completed' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                        escrow.status === 'RELEASED' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
                       }`}>
-                        {payout.status === 'Completed' ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-                        {payout.status}
+                        {escrow.status === 'RELEASED' ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                        {escrow.status}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-700">{payout.date}</td>
+                    <td className="py-3 px-4 text-slate-700">{escrow.buyer?.name || 'N/A'}</td>
+                    <td className="py-3 px-4 text-slate-700">{new Date(escrow.createdAt).toLocaleDateString()}</td>
                   </tr>
                 ))}
+                {escrows.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-slate-500">No escrow history found.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

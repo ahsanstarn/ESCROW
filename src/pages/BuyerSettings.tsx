@@ -1,6 +1,12 @@
-import { Bell, User, Shield, Lock, BellRing } from 'lucide-react';
+import AccountHeader from '@/components/layout/AccountHeader';
+import { Shield, Lock, BellRing } from 'lucide-react';
 
-export default function BuyerSettings() {
+interface BuyerSettingsProps {
+  userId?: string;
+  userName?: string;
+}
+
+export default function BuyerSettings({ userId, userName }: BuyerSettingsProps) {
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
       <div className="p-8 max-w-7xl mx-auto">
@@ -9,18 +15,7 @@ export default function BuyerSettings() {
             <h1 className="text-3xl font-bold text-slate-900">Settings</h1>
             <p className="mt-1 text-sm text-slate-500">Manage your account settings and preferences</p>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600 shadow-sm relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[9px] text-white flex items-center justify-center font-bold">3</span>
-            </button>
-            <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-slate-200 shadow-sm">
-              <div className="w-8 h-8 rounded-full bg-[#A3E635] flex items-center justify-center">
-                <User className="w-4 h-4 text-black" />
-              </div>
-              <span className="text-sm font-medium text-slate-700">Buyer</span>
-            </div>
-          </div>
+          <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

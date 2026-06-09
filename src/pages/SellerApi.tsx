@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import AccountHeader from '@/components/layout/AccountHeader';
 import {
-  Bell, User, Copy, Check, RefreshCw, Terminal, ExternalLink,
-  Download, Clock, CheckCircle, XCircle, Zap,
+  Copy, Check, ExternalLink,
+  Download, CheckCircle, XCircle,
 } from 'lucide-react';
 
 const apiKeys = [
@@ -28,7 +29,12 @@ const recentEvents = [
   { time: 'Yesterday 9:00 AM', event: 'orders.updated', status: 'Success', code: '200' },
 ];
 
-export default function SellerApi() {
+interface SellerApiProps {
+  userId?: string;
+  userName?: string;
+}
+
+export default function SellerApi({ userId, userName }: SellerApiProps) {
   const [copied, setCopied] = useState<string | null>(null);
   const [webhookUrl, setWebhookUrl] = useState('https://api.your-company.com/webhooks');
   const [webhookSecret, setWebhookSecret] = useState('whsec_••••••••••••••••••••••••••••••••');
@@ -53,20 +59,7 @@ export default function SellerApi() {
             <h1 className="text-2xl font-bold text-slate-900">API & Webhooks</h1>
             <p className="mt-1 text-sm text-slate-500">Integrate with our platform using API keys and webhooks</p>
           </div>
-          <div className="flex items-center gap-4">
-            <button className="p-2 rounded-xl bg-white shadow-sm border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-3 bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
-              <div className="w-8 h-8 rounded-full bg-[#A3E635] flex items-center justify-center text-xs font-semibold text-black">
-                <User className="w-4 h-4" />
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-medium text-slate-900">Seller Account</p>
-                <p className="text-[11px] text-slate-500">ID: acc_12345</p>
-              </div>
-            </div>
-          </div>
+          <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">

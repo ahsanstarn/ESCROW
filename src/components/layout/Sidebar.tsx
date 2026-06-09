@@ -101,7 +101,7 @@ export function Sidebar({ currentRole, onRoleChange, currentUser }: SidebarProps
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold text-white leading-tight">Escrow</span>
-            <span className="text-[9px] tracking-widest text-slate-500 uppercase leading-tight">Payment Protection</span>
+            <span className="text-[10px] tracking-wide text-[#A3E635] font-medium leading-tight">{ROLE_LABELS[currentRole]} View</span>
           </div>
         </Link>
       </div>

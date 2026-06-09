@@ -1,11 +1,17 @@
 import { useState } from 'react';
+import AccountHeader from '@/components/layout/AccountHeader';
 import {
-  Bell, User, CheckCircle, AlertTriangle, Shield, Star,
-  Building2, Globe, Phone, Mail, FileText, Download, Lock,
-  ToggleLeft, ToggleRight, ChevronRight, Save,
+  CheckCircle, AlertTriangle, Shield,
+  Building2, Phone, Mail, FileText, Download, Lock,
+  ChevronRight, Bell, User,
 } from 'lucide-react';
 
-export default function SellerSettings() {
+interface SellerSettingsProps {
+  userId?: string;
+  userName?: string;
+}
+
+export default function SellerSettings({ userId, userName }: SellerSettingsProps) {
   const [twoFactor, setTwoFactor] = useState(true);
   const [loginNotif, setLoginNotif] = useState(true);
   const [transAlerts, setTransAlerts] = useState(false);
@@ -19,20 +25,7 @@ export default function SellerSettings() {
             <h1 className="text-2xl font-bold text-slate-900">Settings & Compliance</h1>
             <p className="mt-1 text-sm text-slate-500">Manage your business profile, verification, and security</p>
           </div>
-          <div className="flex items-center gap-4">
-            <button className="p-2 rounded-xl bg-white shadow-sm border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-3 bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
-              <div className="w-8 h-8 rounded-full bg-[#A3E635] flex items-center justify-center text-xs font-semibold text-black">
-                <User className="w-4 h-4" />
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-medium text-slate-900">Seller Account</p>
-                <p className="text-[11px] text-slate-500">ID: acc_12345</p>
-              </div>
-            </div>
-          </div>
+          <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
         {/* KYC Alerts */}

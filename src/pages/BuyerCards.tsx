@@ -1,4 +1,10 @@
-import { Bell, User, CreditCard } from 'lucide-react';
+import AccountHeader from '@/components/layout/AccountHeader';
+import { CreditCard } from 'lucide-react';
+
+interface BuyerCardsProps {
+  userId?: string;
+  userName?: string;
+}
 
 const cards = [
   { name: 'Visa Business', number: '•••• 4819', expiry: '09/26', color: 'from-[#A3E635] to-[#78c800]', textColor: 'text-black', limit: '$10,000', spent: '$3,200' },
@@ -6,7 +12,7 @@ const cards = [
   { name: 'Virtual Card', number: '•••• 7813', expiry: '03/27', color: 'from-slate-700 to-slate-900', textColor: 'text-white', limit: '$2,500', spent: '$950' },
 ];
 
-export default function BuyerCards() {
+export default function BuyerCards({ userId, userName }: BuyerCardsProps) {
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
       <div className="p-8 max-w-7xl mx-auto">
@@ -15,21 +21,7 @@ export default function BuyerCards() {
             <h1 className="text-3xl font-bold text-slate-900">Cards</h1>
             <p className="mt-1 text-sm text-slate-500">Manage your payment cards and limits</p>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="px-4 py-2 bg-[#A3E635] text-black font-semibold text-sm rounded-lg hover:bg-[#b8ed5a] transition-colors">
-              + Add New Card
-            </button>
-            <button className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600 shadow-sm relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[9px] text-white flex items-center justify-center font-bold">3</span>
-            </button>
-            <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-slate-200 shadow-sm">
-              <div className="w-8 h-8 rounded-full bg-[#A3E635] flex items-center justify-center">
-                <User className="w-4 h-4 text-black" />
-              </div>
-              <span className="text-sm font-medium text-slate-700">Buyer</span>
-            </div>
-          </div>
+          <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

@@ -1,49 +1,75 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Bell, User, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { formatCurrency } from '@/lib/utils';
+import { api } from '@/lib/api';
+import AccountHeader from '@/components/layout/AccountHeader';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Escrow } from '@/types';
 
-const tabs = [
-  { label: 'All Orders', count: 16 },
-  { label: 'Payment Pending', count: 1 },
-  { label: 'In Escrow', count: 4 },
-  { label: 'In Delivery', count: 3 },
-  { label: 'Awaiting Confirmation', count: 2 },
-  { label: 'Completed', count: 3 },
-  { label: 'Disputed', count: 6 },
-];
-
-const allOrders = [
-  { id: 'ORD-83421', seller: 'Acme Corporation', type: 'Product', amount: '$2,450', status: 'Funds Held', timer: 'Under review', action: 'View' },
-  { id: 'ORD-83420', seller: 'TechStart Inc.', type: 'Service', amount: '$5,200', status: 'Funds Held', timer: 'Under review', action: 'View' },
-  { id: 'ORD-83419', seller: 'BuildCo LLC', type: 'Product', amount: '$2,500', status: 'Dispute', timer: 'Under review', action: 'View' },
-  { id: 'ORD-83418', seller: 'Cafe Network LLC', type: 'Product', amount: '$9,200', status: 'Funds Held', timer: 'Under review', action: 'View' },
-  { id: 'ORD-83417', seller: 'SafeGuard Security', type: 'Service', amount: '$5,100', status: 'Funds Held', timer: 'Under review', action: 'View' },
-  { id: 'ORD-83416', seller: 'Nova Systems', type: 'Product', amount: '$3,400', status: 'Pending', timer: '2h left', action: 'View' },
-  { id: 'ORD-83415', seller: 'Peak Industries', type: 'Service', amount: '$15,600', status: 'Completed', timer: 'Released', action: 'View' },
-  { id: 'ORD-83414', seller: 'Zenith Corp', type: 'Product', amount: '$7,800', status: 'Dispute', timer: 'Under review', action: 'View' },
-];
-
-function StatusBadge({ status }: { status: string }) {
-  const styles: Record<string, string> = {
-    'Funds Held': 'bg-[#A3E635]/20 text-black',
-    'Pending': 'bg-amber-100 text-amber-700',
-    'Completed': 'bg-emerald-100 text-emerald-700',
-    'Dispute': 'bg-red-100 text-red-600',
-  };
-  return <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${styles[status] || 'bg-slate-100 text-slate-600'}`}>{status}</span>;
+interface BuyerTransactionsProps {
+  userId?: string;
+  userName?: string;
 }
 
-export default function BuyerTransactions() {
+const TABS = ['All Orders', 'Payment Pending', 'In Escrow', 'In Delivery', 'Awaiting Confirmation', 'Completed', 'Disputed'];
+const ITEMS_PER_PAGE = 8;
+
+function getDisplayStatus(status: string) {
+  const map: Record<string, { label: string; bg: string }> = {
+    CREATED: { label: 'Payment Pending', bg: 'bg-amber-100 text-amber-700' },
+    DEPOSITED: { label: 'In Escrow', bg: 'bg-[#A3E635]/20 text-black' },
+    SHIPPED: { label: 'In Escrow', bg: 'bg-[#A3E635]/20 text-black' },
+    IN_TRANSIT: { label: 'In Delivery', bg: 'bg-blue-100 text-blue-700' },
+    DELIVERED: { label: 'Awaiting Confirmation', bg: 'bg-blue-100 text-blue-700' },
+    CONFIRMED: { label: 'Completed', bg: 'bg-emerald-100 text-emerald-700' },
+    RELEASED: { label: 'Completed', bg: 'bg-emerald-100 text-emerald-700' },
+    DISPUTED: { label: 'Disputed', bg: 'bg-red-100 text-red-600' },
+    REFUNDED: { label: 'Refunded', bg: 'bg-amber-100 text-amber-700' },
+    CANCELLED: { label: 'Cancelled', bg: 'bg-slate-100 text-slate-600' },
+  };
+  return map[status] || { label: status, bg: 'bg-slate-100 text-slate-600' };
+}
+
+export default function BuyerTransactions({ userId, userName }: BuyerTransactionsProps) {
+  const [escrows, setEscrows] = useState<Escrow[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('All Orders');
   const [page, setPage] = useState(1);
 
-  const filtered = activeTab === 'All Orders' ? allOrders : allOrders.filter(o => {
-    if (activeTab === 'Payment Pending') return o.status === 'Pending';
-    if (activeTab === 'In Escrow') return o.status === 'Funds Held';
-    if (activeTab === 'Completed') return o.status === 'Completed';
-    if (activeTab === 'Disputed') return o.status === 'Dispute';
-    return true;
-  });
+  useEffect(() => {
+    if (!userId) return;
+    api.escrows.list({ buyerId: userId })
+      .then(res => setEscrows(res.data || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [userId]);
+
+  const tabCounts = useMemo(() => {
+    const counts: Record<string, number> = { 'All Orders': escrows.length };
+    TABS.forEach(tab => {
+      if (tab === 'All Orders') return;
+      counts[tab] = escrows.filter(e => getDisplayStatus(e.status).label === tab).length;
+    });
+    return counts;
+  }, [escrows]);
+
+  const filtered = useMemo(() => {
+    if (activeTab === 'All Orders') return escrows;
+    return escrows.filter(e => getDisplayStatus(e.status).label === activeTab);
+  }, [escrows, activeTab]);
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#f0f5f0] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-[#A3E635] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-slate-500">Loading transactions...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
@@ -53,39 +79,28 @@ export default function BuyerTransactions() {
             <h1 className="text-3xl font-bold text-slate-900">Transactions</h1>
             <p className="mt-1 text-sm text-slate-500">View and manage all your transactions</p>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600 shadow-sm relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[9px] text-white flex items-center justify-center font-bold">3</span>
-            </button>
-            <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-slate-200 shadow-sm">
-              <div className="w-8 h-8 rounded-full bg-[#A3E635] flex items-center justify-center">
-                <User className="w-4 h-4 text-black" />
-              </div>
-              <span className="text-sm font-medium text-slate-700">Buyer</span>
-            </div>
-          </div>
+          <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
         <div className="flex flex-wrap gap-2 mb-6">
-          {tabs.map(tab => (
+          {TABS.map(tab => (
             <button
-              key={tab.label}
-              onClick={() => { setActiveTab(tab.label); setPage(1); }}
+              key={tab}
+              onClick={() => { setActiveTab(tab); setPage(1); }}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === tab.label
+                activeTab === tab
                   ? 'bg-[#A3E635] text-black shadow-sm'
                   : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
               }`}
             >
-              {tab.label} ({tab.count})
+              {tab} ({tabCounts[tab] || 0})
             </button>
           ))}
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          {filtered.length === 0 ? (
-            <div className="p-12 text-center text-slate-500">No orders found for this filter</div>
+          {paginated.length === 0 ? (
+            <div className="p-12 text-center text-slate-500">No transactions found for this filter.</div>
           ) : (
             <>
               <div className="overflow-x-auto">
@@ -102,35 +117,50 @@ export default function BuyerTransactions() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filtered.map((order, i) => (
-                      <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 px-6 font-medium text-slate-900">{order.id}</td>
-                        <td className="py-4 px-6 text-slate-700">{order.seller}</td>
-                        <td className="py-4 px-6 text-slate-600">{order.type}</td>
-                        <td className="py-4 px-6 font-semibold text-slate-900">{order.amount}</td>
-                        <td className="py-4 px-6"><StatusBadge status={order.status} /></td>
-                        <td className="py-4 px-6 text-slate-500">{order.timer}</td>
-                        <td className="py-4 px-6">
-                          <button className="text-sm font-medium text-blue-600 hover:text-blue-700">{order.action}</button>
-                        </td>
-                      </tr>
-                    ))}
+                    {paginated.map(order => {
+                      const ds = getDisplayStatus(order.status);
+                      const timer = order.status === 'DELIVERED'
+                        ? `${order.confirmationWindowHours}h window`
+                        : order.status === 'IN_TRANSIT'
+                        ? 'In transit'
+                        : order.status === 'RELEASED'
+                        ? 'Released'
+                        : 'Pending';
+                      return (
+                        <tr key={order.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                          <td className="py-4 px-6 font-medium text-slate-900">{order.escrowCode}</td>
+                          <td className="py-4 px-6 text-slate-700">{order.merchant?.name || 'N/A'}</td>
+                          <td className="py-4 px-6 text-slate-600">{order.productType}</td>
+                          <td className="py-4 px-6 font-semibold text-slate-900">{formatCurrency(order.amount)}</td>
+                          <td className="py-4 px-6">
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${ds.bg}`}>{ds.label}</span>
+                          </td>
+                          <td className="py-4 px-6 text-slate-500">{timer}</td>
+                          <td className="py-4 px-6">
+                            <button className="text-sm font-medium text-blue-600 hover:text-blue-700">View</button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
-              <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100">
-                <span className="text-sm text-slate-500">Showing 1 to {filtered.length} of {allOrders.length} entries</span>
-                <div className="flex items-center gap-1">
-                  <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40">
-                    <ChevronLeft className="w-4 h-4" /> Previous
-                  </button>
-                  <button className="w-8 h-8 rounded-lg bg-[#A3E635] text-black text-sm font-semibold">1</button>
-                  <button onClick={() => setPage(2)} className="w-8 h-8 rounded-lg text-slate-600 text-sm hover:bg-slate-50">2</button>
-                  <button onClick={() => setPage(p => Math.min(2, p + 1))} disabled={page === 2} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40">
-                    Next <ChevronRight className="w-4 h-4" />
-                  </button>
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100">
+                  <span className="text-sm text-slate-500">Showing {(page - 1) * ITEMS_PER_PAGE + 1} to {Math.min(page * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}</span>
+                  <div className="flex items-center gap-1">
+                    <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40">
+                      <ChevronLeft className="w-4 h-4" /> Previous
+                    </button>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                      <button key={p} onClick={() => setPage(p)} className={`w-8 h-8 rounded-lg text-sm font-semibold ${page === p ? 'bg-[#A3E635] text-black' : 'text-slate-600 hover:bg-slate-50'}`}>{p}</button>
+                    ))}
+                    <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40">
+                      Next <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </>
           )}
         </div>
