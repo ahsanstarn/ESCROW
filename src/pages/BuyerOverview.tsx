@@ -42,7 +42,11 @@ export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) 
   const recentEscrows = useMemo(() => [...escrows].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5), [escrows]);
 
   const handleCreate = async () => {
-    if (!form.merchantId || !form.amount || !userId) return;
+    if (!form.merchantId || !form.amount) return;
+    if (!userId) {
+      console.error('No user ID available');
+      return;
+    }
     setCreating(true);
     try {
       await api.escrows.create({
@@ -176,7 +180,7 @@ export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) 
                 <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Describe the transaction..." rows={3} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 resize-none" />
               </div>
               <button onClick={handleCreate} disabled={creating || !form.merchantId || !form.amount} className="w-full py-2.5 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors disabled:opacity-50">
-                {creating ? 'Creating...' : 'Create Escrow'}
+                {creating ? 'Creating...' : 'Create Escro'}
               </button>
             </div>
           </div>

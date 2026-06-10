@@ -49,7 +49,7 @@ function MobileHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
             <path d="M2 16c2-3 4-3 6 0s4 3 6 0 4-3 6 0 4 3 6 0" stroke="black" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
-        <span className="text-sm font-bold text-white">Escrow</span>
+        <span className="text-sm font-bold text-white">Escro</span>
       </div>
       <button className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a1a1a] transition-colors relative">
         <Bell className="w-5 h-5" />

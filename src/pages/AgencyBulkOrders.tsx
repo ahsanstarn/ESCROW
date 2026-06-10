@@ -7,7 +7,7 @@ export default function AgencyBulkOrders() {
     {
       id: 'bulk-001',
       company: 'Tech Solutions Inc.',
-      status: 'Held in Escrow',
+      status: 'Held in Escro',
       orders: 24,
       type: 'SaaS Licenses',
       total: '$125,000.00',
@@ -37,7 +37,7 @@ export default function AgencyBulkOrders() {
     {
       id: 'bulk-004',
       company: 'Digital Marketing Pro',
-      status: 'Held in Escrow',
+      status: 'Held in Escro',
       orders: 15,
       type: 'Services',
       total: '$67,800.00',
@@ -58,7 +58,7 @@ export default function AgencyBulkOrders() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'Held in Escrow': return <Shield className="w-3.5 h-3.5" />;
+      case 'Held in Escro': return <Shield className="w-3.5 h-3.5" />;
       case 'Pending Release': return <ArrowUpRight className="w-3.5 h-3.5" />;
       case 'Completed': return <CheckCircle className="w-3.5 h-3.5" />;
       case 'Disputed': return <AlertTriangle className="w-3.5 h-3.5" />;
@@ -68,7 +68,7 @@ export default function AgencyBulkOrders() {
 
   const getStatusStyle = (status: string) => {
     switch (status) {
-      case 'Held in Escrow': return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+      case 'Held in Escro': return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
       case 'Pending Release': return 'bg-amber-50 text-amber-700 border border-amber-200';
       case 'Completed': return 'bg-blue-50 text-blue-700 border border-blue-200';
       case 'Disputed': return 'bg-red-50 text-red-700 border border-red-200';

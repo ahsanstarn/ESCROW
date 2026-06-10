@@ -9,70 +9,70 @@
   },
   "hero": {
     "title": "Build trust in every transaction",
-    "subtitle": "Secure escrow for goods, services, and subscriptions — holding funds until delivery is confirmed.",
+    "subtitle": "Secure Escro for goods, services, and subscriptions — holding funds until delivery is confirmed.",
     "shopNow": "Shop Now",
     "learnMore": "Learn more"
   },
   "features": {
     "label": "Features",
     "title": "We keep your payments safe",
-    "desc": "Your funds stay protected at every stage of the transaction. Escrow ensures money moves only when agreed conditions are met.",
+    "desc": "Your funds stay protected at every stage of the transaction. Escro ensures money moves only when agreed conditions are met.",
     "seeHow": "See how",
     "items": [
       { "title": "Payments you control", "desc": "Set your release conditions, hold transfers conditionally upon approval, or pay out shift milestones with full visibility." },
-      { "title": "Spend like a local, globally", "desc": "Provide a local builder experience with Escrow, creating a local bank details in many regions and countries." },
+      { "title": "Spend like a local, globally", "desc": "Provide a local builder experience with Escro, creating a local bank details in many regions and countries." },
       { "title": "Stay secure throughout the transaction", "desc": "Built-in safeguards protect against fraud, non-delivery, and payment disputes from start to finish." },
       { "title": "Empower your team with permissions", "desc": "Manage your team, your team, and company needs from one powerful central account." }
     ],
     "learnMore": "Learn more →"
   },
   "about": {
-    "title": "Get to know more about Escrow",
-    "desc": "We are building a trust-first escrow platform designed to protect buyers, sellers, and businesses across modern transactions.",
+    "title": "Get to know more about Escro",
+    "desc": "We are building a trust-first Escro platform designed to protect buyers, sellers, and businesses across modern transactions.",
     "stats": {
       "users": "Active Users",
-      "secure": "Escrow Secure",
+      "secure": "Escro Secure",
       "rating": "Trust Rating"
     }
   },
   "impression": {
-    "title": "Make an impression with escrow",
+    "title": "Make an impression with Escro",
     "desc": "Show your customers that payments are protected by default. Funds are securely held and released only after delivery or milestone approval.",
-    "enable": "Enable Escrow Protection"
+    "enable": "Enable Escro Protection"
   },
   "international": {
-    "label": "Escrow Payments",
-    "title": "International escrow for your business",
-    "desc": "Join businesses protecting global transactions with escrow-backed payments, ensuring funds move only when conditions are met.",
+    "label": "Escro Payments",
+    "title": "International Escro for your business",
+    "desc": "Join businesses protecting global transactions with Escro-backed payments, ensuring funds move only when conditions are met.",
     "getStarted": "Get started",
     "contactSales": "Contact sales"
   },
   "stats": {
     "processed": "USD Processed",
-    "customers": "Customers Trust Escrow",
-    "title": "Over $3.2 billion of transactions protected with Escrow",
-    "desc": "Escrow is the world's most secure payment method from a counterparty risk perspective — safeguarding both buyer and seller, all funds transacted using Escrow are kept in trust."
+    "customers": "Customers Trust Escro",
+    "title": "Over $3.2 billion of transactions protected with Escro",
+    "desc": "Escro is the world's most secure payment method from a counterparty risk perspective — safeguarding both buyer and seller, all funds transacted using Escro are kept in trust."
   },
   "steps": {
     "1": { "title": "Buyer and Seller agree to terms", "desc": "Both parties confirm transaction details" },
-    "2": { "title": "Buyer submits payment to Escrow", "desc": "Funds held securely in escrow" },
+    "2": { "title": "Buyer submits payment to Escro", "desc": "Funds held securely in Escro" },
     "3": { "title": "Seller delivers goods or service to buyer", "desc": "Product or service provided" },
     "4": { "title": "Buyer approves goods or services", "desc": "Buyer confirms satisfaction" },
-    "5": { "title": "Escrow releases payment to seller", "desc": "Transaction complete" },
+    "5": { "title": "Escro releases payment to seller", "desc": "Transaction complete" },
     "getStarted": "Get started now",
-    "learnMore": "LEARN MORE ABOUT ESCROW"
+    "learnMore": "LEARN MORE ABOUT ESCRO"
   },
   "business": {
     "subtitle": "Teamwork makes the deal work",
-    "title": "Discover the meaning of efficiency with Escrow Business",
+    "title": "Discover the meaning of efficiency with Escro Business",
     "holdRelease": "Hold and release payments globally",
-    "explore": "Explore Escrow Payments →",
-    "invoices": "Invoices backed by escrow",
-    "learnInvoices": "Learn more about Escrow Invoices",
+    "explore": "Explore Escro Payments →",
+    "invoices": "Invoices backed by Escro",
+    "learnInvoices": "Learn more about Escro Invoices",
     "cards": "Smart company cards with spending control",
-    "learnCards": "Learn more about Escrow Cards",
+    "learnCards": "Learn more about Escro Cards",
     "exchange": "Hold, exchange, and release at fair rates",
-    "learnExchange": "Explore Escrow Exchange"
+    "learnExchange": "Explore Escro Exchange"
   },
   "spend": {
     "title": "Control your spend with smart rules"
@@ -97,7 +97,7 @@
     "contactSales": "Contact sales"
   },
   "connect": {
-    "title": "Connect your platform with Escrow Trust",
+    "title": "Connect your platform with Escro Trust",
     "cta": "Reimagine Trust"
   },
   "footer": {
@@ -115,7 +115,7 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "cookies": "Cookies",
-    "copyright": "© 2026 Escrow. All rights reserved."
+    "copyright": "© 2026 Escro. All rights reserved."
   },
   "login": {
     "title": "Log in to your account",
@@ -127,7 +127,7 @@
     "signIn": "Sign In",
     "noAccount": "Don't have an account?",
     "signUp": "Sign up",
-    "backHome": "Back to Escrow homepage",
+    "backHome": "Back to Escro homepage",
     "orContinue": "or"
   },
   "register": {
@@ -141,36 +141,36 @@
     "confirmPassword": "Confirm Password",
     "confirmPlaceholder": "Confirm your password",
     "continue": "Continue",
-    "agree": "I agree to Escrow's",
+    "agree": "I agree to Escro's",
     "terms": "Terms of Service",
     "and": "and",
     "privacy": "privacy policy",
     "hasAccount": "Don't have an account?",
     "signIn": "Sign up",
-    "backHome": "Back to Escrow homepage"
+    "backHome": "Back to Escro homepage"
   },
   "pricing": {
     "title": "Protect every payment without changing",
-    "desc": "Choose the plan that fits your business needs. All plans include our core escrow protection.",
+    "desc": "Choose the plan that fits your business needs. All plans include our core Escro protection.",
     "popular": "Most Popular",
     "perMonth": "/month",
     "plans": [
-      { "name": "Starter", "price": "29", "features": ["5 active escrows", "Basic analytics", "Email support", "2 team members", "0.25% platform fee"], "cta": "Get Started" },
-      { "name": "Professional", "price": "79", "features": ["Unlimited escrows", "Advanced analytics", "Priority support", "10 team members", "API access", "Custom branding"], "cta": "Get Started" },
+      { "name": "Starter", "price": "29", "features": ["5 active Escros", "Basic analytics", "Email support", "2 team members", "0.25% platform fee"], "cta": "Get Started" },
+      { "name": "Professional", "price": "79", "features": ["Unlimited Escros", "Advanced analytics", "Priority support", "10 team members", "API access", "Custom branding"], "cta": "Get Started" },
       { "name": "Enterprise", "price": "Custom", "features": ["Custom volume pricing", "Dedicated account manager", "SLA guarantee", "Unlimited team members", "White-label option", "Custom integrations"], "cta": "Contact Sales" }
     ]
   },
   "help": {
     "title": "How can we help?",
-    "desc": "Find answers to common questions about escrow, transactions, and our platform.",
+    "desc": "Find answers to common questions about Escro, transactions, and our platform.",
     "search": "Search for help...",
     "faqTitle": "Frequently Asked Questions"
   },
   "aboutPage": {
     "title": "Making transactions safer for everyone",
-    "desc": "We're building the world's most trusted escrow platform, protecting buyers and sellers in every transaction.",
+    "desc": "We're building the world's most trusted Escro platform, protecting buyers and sellers in every transaction.",
     "mission": "Our mission",
-    "missionDesc": "Founded in 2022, Escrow was built on a simple belief: every transaction deserves to be protected. We eliminate the trust gap between buyers and sellers by holding funds securely until both parties are satisfied.",
+    "missionDesc": "Founded in 2022, Escro was built on a simple belief: every transaction deserves to be protected. We eliminate the trust gap between buyers and sellers by holding funds securely until both parties are satisfied.",
     "missionDesc2": "Today, we process over $3.2 billion in transactions annually, serving over 1.5 million customers across 180+ countries.",
     "values": "Our values",
     "valuesItems": [
@@ -181,7 +181,7 @@
   },
   "blog": {
     "title": "Insights & Updates",
-    "desc": "Stay informed with the latest news, guides, and industry insights from the Escrow team.",
+    "desc": "Stay informed with the latest news, guides, and industry insights from the Escro team.",
     "readMore": "Read more →"
   },
   "careers": {
@@ -192,7 +192,7 @@
   },
   "contact": {
     "title": "Get in touch",
-    "desc": "Have questions about Escrow? We'd love to hear from you.",
+    "desc": "Have questions about Escro? We'd love to hear from you.",
     "name": "Full name",
     "namePlaceholder": "Enter your name",
     "email": "Email",
@@ -216,7 +216,7 @@
     "transactions": "Transactions",
     "cards": "Cards",
     "bulkOrders": "Bulk Orders",
-    "escrowFinance": "Escrow & Finance",
+    "EscroFinance": "Escro & Finance",
     "reports": "Reports"
   }
 }

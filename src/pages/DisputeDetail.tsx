@@ -136,7 +136,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
                 <p className="text-sm text-slate-200">{formatDate(dispute.createdAt)}</p>
               </div>
               <div>
-                <p className="text-[11px] text-slate-500">Escrow amount</p>
+                <p className="text-[11px] text-slate-500">Escro amount</p>
                 <p className="text-sm font-semibold text-slate-100">
                   {dispute.escrow ? formatCurrency(dispute.escrow.amount) : '-'}
                 </p>
@@ -299,7 +299,7 @@ export function DisputeDetail({ userId, userRole }: DisputeDetailProps) {
                 </div>
                 <div className="grid grid-cols-2 gap-3 p-3 bg-slate-800/30 rounded-lg border border-slate-800/50">
                   <div>
-                    <p className="text-[11px] text-slate-500">Escrow amount</p>
+                    <p className="text-[11px] text-slate-500">Escro amount</p>
                     <p className="text-sm font-semibold text-slate-100">
                       {dispute.escrow ? formatCurrency(dispute.escrow.amount) : '-'}
                     </p>

@@ -81,7 +81,7 @@ export default function Register() {
               <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
               <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
             </svg>
-            <span className="text-xl font-bold text-white">Escrow</span>
+            <span className="text-xl font-bold text-white">Escro</span>
           </div>
           <p className="text-xs text-slate-400 mb-6">Payment Platform</p>
 
@@ -89,7 +89,7 @@ export default function Register() {
             Start accepting payments in minutes
           </h1>
           <p className="text-slate-400 mb-8 text-base leading-relaxed">
-            Sign up for Escrow and join thousands of businesses using Escrow for secure payment processing.
+            Sign up for Escro and join thousands of businesses using Escro for secure payment processing.
           </p>
 
           <div className="space-y-5 mb-8">
@@ -228,7 +228,7 @@ export default function Register() {
               className="w-4 h-4 mt-0.5 rounded border-slate-300 text-[#A3E635] focus:ring-[#A3E635]"
             />
             <span className="text-xs md:text-sm text-slate-500">
-              I agree to Escrow's{' '}
+              I agree to Escro's{' '}
               <Link to="/terms" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">Terms of Service</Link>
               {' '}and{' '}
               <Link to="/privacy" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">privacy policy</Link>
@@ -240,7 +240,7 @@ export default function Register() {
             <Link to="/login" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">Sign in</Link>
           </p>
           <p className="mt-2 text-center text-sm">
-            <Link to="/" className="text-slate-500 hover:text-slate-700 underline">Back to Escrow homepage</Link>
+            <Link to="/" className="text-slate-500 hover:text-slate-700 underline">Back to Escro homepage</Link>
           </p>
         </div>
       </div>

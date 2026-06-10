@@ -78,7 +78,7 @@ export default function Login() {
               <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
               <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
             </svg>
-            <span className="text-xl font-bold text-white">Escrow</span>
+            <span className="text-xl font-bold text-white">Escro</span>
           </div>
           <p className="text-xs text-slate-400 mb-6">Payment Platform</p>
 
@@ -86,7 +86,7 @@ export default function Login() {
             Secure payments for modern businesses
           </h1>
           <p className="text-slate-400 mb-8 text-base leading-relaxed">
-            Join thousands of businesses that trust Escrow for their payment processing needs.
+            Join thousands of businesses that trust Escro for their payment processing needs.
           </p>
           <Link
             to="/register"
@@ -187,7 +187,7 @@ export default function Login() {
             <Link to="/register" className="text-[#A3E635] hover:text-[#b8ed5a] font-medium">Sign up</Link>
           </p>
           <p className="mt-2 text-center text-sm">
-            <Link to="/" className="text-slate-500 hover:text-slate-700 underline">Back to Escrow homepage</Link>
+            <Link to="/" className="text-slate-500 hover:text-slate-700 underline">Back to Escro homepage</Link>
           </p>
         </div>
       </div>

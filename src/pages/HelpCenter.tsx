@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function HelpCenter() { // HelpCenter component
   const faqs = [
-    { q:'How does escrow work?', a:'Escrow holds funds securely until both parties confirm the transaction is complete. The buyer deposits payment, the seller delivers the goods or service, and once the buyer confirms satisfaction, funds are released to the seller.' },
+    { q:'How does escro work?', a:'Escro holds funds securely until both parties confirm the transaction is complete. The buyer deposits payment, the seller delivers the goods or service, and once the buyer confirms satisfaction, funds are released to the seller.' },
     { q:'How long does an escrow transaction take?', a:'Transaction duration depends on the confirmation window set by the merchant. Typically, transactions complete within 3-7 days, but you can set windows from 1 to 168 hours.' },
     { q:'What happens if there is a dispute?', a:'If a dispute arises, both parties can submit evidence. Our arbitration team reviews the case and makes a fair resolution based on the evidence provided. Most disputes are resolved within 48 hours.' },
     { q:'What are the fees?', a:'Our standard platform fee is 2.5% of the transaction amount. This covers escrow protection, dispute resolution, and platform maintenance. Volume discounts are available for Enterprise plans.' },
@@ -16,7 +16,7 @@ export default function HelpCenter() { // HelpCenter component
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <svg className="w-7 h-7" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#A3E635"/><path d="M10 14C12.5 11 15 11 18 14C20.5 17 23 17 26 14" stroke="black" strokeWidth="2.5" strokeLinecap="round"/><path d="M10 20C12.5 17 15 17 18 20C20.5 23 23 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round"/><path d="M10 26C12.5 23 15 23 18 26C20.5 29 23 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round"/></svg>
-            <span className="text-lg font-bold text-white">Escrow</span>
+            <span className="text-lg font-bold text-white">Escro</span>
           </Link>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-medium text-white hover:text-slate-200 px-4 py-2">Login</Link>
@@ -53,7 +53,7 @@ export default function HelpCenter() { // HelpCenter component
       </section>
 
       <footer className="py-8 px-4 sm:px-6 bg-white border-t border-slate-100 text-center text-sm text-slate-400">
-        &copy; 2026 Escrow. All rights reserved.
+        &copy; 2026 Escro. All rights reserved.
       </footer>
     </div>
   );

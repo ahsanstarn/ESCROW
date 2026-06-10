@@ -101,7 +101,7 @@ export function MerchantDashboard({ userId }: MerchantDashboardProps) {
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
-            label="Funds in Escrow"
+            label="Funds in Escro"
             value={formatCurrency(fundsInEscrow)}
             subtitle={`${activeEscrows.length} active transactions`}
             icon={<DollarSign className="w-5 h-5" />}
@@ -175,7 +175,7 @@ export function MerchantDashboard({ userId }: MerchantDashboardProps) {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="card p-6 w-full max-w-lg mx-4 animate-slide-up">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-base font-semibold text-slate-100">Create New Escrow</h3>
+              <h3 className="text-base font-semibold text-slate-100">Create New Escro</h3>
               <button onClick={() => setShowCreate(false)} className="p-1 text-slate-500 hover:text-slate-300">
                 <X className="w-5 h-5" />
               </button>
@@ -254,7 +254,7 @@ export function MerchantDashboard({ userId }: MerchantDashboardProps) {
               )}
               <div className="flex gap-3 pt-2">
                 <button onClick={handleCreate} disabled={creating || !form.amount} className="btn-primary flex-1">
-                  {creating ? 'Creating...' : 'Create Escrow'}
+                  {creating ? 'Creating...' : 'Create Escro'}
                 </button>
                 <button onClick={() => setShowCreate(false)} className="btn-secondary">Cancel</button>
               </div>

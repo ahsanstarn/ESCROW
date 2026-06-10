@@ -83,7 +83,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
     return (
       <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
         <div className="card p-12 text-center">
-          <p className="text-slate-400">Escrow not found</p>
+          <p className="text-slate-400">Escro not found</p>
           <button onClick={() => navigate(-1)} className="btn-secondary mt-4">Go Back</button>
         </div>
       </div>
@@ -101,7 +101,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
 
       <PageHeader
         title={escrow.escrowCode}
-        subtitle={escrow.description || 'Escrow transaction details'}
+        subtitle={escrow.description || 'Escro transaction details'}
         actions={
           <div className="flex items-center gap-3">
             <span className={getEscrowStatusColor(escrow.status)}>

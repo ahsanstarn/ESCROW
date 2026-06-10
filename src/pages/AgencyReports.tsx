@@ -5,7 +5,7 @@ export default function AgencyReports() {
   const stats = [
     { label: 'Conversion Uplift', value: '+31%', icon: TrendingUp, trend: 'up', sub: 'vs last month' },
     { label: 'Chargeback Rate', value: '-67%', icon: TrendingDown, trend: 'down', sub: 'Monthly rate' },
-    { label: 'Escrow Duration', value: '3.2 days', icon: Clock, trend: 'neutral', sub: 'Average hold time' },
+    { label: 'Escro Duration', value: '3.2 days', icon: Clock, trend: 'neutral', sub: 'Average hold time' },
     { label: 'Trust Score', value: '94/100', icon: Shield, trend: 'up', sub: 'Overall rating' },
   ];
 
@@ -81,9 +81,9 @@ export default function AgencyReports() {
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
-        {/* Conversion Uplift via Escrow */}
+        {/* Conversion Uplift via Escro */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-          <h3 className="text-sm font-semibold text-slate-900 mb-6">Conversion Uplift via Escrow</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-6">Conversion Uplift via Escro</h3>
           <div className="flex items-end gap-3 h-52">
             {conversionData.map((d, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-2">
@@ -91,12 +91,12 @@ export default function AgencyReports() {
                   <div
                     className="w-full max-w-[18px] bg-gradient-to-t from-[#A3E635] to-[#84cc16] rounded-t-md"
                     style={{ height: `${(d.withEscrow / maxConversion) * 160}px` }}
-                    title={`With Escrow: ${d.withEscrow}%`}
+                    title={`With Escro: ${d.withEscrow}%`}
                   />
                   <div
                     className="w-full max-w-[18px] bg-gradient-to-t from-slate-300 to-slate-200 rounded-t-md"
                     style={{ height: `${(d.withoutEscrow / maxConversion) * 160}px` }}
-                    title={`Without Escrow: ${d.withoutEscrow}%`}
+                    title={`Without Escro: ${d.withoutEscrow}%`}
                   />
                 </div>
                 <span className="text-xs text-slate-500 font-medium">{d.month}</span>
@@ -106,11 +106,11 @@ export default function AgencyReports() {
           <div className="flex items-center justify-center gap-6 mt-4">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-sm bg-gradient-to-t from-[#A3E635] to-[#84cc16]" />
-              <span className="text-xs text-slate-500">With Escrow</span>
+              <span className="text-xs text-slate-500">With Escro</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-sm bg-gradient-to-t from-slate-300 to-slate-200" />
-              <span className="text-xs text-slate-500">Without Escrow</span>
+              <span className="text-xs text-slate-500">Without Escro</span>
             </div>
           </div>
         </div>
@@ -135,9 +135,9 @@ export default function AgencyReports() {
         </div>
       </div>
 
-      {/* Average Escrow Duration by Category */}
+      {/* Average Escro Duration by Category */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
-        <h3 className="text-sm font-semibold text-slate-900 mb-6">Average Escrow Duration by Category</h3>
+        <h3 className="text-sm font-semibold text-slate-900 mb-6">Average Escro Duration by Category</h3>
         <div className="space-y-5">
           {escrowDuration.map((item, i) => (
             <div key={i}>

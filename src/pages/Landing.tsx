@@ -30,7 +30,7 @@ export default function Landing() {
               <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
               <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
             </svg>
-            <span className="text-base md:text-lg font-bold text-white">Escrow</span>
+                <span className="text-base md:text-lg font-bold text-white">Escro</span>
           </Link>
           <div className="hidden md:flex items-center gap-6 lg:gap-8 text-sm text-slate-300">
             <a href="#features" className="hover:text-white transition-colors">{t.nav.features}</a>
@@ -237,7 +237,7 @@ export default function Landing() {
                   Show your customers that payments are protected by default. Funds are securely held and released only after delivery or milestone approval. Add visible escrow protection at checkout for a professional, trust-first experience. Available on eligible plans.
                 </p>
                 <a href="/register" className="inline-flex items-center gap-2 text-[#A3E635] font-medium text-sm hover:text-[#b8ed5a] transition-colors">
-                  Enable Escrow Protection <ArrowRight className="w-4 h-4" />
+                  Enable Escro Protection <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
               <div className="relative h-48 md:h-80 flex items-center justify-center">
@@ -261,7 +261,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* International Escrow Section */}
+      {/* International Escro Section */}
       <section className="py-8 md:py-16 px-4 md:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="bg-[#1a1a1a] rounded-2xl md:rounded-3xl overflow-hidden">
@@ -347,17 +347,17 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 md:mb-16">
             <p className="text-slate-400 text-xs md:text-sm mb-3">Teamwork makes the deal work</p>
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white leading-tight">Discover the meaning of efficiency<br className="hidden sm:block" /> with Escrow Business</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white leading-tight">Discover the meaning of efficiency<br className="hidden sm:block" /> with Escro Business</h2>
           </div>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             <div className="bg-[#A3E635] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between md:row-span-2 min-h-[280px] md:min-h-[400px]">
               <div>
                 <h3 className="text-lg md:text-2xl font-bold text-black mb-2">Hold and release payments globally</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-black/70 hover:text-black">Explore Escrow Payments →</a>
+                <a href="/register" className="text-xs md:text-sm font-medium text-black/70 hover:text-black">Explore Escro Payments →</a>
               </div>
               <div className="mt-4 md:mt-8 bg-white rounded-xl p-3 md:p-4 shadow-lg">
-                <p className="text-[10px] md:text-xs text-slate-500 mb-1">Escrow Amount</p>
+                <p className="text-[10px] md:text-xs text-slate-500 mb-1">Escro Amount</p>
                 <p className="text-lg md:text-2xl font-bold mb-2 md:mb-4">NGN 1,000,000</p>
                 <div className="space-y-1.5 md:space-y-2">
                   <div className="flex items-center gap-2">
@@ -377,7 +377,7 @@ export default function Landing() {
             <div className="bg-[#2a2a2a] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px]">
               <div>
                 <h3 className="text-base md:text-xl font-bold text-white mb-2">Invoices backed by escrow</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Learn more about Escrow Invoices</a>
+                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Learn more about Escro Invoices</a>
               </div>
               <div className="mt-3 md:mt-4 bg-white rounded-lg p-2 md:p-3 shadow-lg">
                 <div className="flex justify-between items-center mb-1 md:mb-2">
@@ -391,7 +391,7 @@ export default function Landing() {
             <div className="bg-[#2a2a2a] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px]">
               <div>
                 <h3 className="text-base md:text-xl font-bold text-white mb-2">Smart company cards with spending control</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Learn more about Escrow Cards</a>
+                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Learn more about Escro Cards</a>
               </div>
               <div className="mt-3 md:mt-4 relative h-14 md:h-20">
                 <div className="absolute left-0 top-0 w-24 md:w-32 h-14 md:h-20 rounded-lg bg-gradient-to-br from-[#A3E635] to-[#78c800] shadow-lg transform -rotate-6">
@@ -415,7 +415,7 @@ export default function Landing() {
                   <svg className="w-4 h-4 md:w-5 md:h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>
                 </div>
                 <h3 className="text-base md:text-xl font-bold text-white mb-2">Hold, exchange, and release at fair rates</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Explore Escrow Exchange</a>
+                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Explore Escro Exchange</a>
               </div>
             </div>
 
@@ -580,7 +580,7 @@ export default function Landing() {
                   <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
                   <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
                 </svg>
-                <span className="text-base md:text-lg font-bold text-white">Escrow</span>
+            <span className="text-base md:text-lg font-bold text-white">Escro</span>
               </div>
               <p className="text-xs md:text-sm text-slate-500">The future of secure transactions.</p>
             </div>

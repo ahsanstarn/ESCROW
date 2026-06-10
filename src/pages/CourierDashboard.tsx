@@ -159,7 +159,7 @@ export function CourierDashboard({ userId }: CourierDashboardProps) {
                       <p className="text-lg font-semibold text-slate-100">
                         {delivery.escrow ? formatCurrency(delivery.escrow.amount) : '-'}
                       </p>
-                      <p className="text-[11px] text-slate-500">Escrow value</p>
+                      <p className="text-[11px] text-slate-500">Escro value</p>
                     </div>
                   </div>
                 </Link>

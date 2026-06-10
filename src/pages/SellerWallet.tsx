@@ -47,7 +47,7 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
 
   const walletCards = [
     { label: 'Available Balance', value: formatCurrency(availableBalance || 0), subtitle: 'Ready to withdraw', icon: Wallet, color: 'text-emerald-600' },
-    { label: 'Escrow Balance', value: formatCurrency(escrowBalance), subtitle: 'Held in active orders', icon: Clock, color: 'text-blue-600' },
+    { label: 'Escro Balance', value: formatCurrency(escrowBalance), subtitle: 'Held in active orders', icon: Clock, color: 'text-blue-600' },
     { label: 'Platform Fees', value: formatCurrency(totalFees), subtitle: 'Total fees', icon: Zap, color: 'text-amber-600' },
     { label: 'Risk Reserve', value: formatCurrency(escrowBalance * 0.05), subtitle: 'Dispute buffer', icon: Shield, color: 'text-red-500' },
   ];
@@ -160,8 +160,8 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="flex items-center justify-between px-3 sm:px-4 lg:px-6 py-4">
-            <h2 className="text-lg font-semibold text-slate-900">Escrow History</h2>
-            <button onClick={() => alert('Escrow history export started.')} className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+            <h2 className="text-lg font-semibold text-slate-900">Escro History</h2>
+            <button onClick={() => alert('Escro history export started.')} className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
               <Download className="w-4 h-4" /> Export
             </button>
           </div>
@@ -169,7 +169,7 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-[#A3E635]">
-                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Escrow ID</th>
+                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Escro ID</th>
                   <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Amount</th>
                   <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Status</th>
                   <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider hidden md:table-cell">Buyer</th>

@@ -5,11 +5,11 @@ import { formatCurrency } from '@/lib/utils';
 
 export default function AgencyEscrowFinance() {
   const [transactions] = useState([
-    { client: 'Tech Solutions Inc.', amount: '$45,000.00', status: 'In Escrow', date: '24/01/2026' },
+    { client: 'Tech Solutions Inc.', amount: '$45,000.00', status: 'In Escro', date: '24/01/2026' },
     { client: 'BuildCo LLC', amount: '$8,750.00', status: 'Released', date: '20/01/2026' },
     { client: 'Metro Manufacturing', amount: '$15,200.00', status: 'Disputed', date: '18/01/2026' },
     { client: 'Global Logistics Co.', amount: '$89,500.00', status: 'Released', date: '15/01/2026' },
-    { client: 'Digital Marketing Pro', amount: '$67,800.00', status: 'In Escrow', date: '10/01/2026' },
+    { client: 'Digital Marketing Pro', amount: '$67,800.00', status: 'In Escro', date: '10/01/2026' },
   ]);
 
   const payoutSchedule = [
@@ -24,7 +24,7 @@ export default function AgencyEscrowFinance() {
 
   const flowDistribution = [
     { label: 'Initiated', count: 16, color: '#A3E635' },
-    { label: 'In Escrow', count: 8, color: '#22c55e' },
+    { label: 'In Escro', count: 8, color: '#22c55e' },
     { label: 'Released', count: 12, color: '#3b82f6' },
     { label: 'Disputed', count: 3, color: '#ef4444' },
   ];
@@ -33,7 +33,7 @@ export default function AgencyEscrowFinance() {
     <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6 lg:mb-8">
-        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Escrow & Finance</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Escro & Finance</h1>
         <p className="mt-1 text-sm text-slate-500">Track escrow balances, payouts, and financial flow</p>
       </div>
 
@@ -43,7 +43,7 @@ export default function AgencyEscrowFinance() {
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-3 opacity-90">
               <Lock className="w-4 h-4" />
-              <span className="text-sm font-medium">Funds in Escrow</span>
+              <span className="text-sm font-medium">Funds in Escro</span>
             </div>
             <p className="text-3xl font-bold">{formatCurrency(23550.00)}</p>
             <p className="text-sm opacity-75 mt-1">Across 8 active transactions</p>
@@ -87,11 +87,11 @@ export default function AgencyEscrowFinance() {
             </div>
             <div className="flex flex-col items-center gap-1">
               <ArrowRight className="w-5 h-5 text-emerald-500" />
-              <span className="text-[10px] text-slate-400 font-medium uppercase">Escrow</span>
+              <span className="text-[10px] text-slate-400 font-medium uppercase">Escro</span>
             </div>
             <div className="flex-1 bg-blue-50 rounded-xl p-4 border border-blue-100 text-center">
               <p className="text-xs text-blue-600 font-medium mb-1">Held</p>
-              <p className="text-sm font-semibold text-slate-900">Escrow Pool</p>
+              <p className="text-sm font-semibold text-slate-900">Escro Pool</p>
               <p className="text-lg font-bold text-blue-700 mt-1">$67,850</p>
             </div>
             <div className="flex flex-col items-center gap-1">
@@ -181,7 +181,7 @@ export default function AgencyEscrowFinance() {
         {/* Escrow Transactions by Client Table */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100">
-            <h3 className="text-sm font-semibold text-slate-900">Escrow Transactions by Client</h3>
+            <h3 className="text-sm font-semibold text-slate-900">Escro Transactions by Client</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -200,11 +200,11 @@ export default function AgencyEscrowFinance() {
                     <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.amount}</td>
                     <td className="py-3 px-3 sm:px-4 lg:px-6">
                       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                        tx.status === 'In Escrow' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                        tx.status === 'In Escro' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
                         tx.status === 'Released' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
                         'bg-red-50 text-red-700 border border-red-200'
                       }`}>
-                        {tx.status === 'In Escrow' ? <ShieldCheck className="w-3 h-3" /> :
+                        {tx.status === 'In Escro' ? <ShieldCheck className="w-3 h-3" /> :
                          tx.status === 'Released' ? <CheckCircle className="w-3 h-3" /> :
                          <AlertTriangle className="w-3 h-3" />}
                         {tx.status}

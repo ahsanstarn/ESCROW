@@ -104,7 +104,7 @@ export function Sidebar({ currentRole, currentUser, mobileOpen, onMobileClose, o
             </svg>
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold text-white leading-tight">Escrow</span>
+            <span className="text-lg font-bold text-white leading-tight">Escro</span>
             <span className="text-[10px] tracking-wide text-[#A3E635] font-medium leading-tight">{ROLE_LABELS[currentRole]} View</span>
           </div>
         </Link>

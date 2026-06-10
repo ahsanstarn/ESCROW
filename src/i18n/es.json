@@ -9,70 +9,70 @@
   },
   "hero": {
     "title": "Construye confianza en cada transacción",
-    "subtitle": "Escrow seguro para bienes, servicios y suscripciones — manteniendo fondos hasta que se confirme la entrega.",
+    "subtitle": "Escro seguro para bienes, servicios y suscripciones — manteniendo fondos hasta que se confirme la entrega.",
     "shopNow": "Comprar ahora",
     "learnMore": "Saber más"
   },
   "features": {
     "label": "Características",
     "title": "Mantenemos tus pagos seguros",
-    "desc": "Tus fondos están protegidos en cada etapa de la transacción. Escrow asegura que el dinero se mueva solo cuando se cumplan las condiciones acordadas.",
+    "desc": "Tus fondos están protegidos en cada etapa de la transacción. Escro asegura que el dinero se mueva solo cuando se cumplan las condiciones acordadas.",
     "seeHow": "Ver cómo",
     "items": [
       { "title": "Pagos bajo tu control", "desc": "Establece tus condiciones de liberación, retiene transferencias condicionalmente o paga hitos con total visibilidad." },
-      { "title": "Gasta como local, globalmente", "desc": "Proporciona una experiencia de construcción local con Escrow, creando detalles bancarios locales en muchas regiones y países." },
+      { "title": "Gasta como local, globalmente", "desc": "Proporciona una experiencia de construcción local con Escro, creando detalles bancarios locales en muchas regiones y países." },
       { "title": "Mantente seguro durante la transacción", "desc": "Las protecciones integradas guardan contra fraude, no entrega y disputas de pago de principio a fin." },
       { "title": "Empodera a tu equipo con permisos", "desc": "Administra tu equipo y las necesidades de la empresa desde una sola cuenta central poderosa." }
     ],
     "learnMore": "Saber más →"
   },
   "about": {
-    "title": "Conoce más sobre Escrow",
-    "desc": "Estamos construyendo una plataforma de escrow prioritariamente confiable diseñada para proteger a compradores, vendedores y empresas.",
+    "title": "Conoce más sobre Escro",
+    "desc": "Estamos construyendo una plataforma de Escro prioritariamente confiable diseñada para proteger a compradores, vendedores y empresas.",
     "stats": {
       "users": "Usuarios activos",
-      "secure": "Escrow Seguro",
+      "secure": "Escro Seguro",
       "rating": "Calificación de Confianza"
     }
   },
   "impression": {
-    "title": "Causa una impresión con escrow",
+    "title": "Causa una impresión con Escro",
     "desc": "Muestra a tus clientes que los pagos están protegidos por defecto. Los fondos se mantienen de forma segura y solo se liberan después de la entrega o aprobación del hito.",
-    "enable": "Activar Protección Escrow"
+    "enable": "Activar Protección Escro"
   },
   "international": {
-    "label": "Pagos Escrow",
-    "title": "Escrow internacional para tu negocio",
-    "desc": "Únete a las empresas que protegen transacciones globales con pagos respaldados por escrow, asegurando que el dinero se mueva solo cuando se cumplan las condiciones.",
+    "label": "Pagos Escro",
+    "title": "Escro internacional para tu negocio",
+    "desc": "Únete a las empresas que protegen transacciones globales con pagos respaldados por Escro, asegurando que el dinero se mueva solo cuando se cumplan las condiciones.",
     "getStarted": "Empezar",
     "contactSales": "Contactar ventas"
   },
   "stats": {
     "processed": "USD Procesados",
-    "customers": "Clientes Confían en Escrow",
-    "title": "Más de $3.2 mil millones de transacciones protegidas con Escrow",
-    "desc": "Escrow es el método de pago más seguro del mundo desde la perspectiva de riesgo contraparte — protegiendo tanto al comprador como al vendedor."
+    "customers": "Clientes Confían en Escro",
+    "title": "Más de $3.2 mil millones de transacciones protegidas con Escro",
+    "desc": "Escro es el método de pago más seguro del mundo desde la perspectiva de riesgo contraparte — protegiendo tanto al comprador como al vendedor."
   },
   "steps": {
     "1": { "title": "Comprador y vendedor acuerdan los términos", "desc": "Ambas partes confirman los detalles" },
-    "2": { "title": "El comprador envía el pago a Escrow", "desc": "Fondos retenidos de forma segura" },
+    "2": { "title": "El comprador envía el pago a Escro", "desc": "Fondos retenidos de forma segura" },
     "3": { "title": "El vendedor entrega bienes o servicio al comprador", "desc": "Producto o servicio proporcionado" },
     "4": { "title": "El comprador aprueba bienes o servicios", "desc": "El comprador confirma satisfacción" },
-    "5": { "title": "Escrow libera el pago al vendedor", "desc": "Transacción completa" },
+    "5": { "title": "Escro libera el pago al vendedor", "desc": "Transacción completa" },
     "getStarted": "Empezar ahora",
-    "learnMore": "SABER MÁS SOBRE ESCROW"
+    "learnMore": "SABER MÁS SOBRE Escro"
   },
   "business": {
     "subtitle": "El trabajo en equipo hace que el trato funcione",
-    "title": "Descubre el significado de la eficiencia con Escrow Business",
+    "title": "Descubre el significado de la eficiencia con Escro Business",
     "holdRelease": "Retener y liberar pagos globalmente",
-    "explore": "Explorar Pagos Escrow →",
-    "invoices": "Facturas respaldadas por escrow",
-    "learnInvoices": "Más sobre Facturas Escrow",
+    "explore": "Explorar Pagos Escro →",
+    "invoices": "Facturas respaldadas por Escro",
+    "learnInvoices": "Más sobre Facturas Escro",
     "cards": "Tarjetas inteligentes con control de gastos",
-    "learnCards": "Más sobre Tarjetas Escrow",
+    "learnCards": "Más sobre Tarjetas Escro",
     "exchange": "Retener, cambiar y liberar a precios justos",
-    "learnExchange": "Explorar Escrow Exchange"
+    "learnExchange": "Explorar Escro Exchange"
   },
   "spend": {
     "title": "Controla tus gastos con reglas inteligentes"
@@ -97,7 +97,7 @@
     "contactSales": "Contactar ventas"
   },
   "connect": {
-    "title": "Conecta tu plataforma con Escrow Trust",
+    "title": "Conecta tu plataforma con Escro Trust",
     "cta": "Reimaginar la Confianza"
   },
   "footer": {
@@ -115,7 +115,7 @@
     "privacy": "Privacidad",
     "terms": "Términos",
     "cookies": "Cookies",
-    "copyright": "© 2026 Escrow. Todos los derechos reservados."
+    "copyright": "© 2026 Escro. Todos los derechos reservados."
   },
   "login": {
     "title": "Inicia sesión en tu cuenta",
@@ -151,26 +151,26 @@
   },
   "pricing": {
     "title": "Protege cada pago sin cambiar",
-    "desc": "Elige el plan que se adapte a las necesidades de tu negocio. Todos los planes incluyen nuestra protección escrow.",
+    "desc": "Elige el plan que se adapte a las necesidades de tu negocio. Todos los planes incluyen nuestra protección Escro.",
     "popular": "Más Popular",
     "perMonth": "/mes",
     "plans": [
-      { "name": "Inicial", "price": "29", "features": ["5 escrows activos", "Análisis básico", "Soporte por email", "2 miembros del equipo", "0.25% comisión"], "cta": "Empezar" },
-      { "name": "Profesional", "price": "79", "features": ["Escrows ilimitados", "Análisis avanzado", "Soporte prioritario", "10 miembros", "Acceso API", "Branding personalizado"], "cta": "Empezar" },
+      { "name": "Inicial", "price": "29", "features": ["5 Escros activos", "Análisis básico", "Soporte por email", "2 miembros del equipo", "0.25% comisión"], "cta": "Empezar" },
+      { "name": "Profesional", "price": "79", "features": ["Escros ilimitados", "Análisis avanzado", "Soporte prioritario", "10 miembros", "Acceso API", "Branding personalizado"], "cta": "Empezar" },
       { "name": "Empresarial", "price": "Personalizado", "features": ["Precios personalizados", "Gerente de cuenta dedicado", "Garantía SLA", "Miembros ilimitados", "Opción white-label", "Integraciones personalizadas"], "cta": "Contactar Ventas" }
     ]
   },
   "help": {
     "title": "¿Cómo podemos ayudarte?",
-    "desc": "Encuentra respuestas a preguntas frecuentes sobre escrow, transacciones y nuestra plataforma.",
+    "desc": "Encuentra respuestas a preguntas frecuentes sobre Escro, transacciones y nuestra plataforma.",
     "search": "Buscar ayuda...",
     "faqTitle": "Preguntas Frecuentes"
   },
   "aboutPage": {
     "title": "Haciendo las transacciones más seguras para todos",
-    "desc": "Estamos construyendo la plataforma de escrow más confiable del mundo, protegiendo a compradores y vendedores en cada transacción.",
+    "desc": "Estamos construyendo la plataforma de Escro más confiable del mundo, protegiendo a compradores y vendedores en cada transacción.",
     "mission": "Nuestra misión",
-    "missionDesc": "Fundada en 2022, Escrow se construyó con una simple creencia: cada transacción merece ser protegida. Eliminamos la brecha de confianza entre compradores y vendedores.",
+    "missionDesc": "Fundada en 2022, Escro se construyó con una simple creencia: cada transacción merece ser protegida. Eliminamos la brecha de confianza entre compradores y vendedores.",
     "missionDesc2": "Hoy, procesamos más de $3.2 mil millones en transacciones anuales, atendiendo a más de 1.5 millones de clientes en más de 180 países.",
     "values": "Nuestros valores",
     "valuesItems": [
@@ -181,7 +181,7 @@
   },
   "blog": {
     "title": "Noticias y Actualizaciones",
-    "desc": "Mantente informado con las últimas noticias, guías e ideas del equipo Escrow.",
+    "desc": "Mantente informado con las últimas noticias, guías e ideas del equipo Escro.",
     "readMore": "Leer más →"
   },
   "careers": {
@@ -192,7 +192,7 @@
   },
   "contact": {
     "title": "Ponte en contacto",
-    "desc": "¿Tienes preguntas sobre Escrow? Nos encantaría saber de ti.",
+    "desc": "¿Tienes preguntas sobre Escro? Nos encantaría saber de ti.",
     "name": "Nombre completo",
     "namePlaceholder": "Ingresa tu nombre",
     "email": "Correo",
@@ -216,7 +216,7 @@
     "transactions": "Transacciones",
     "cards": "Tarjetas",
     "bulkOrders": "Pedidos Masivos",
-    "escrowFinance": "Escrow y Finanzas",
+    "EscroFinance": "Escro y Finanzas",
     "reports": "Reportes"
   }
 }

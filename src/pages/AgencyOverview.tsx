@@ -139,7 +139,7 @@ export default function AgencyOverview() {
 
         {/* Escrow States Donut */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-          <h3 className="text-sm font-semibold text-slate-900 mb-6">Escrow States Distribution</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-6">Escro States Distribution</h3>
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <div className="relative w-32 h-32 flex-shrink-0">
               <div
