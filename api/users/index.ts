@@ -34,6 +34,13 @@ async function sbPost(table: string, row: Record<string, any>) {
   return { data: Array.isArray(data) ? data[0] : data, error: res.ok ? null : { message: text } };
 }
 
+async function sbPatch(table: string, updates: Record<string, any>, filterCol: string, filterVal: string) {
+  if (!hasSupabaseConfig()) return { data: updates, error: null };
+  const res = await fetch(`${BASE()}/${table}?${filterCol}=eq.${encodeURIComponent(filterVal)}`, { method: 'PATCH', headers: HDRS(), body: JSON.stringify(updates) });
+  const text = await res.text();
+  return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
+}
+
 const createSchema = z.object({
   email: z.string().email(),
   name: z.string(),
@@ -43,7 +50,7 @@ const createSchema = z.object({
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -95,6 +102,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
       if (error) throw error;
       return res.status(201).json({ success: true, data: user });
+    }
+
+    if (req.method === 'PUT') {
+      const { userId, name, phone, username } = req.body || {};
+      if (!userId) return res.status(400).json({ error: 'Missing userId' });
+      const updates: Record<string, any> = {};
+      if (name) updates.name = name;
+      if (phone) updates.phone = phone;
+      if (username) updates.username = username;
+      if (Object.keys(updates).length === 0) return res.status(400).json({ error: 'No fields to update' });
+      const { data, error } = await sbPatch('users', updates, 'id', userId);
+      if (error) throw new Error(error.message);
+      return res.json({ success: true, data });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

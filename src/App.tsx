@@ -65,9 +65,10 @@ function DashboardLayout() {
   const { showToast } = useToast();
   const toastRef = useRef(showToast);
   toastRef.current = showToast;
+  const VALID_ROLES: UserRole[] = ['SELLER', 'BUYER', 'MERCHANT', 'AGENCY', 'COURIER', 'ADMIN'];
   const [currentRole, setCurrentRole] = useState<UserRole>(() => {
     const saved = localStorage.getItem('escrow_role');
-    return (saved as UserRole) || 'SELLER';
+    return saved && VALID_ROLES.includes(saved as UserRole) ? (saved as UserRole) : 'SELLER';
   });
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -124,7 +125,7 @@ function DashboardLayout() {
       if (!cancelled) setLoading(false);
     })();
     return () => { cancelled = true; };
-  }, [session, authLoading, navigate]);
+  }, [session, authLoading]);
 
   const handleRoleChange = (role: UserRole) => {
     setCurrentRole(role);
@@ -132,11 +133,9 @@ function DashboardLayout() {
     navigate(`/${role.toLowerCase()}`, { replace: true });
   };
 
-  if (authLoading || loading) {
+  if (authLoading || loading || !session) {
     return <LoadingScreen />;
   }
-
-  if (!session) return null;
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#f0f5f0]">

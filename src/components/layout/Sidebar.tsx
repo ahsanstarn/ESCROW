@@ -13,6 +13,7 @@ import {
   Store,
   ShoppingCart,
   Truck,
+  HelpCircle,
 } from 'lucide-react';
 import { UserRole, User as UserType } from '@/types';
 import { useTranslation } from '@/i18n';
@@ -43,6 +44,8 @@ const ROLE_ICONS: Record<UserRole, React.ElementType> = {
   SELLER: Store,
   AGENCY: Building2,
 };
+
+const FALLBACK_ICON = HelpCircle;
 
 const AVAILABLE_ROLES: UserRole[] = ['SELLER', 'BUYER', 'MERCHANT', 'AGENCY', 'COURIER', 'ADMIN'];
 
@@ -113,14 +116,14 @@ export function Sidebar({ currentRole, currentUser, mobileOpen, onMobileClose, o
             onClick={() => setRoleOpen(!roleOpen)}
             className="w-full flex items-center gap-3 bg-[#1a1a1a] border border-[#333] rounded-lg px-3 py-2.5 text-sm text-slate-300 hover:border-[#444] transition-colors"
           >
-            {(() => { const Icon = ROLE_ICONS[currentRole]; return <Icon className="w-4 h-4 text-[#A3E635] flex-shrink-0" />; })()}
+            {(() => { const Icon = ROLE_ICONS[currentRole] || FALLBACK_ICON; return <Icon className="w-4 h-4 text-[#A3E635] flex-shrink-0" />; })()}
             <span className="flex-1 text-left">{ROLE_LABELS[currentRole]}</span>
             <ChevronsUpDown className={`w-4 h-4 text-slate-500 transition-transform ${roleOpen ? 'rotate-180' : ''}`} />
           </button>
           {roleOpen && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-50 shadow-xl">
               {AVAILABLE_ROLES.map((role) => {
-                const Icon = ROLE_ICONS[role];
+                const Icon = ROLE_ICONS[role] || FALLBACK_ICON;
                 return (
                   <button
                     key={role}

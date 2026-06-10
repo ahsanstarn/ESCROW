@@ -83,7 +83,7 @@ export const api = {
   },
   users2: {
     update: (data: any) =>
-      request<{ success: boolean; data: any }>('/users/update', { method: 'PUT', body: JSON.stringify(data) }),
+      request<{ success: boolean; data: any }>('/users', { method: 'PUT', body: JSON.stringify(data) }),
   },
   webhooks: {
     config: (userId: string) =>

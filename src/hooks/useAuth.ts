@@ -14,53 +14,70 @@ export function useAuth() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem('escrow_session');
-    if (stored) {
+    let cancelled = false;
+    const init = async () => {
       try {
-        const parsed: AuthSession = JSON.parse(stored);
+        const stored = localStorage.getItem('escrow_session');
+        if (!stored) {
+          if (!cancelled) setLoading(false);
+          return;
+        }
+        let parsed: AuthSession;
+        try {
+          parsed = JSON.parse(stored);
+        } catch {
+          localStorage.removeItem('escrow_session');
+          setError('Invalid session data. Please sign in again.');
+          if (!cancelled) setLoading(false);
+          return;
+        }
         if (parsed.expires_at && parsed.expires_at > Date.now() / 1000) {
-          setSession(parsed);
-          setUser(parsed.user);
+          if (!cancelled) {
+            setSession(parsed);
+            setUser(parsed.user);
+          }
         } else if (parsed.refresh_token) {
-          refreshSession(parsed.refresh_token);
+          try {
+            const res = await fetch('/api/auth?action=refresh', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ refresh_token: parsed.refresh_token }),
+            });
+            if (res.ok) {
+              const data: AuthSession = await res.json();
+              if (!cancelled) {
+                setSession(data);
+                setUser(data.user);
+                setError(null);
+              }
+              localStorage.setItem('escrow_session', JSON.stringify(data));
+            } else {
+              localStorage.removeItem('escrow_session');
+              if (!cancelled) {
+                setSession(null);
+                setUser(null);
+                setError('Session refresh failed. Please sign in again.');
+              }
+            }
+          } catch {
+            localStorage.removeItem('escrow_session');
+            if (!cancelled) {
+              setSession(null);
+              setUser(null);
+              setError('Network error during session refresh.');
+            }
+          }
         } else {
           localStorage.removeItem('escrow_session');
           setError('Session expired. Please sign in again.');
         }
-      } catch {
-        localStorage.removeItem('escrow_session');
-        setError('Invalid session data. Please sign in again.');
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-    }
-    setLoading(false);
+    };
+    init();
+    return () => { cancelled = true; };
   }, []);
-
-  const refreshSession = async (refreshToken: string) => {
-    try {
-      const res = await fetch('/api/auth?action=refresh', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refresh_token: refreshToken }),
-      });
-      if (res.ok) {
-        const data: AuthSession = await res.json();
-        setSession(data);
-        setUser(data.user);
-        localStorage.setItem('escrow_session', JSON.stringify(data));
-        setError(null);
-      } else {
-        localStorage.removeItem('escrow_session');
-        setSession(null);
-        setUser(null);
-        setError('Session refresh failed. Please sign in again.');
-      }
-    } catch {
-      localStorage.removeItem('escrow_session');
-      setSession(null);
-      setUser(null);
-      setError('Network error during session refresh.');
-    }
-  };
 
   const signInWithGoogle = useCallback(async () => {
     try {

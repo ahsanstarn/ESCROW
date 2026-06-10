@@ -35,10 +35,10 @@ export default function LoadingSpinner({ size = 'md', message, fullScreen = fals
 
 export function LoadingScreen({ message = 'Loading your dashboard...' }: { message?: string }) {
   return (
-    <div className="flex h-screen items-center justify-center bg-[#111]">
+    <div className="flex h-screen items-center justify-center bg-[#f0f5f0]">
       <div className="text-center">
         <div className="w-8 h-8 border-2 border-[#A3E635] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-sm text-slate-400">{message}</p>
+        <p className="text-sm text-slate-500">{message}</p>
       </div>
     </div>
   );
