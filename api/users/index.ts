@@ -5,7 +5,12 @@ const BASE = () => `${process.env.SUPABASE_URL}/rest/v1`;
 const KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' });
 
+function hasSupabaseConfig() {
+  return !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
 async function sbGet(table: string, params: Record<string, string> = {}, countOnly = false) {
+  if (!hasSupabaseConfig()) return { data: [], count: 0, error: null };
   const url = new URL(`${BASE()}/${table}`);
   url.searchParams.set('select', '*');
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
@@ -22,6 +27,7 @@ async function sbGet(table: string, params: Record<string, string> = {}, countOn
 }
 
 async function sbPost(table: string, row: Record<string, any>) {
+  if (!hasSupabaseConfig()) return { data: row, error: null };
   const res = await fetch(`${BASE()}/${table}`, { method: 'POST', headers: HDRS(), body: JSON.stringify(row) });
   const text = await res.text();
   const data = text ? JSON.parse(text) : [];

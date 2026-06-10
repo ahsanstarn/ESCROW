@@ -27,7 +27,7 @@ import Pricing from './pages/Pricing';
 import HelpCenter from './pages/HelpCenter';
 import Privacy from './pages/Privacy';
 import { Terms } from './pages/Terms';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { UserRole, User } from './types';
 import { api } from './lib/api';
 import { useAuth } from './hooks/useAuth';
@@ -63,6 +63,8 @@ function DashboardLayout() {
   const navigate = useNavigate();
   const { session, loading: authLoading } = useAuth();
   const { showToast } = useToast();
+  const toastRef = useRef(showToast);
+  toastRef.current = showToast;
   const [currentRole, setCurrentRole] = useState<UserRole>(() => {
     const saved = localStorage.getItem('escrow_role');
     return (saved as UserRole) || 'SELLER';
@@ -71,60 +73,64 @@ function DashboardLayout() {
   const [loading, setLoading] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const fetchUser = useCallback(async () => {
-    if (!session?.user?.email) {
+  useEffect(() => {
+    if (authLoading) return;
+    if (!session) {
+      navigate('/login', { replace: true });
+      return;
+    }
+    const email = session.user?.email;
+    if (!email) {
       setLoading(false);
       return;
     }
     const sessionRole = session.user?.user_metadata?.role?.toLowerCase() as UserRole | undefined;
-    const sessionName = session.user?.user_metadata?.name || session.user?.email;
-
-    try {
-      let res = await api.users.list();
-      if (res.data.length === 0) {
-        try {
-          await fetch('/api/seed', { method: 'POST' });
-          res = await api.users.list();
-        } catch {
-          showToast('Failed to initialize platform data', 'error');
+    const sessionName = session.user?.user_metadata?.name || email;
+    const fallbackUser: User = {
+      id: session.user?.id || '',
+      email,
+      name: sessionName,
+      role: (sessionRole || 'SELLER') as UserRole,
+      kycStatus: 'VERIFIED',
+      riskScore: 0,
+      trustScore: 80,
+      createdAt: new Date().toISOString(),
+    };
+    let cancelled = false;
+    (async () => {
+      try {
+        let res = await api.users.list();
+        if (!res.data || res.data.length === 0) {
+          try { await fetch('/api/seed', { method: 'POST' }); } catch { /* ignore */ }
+          try { res = await api.users.list(); } catch { /* ignore */ }
         }
-      }
-      const matched = res.data.find((u: User) => u.email === session.user?.email);
-      if (matched) {
-        setCurrentUser(matched);
+        if (cancelled) return;
+        const matched = res.data?.find((u: User) => u.email === email);
+        if (matched) {
+          setCurrentUser(matched);
+          const savedRole = localStorage.getItem('escrow_role') as UserRole;
+          if (!savedRole) setCurrentRole(matched.role);
+        } else {
+          setCurrentUser(fallbackUser);
+          const savedRole = localStorage.getItem('escrow_role') as UserRole;
+          if (!savedRole) setCurrentRole(fallbackUser.role);
+        }
+      } catch {
+        if (cancelled) return;
+        setCurrentUser(fallbackUser);
         const savedRole = localStorage.getItem('escrow_role') as UserRole;
-        if (!savedRole) setCurrentRole(matched.role);
-      } else {
-        const fallbackRole = sessionRole || 'SELLER';
-        setCurrentUser({ id: session.user?.id || '', email: session.user?.email || '', name: sessionName, role: fallbackRole, kycStatus: 'VERIFIED', riskScore: 0, trustScore: 80, createdAt: new Date().toISOString() });
-        const savedRole = localStorage.getItem('escrow_role') as UserRole;
-        if (!savedRole) setCurrentRole(fallbackRole);
+        if (!savedRole) setCurrentRole(fallbackUser.role);
       }
-    } catch {
-      const fallbackRole = sessionRole || 'SELLER';
-      setCurrentUser({ id: session.user?.id || '', email: session.user?.email || '', name: sessionName, role: fallbackRole, kycStatus: 'VERIFIED', riskScore: 0, trustScore: 80, createdAt: new Date().toISOString() });
-      const savedRole = localStorage.getItem('escrow_role') as UserRole;
-      if (!savedRole) setCurrentRole(fallbackRole);
-      showToast('Could not load user data. Using default profile.', 'info');
-    }
-    setLoading(false);
-  }, [session, showToast]);
+      if (!cancelled) setLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [session, authLoading, navigate]);
 
   const handleRoleChange = (role: UserRole) => {
     setCurrentRole(role);
     localStorage.setItem('escrow_role', role);
     navigate(`/${role.toLowerCase()}`, { replace: true });
   };
-
-  useEffect(() => {
-    if (!authLoading) {
-      if (!session) {
-        navigate('/login', { replace: true });
-        return;
-      }
-      fetchUser();
-    }
-  }, [session, authLoading, fetchUser, navigate]);
 
   if (authLoading || loading) {
     return <LoadingScreen />;
@@ -133,7 +139,7 @@ function DashboardLayout() {
   if (!session) return null;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-black">
+    <div className="flex h-screen overflow-hidden bg-[#f0f5f0]">
       <Sidebar currentRole={currentRole} currentUser={currentUser || undefined} mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} onRoleChange={handleRoleChange} />
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         <MobileHeader onMenuToggle={() => setMobileOpen(true)} />

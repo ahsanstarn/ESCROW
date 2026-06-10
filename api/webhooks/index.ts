@@ -4,7 +4,12 @@ const BASE = () => `${process.env.SUPABASE_URL}/rest/v1`;
 const KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' });
 
+function hasConfig() {
+  return !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
 async function sbGet(table: string, params: Record<string, string> = {}) {
+  if (!hasConfig()) return { data: [], error: null };
   const url = new URL(`${BASE()}/${table}`);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
   const res = await fetch(url.toString(), { headers: HDRS() });

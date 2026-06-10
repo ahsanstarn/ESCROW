@@ -4,7 +4,12 @@ const BASE = () => `${process.env.SUPABASE_URL}/rest/v1`;
 const KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' });
 
+function hasConfig() {
+  return !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
 async function sbInsert(table: string, row: Record<string, any>) {
+  if (!hasConfig()) return { id: `mock-${Date.now()}`, ...row };
   const res = await fetch(`${BASE()}/${table}`, { method: 'POST', headers: HDRS(), body: JSON.stringify(row) });
   const data = await res.json();
   return Array.isArray(data) ? data[0] : data;
@@ -15,6 +20,7 @@ async function sbInsertMany(table: string, rows: Record<string, any>[]) {
 }
 
 async function sbCount(table: string): Promise<number> {
+  if (!hasConfig()) return 0;
   const res = await fetch(`${BASE()}/${table}?select=*&limit=1`, { headers: { ...HDRS(), Prefer: 'count=exact', Range: '0-0' } });
   const cr = res.headers.get('content-range');
   return cr ? parseInt(cr.split('/')[1]) : 0;

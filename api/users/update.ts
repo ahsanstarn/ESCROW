@@ -4,7 +4,12 @@ const BASE = () => `${process.env.SUPABASE_URL}/rest/v1`;
 const KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' });
 
+function hasConfig() {
+  return !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
 async function sbPatch(table: string, updates: Record<string, any>, filterCol: string, filterVal: string) {
+  if (!hasConfig()) return { data: updates, error: null };
   const res = await fetch(`${BASE()}/${table}?${filterCol}=eq.${encodeURIComponent(filterVal)}`, { method: 'PATCH', headers: HDRS(), body: JSON.stringify(updates) });
   const text = await res.text();
   return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
