@@ -382,20 +382,8 @@ export default function Landing() {
                 </div>
 
                 {/* Hand reaching out from bottom right */}
-                <div className="absolute bottom-0 right-[-10px] md:right-4 w-[280px] md:w-[340px] z-10 translate-y-2 pointer-events-none">
-                  <svg viewBox="0 0 320 220" fill="none" className="w-full h-auto drop-shadow-xl">
-                    {/* Sleeve */}
-                    <path d="M 210 220 Q 230 180 270 160 L 320 160 L 320 220 Z" fill="#dce1e8" />
-                    {/* Arm/Hand Base */}
-                    <path d="M 180 220 Q 210 190 270 160 Q 230 160 190 180 Q 150 195 160 220 Z" fill="#b97c5d" />
-                    {/* Fingers overlapping */}
-                    <path d="M 155 195 Q 130 190 130 205 Q 130 215 150 220" fill="#cc8e6d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
-                    <path d="M 165 185 Q 135 180 135 195 Q 135 210 155 220" fill="#b97c5d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
-                    <path d="M 175 175 Q 145 170 145 185 Q 145 200 165 220" fill="#cc8e6d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
-                    <path d="M 190 165 Q 150 155 150 175 Q 150 195 170 210" fill="#b97c5d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
-                    {/* Thumb */}
-                    <path d="M 200 170 Q 180 160 170 170 Q 160 180 180 190 Q 210 200 240 180" fill="#cc8e6d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
-                  </svg>
+                <div className="absolute bottom-[-10px] right-[-20px] md:right-0 w-[300px] md:w-[380px] z-10 pointer-events-none mix-blend-screen">
+                  <img src="/hand.png" alt="Hand holding card" className="w-full h-auto drop-shadow-2xl opacity-90 hover:opacity-100 transition-opacity" />
                 </div>
               </div>
             </div>
