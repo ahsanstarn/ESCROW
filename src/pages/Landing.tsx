@@ -343,52 +343,58 @@ export default function Landing() {
                 </a>
               </div>
               <div className="relative h-64 md:h-96 flex items-end justify-center overflow-visible">
-                {/* Green Escro Card (Floating & Rotated) */}
-                <div className="absolute right-8 md:right-16 top-[-30px] md:top-[-40px] w-[180px] md:w-[220px] h-[280px] md:h-[340px] rounded-[18px] bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#65a30d] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform rotate-[28deg] p-5 overflow-hidden transition-transform duration-700 hover:-translate-y-4 hover:rotate-[32deg] z-20">
-                  {/* Shiny Glare Overlay */}
-                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.5)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.2)_50%,transparent_55%)] pointer-events-none z-0"></div>
+                {/* Green Escro Card */}
+                <div className="group absolute right-8 md:right-16 top-[-30px] md:top-[-40px] w-[180px] md:w-[220px] h-[280px] md:h-[340px] rounded-[18px] bg-gradient-to-br from-[#d4f870] via-[#a3e635] to-[#7acc00] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform rotate-[32deg] p-5 overflow-hidden transition-transform duration-700 hover:-translate-y-4 hover:rotate-[35deg] z-20 cursor-pointer">
+                  {/* Static Glare Overlay */}
+                  <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(255,255,255,0.1)_20%,rgba(255,255,255,0.6)_25%,rgba(255,255,255,0)_30%,rgba(255,255,255,0)_45%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0)_55%)] pointer-events-none z-0 mix-blend-overlay"></div>
+                  {/* Animated Glare on Hover */}
+                  <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/70 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
                   {/* Glassy Inner Border */}
                   <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/50 pointer-events-none mix-blend-overlay z-0"></div>
 
-                  <div className="relative z-10">
-                    <span className="text-white text-[16px] md:text-[18px] font-bold tracking-[0.12em] drop-shadow-sm">ESCRO</span>
-                    <svg className="w-5 h-5 md:w-6 md:h-6 text-white mt-1.5 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+                  {/* Contactless Icon (Top Right) */}
+                  <div className="absolute top-6 right-6 z-10 opacity-90">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" className="drop-shadow-sm">
+                      <path d="M8.5 2.5a15 15 0 0 1 7 0 M6 6a11 11 0 0 1 12 0 M3.5 10a7 7 0 0 1 17 0" />
+                    </svg>
                   </div>
                   
-                  {/* EMV Chip */}
-                  <div className="absolute left-6 bottom-10 w-9 h-12 md:w-11 md:h-14 rounded-md border border-black/10 bg-gradient-to-br from-[#ffd700] to-[#b8860b] flex flex-col justify-between p-[2px] opacity-80 mix-blend-overlay z-10">
-                    <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
-                    <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
-                    <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
-                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-black/20"></div>
+                  {/* EMV Chip (Bottom Left) */}
+                  <div className="absolute left-6 bottom-14 w-10 h-12 md:w-12 md:h-14 rounded-md border border-black/10 bg-[#dfeb32] flex flex-col justify-between p-[2px] opacity-90 shadow-sm z-10">
+                    <div className="w-full h-[1px] bg-black/10 my-[3px]"></div>
+                    <div className="w-full h-[1px] bg-black/10 my-[3px]"></div>
+                    <div className="w-full h-[1px] bg-black/10 my-[3px]"></div>
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-black/10"></div>
                   </div>
 
-                  <div className="absolute right-4 top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white/95 text-[24px] md:text-[28px] font-sans font-semibold tracking-[0.15em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  {/* Text: Numbers */}
+                  <div className="absolute right-4 md:right-6 top-0 h-full flex items-center justify-center z-10">
+                    <p className="text-white text-[24px] md:text-[28px] font-sans font-bold tracking-[0.1em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       34 5678 9012 3456
                     </p>
                   </div>
+                  {/* Text: Name */}
                   <div className="absolute right-[46px] md:right-[56px] top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white/70 text-[9px] md:text-[11px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                      Name Surname
+                    <p className="text-white/80 text-[10px] md:text-[11px] font-sans font-semibold uppercase tracking-[0.25em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                      NAME SURNAME
                     </p>
                   </div>
                 </div>
 
                 {/* Hand reaching out from bottom right */}
-                <div className="absolute bottom-0 right-[-20px] md:right-0 w-[240px] md:w-[320px] z-10 translate-y-4">
-                  <svg viewBox="0 0 320 200" fill="none" className="w-full h-auto drop-shadow-2xl">
+                <div className="absolute bottom-0 right-[-10px] md:right-4 w-[280px] md:w-[340px] z-10 translate-y-2 pointer-events-none">
+                  <svg viewBox="0 0 320 220" fill="none" className="w-full h-auto drop-shadow-xl">
                     {/* Sleeve */}
-                    <path d="M 320 200 L 320 120 C 300 110, 260 120, 200 160 L 150 200 Z" fill="#d1d5db" />
-                    {/* Hand Base */}
-                    <path d="M 210 150 C 180 130, 140 135, 120 145 C 90 160, 100 170, 130 170 L 160 170 C 170 170, 200 190, 230 190 Z" fill="#c4845e" />
-                    {/* Fingers */}
-                    <path d="M 120 145 C 100 135, 80 140, 70 150 C 60 160, 90 165, 110 160" fill="#d49570" stroke="#b0704c" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 125 152 C 105 142, 85 147, 75 157 C 65 167, 95 172, 115 167" fill="#c4845e" stroke="#b0704c" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 130 159 C 110 149, 90 154, 80 164 C 70 174, 100 179, 120 174" fill="#b0704c" stroke="#905030" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 135 166 C 115 156, 95 161, 85 171 C 75 181, 105 186, 125 181" fill="#c4845e" stroke="#b0704c" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M 210 220 Q 230 180 270 160 L 320 160 L 320 220 Z" fill="#dce1e8" />
+                    {/* Arm/Hand Base */}
+                    <path d="M 180 220 Q 210 190 270 160 Q 230 160 190 180 Q 150 195 160 220 Z" fill="#b97c5d" />
+                    {/* Fingers overlapping */}
+                    <path d="M 155 195 Q 130 190 130 205 Q 130 215 150 220" fill="#cc8e6d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
+                    <path d="M 165 185 Q 135 180 135 195 Q 135 210 155 220" fill="#b97c5d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
+                    <path d="M 175 175 Q 145 170 145 185 Q 145 200 165 220" fill="#cc8e6d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
+                    <path d="M 190 165 Q 150 155 150 175 Q 150 195 170 210" fill="#b97c5d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
                     {/* Thumb */}
-                    <path d="M 160 170 C 140 185, 110 190, 100 180 C 90 170, 110 160, 130 155" fill="#d49570" stroke="#b0704c" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M 200 170 Q 180 160 170 170 Q 160 180 180 190 Q 210 200 240 180" fill="#cc8e6d" stroke="#a4694b" strokeWidth="2.5" strokeLinecap="round"/>
                   </svg>
                 </div>
               </div>
