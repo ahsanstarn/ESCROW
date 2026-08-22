@@ -45,54 +45,69 @@ export default function Landing() {
           <div className="absolute -bottom-[20px] md:-bottom-[40px] left-1/2 -translate-x-1/2 w-[600px] md:w-[700px] h-[380px] md:h-[420px] z-40 pointer-events-none">
             
             {/* Blue Card (Left, behind Red) */}
-            <div className="absolute left-[20px] bottom-[20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#22d3ee] via-[#06b6d4] to-[#0891b2] shadow-[0_8px_30px_rgba(0,0,0,0.4)] transform -rotate-[15deg] z-10 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:-rotate-[18deg] pointer-events-auto cursor-pointer">
-              <div>
-                <span className="text-white text-[17px] font-bold tracking-[0.12em]">ESCRO</span>
-                <svg className="w-6 h-6 text-white mt-1.5 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+            <div className="group absolute left-[20px] bottom-[20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#22d3ee] via-[#06b6d4] to-[#0891b2] shadow-[0_8px_30px_rgba(0,0,0,0.4)] transform -rotate-[15deg] z-10 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:-rotate-[18deg] pointer-events-auto cursor-pointer">
+              {/* Shiny Glare Overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.4)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.15)_50%,transparent_55%)] pointer-events-none z-0"></div>
+              {/* Glassy Inner Border */}
+              <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/40 pointer-events-none mix-blend-overlay z-0"></div>
+              
+              <div className="relative z-10">
+                <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-sm">ESCRO</span>
+                <svg className="w-6 h-6 text-white mt-1.5 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
               </div>
-              <div className="absolute right-4 top-0 h-full flex items-center justify-center">
-                <p className="text-white/95 text-[26px] font-sans font-semibold tracking-[0.15em]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+              <div className="absolute right-4 top-0 h-full flex items-center justify-center z-10">
+                <p className="text-white/95 text-[26px] font-sans font-semibold tracking-[0.15em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                   12 3456
                 </p>
               </div>
-              <div className="absolute right-[52px] top-0 h-full flex items-center justify-center">
-                <p className="text-white/70 text-[10px] font-sans font-medium uppercase tracking-[0.3em]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+              <div className="absolute right-[52px] top-0 h-full flex items-center justify-center z-10">
+                <p className="text-white/70 text-[10px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                   Name Surname
                 </p>
               </div>
             </div>
 
             {/* Red Card (Center, front of Blue, behind Green) */}
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-[40px] w-[240px] md:w-[270px] h-[360px] md:h-[400px] rounded-[20px] bg-gradient-to-b from-[#f43f5e] via-[#e11d48] to-[#dc2626] shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform rotate-0 z-20 p-7 overflow-hidden transition-transform duration-500 hover:-translate-y-4 hover:scale-[1.03] pointer-events-auto cursor-pointer">
-              <div>
-                <span className="text-white text-[19px] font-bold tracking-[0.15em]">ESCRO</span>
-                <svg className="w-7 h-7 text-white mt-2 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+            <div className="group absolute left-1/2 -translate-x-1/2 bottom-[40px] w-[240px] md:w-[270px] h-[360px] md:h-[400px] rounded-[20px] bg-gradient-to-b from-[#f43f5e] via-[#e11d48] to-[#dc2626] shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform rotate-0 z-20 p-7 overflow-hidden transition-transform duration-500 hover:-translate-y-4 hover:scale-[1.03] pointer-events-auto cursor-pointer">
+              {/* Shiny Glare Overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.35)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.15)_50%,transparent_55%)] pointer-events-none z-0"></div>
+              {/* Glassy Inner Border */}
+              <div className="absolute inset-0 rounded-[20px] border-[1.5px] border-white/40 pointer-events-none mix-blend-overlay z-0"></div>
+
+              <div className="relative z-10">
+                <span className="text-white text-[19px] font-bold tracking-[0.15em] drop-shadow-sm">ESCRO</span>
+                <svg className="w-7 h-7 text-white mt-2 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
               </div>
-              <div className="absolute right-5 top-0 h-full flex items-center justify-center">
-                <p className="text-white text-[32px] font-sans font-semibold tracking-[0.15em]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+              <div className="absolute right-5 top-0 h-full flex items-center justify-center z-10">
+                <p className="text-white text-[32px] font-sans font-semibold tracking-[0.15em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                   78 9012 3456
                 </p>
               </div>
-              <div className="absolute right-[64px] top-0 h-full flex items-center justify-center">
-                <p className="text-white/70 text-[12px] font-sans font-medium uppercase tracking-[0.35em]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+              <div className="absolute right-[64px] top-0 h-full flex items-center justify-center z-10">
+                <p className="text-white/70 text-[12px] font-sans font-medium uppercase tracking-[0.35em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                   Name Surname
                 </p>
               </div>
             </div>
 
             {/* Green Card (Right, front of Red) */}
-            <div className="absolute right-[10px] bottom-[-20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#65a30d] shadow-[0_15px_40px_rgba(0,0,0,0.5)] transform rotate-[15deg] z-30 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:rotate-[18deg] pointer-events-auto cursor-pointer">
-              <div>
+            <div className="group absolute right-[10px] bottom-[-20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#65a30d] shadow-[0_15px_40px_rgba(0,0,0,0.5)] transform rotate-[15deg] z-30 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:rotate-[18deg] pointer-events-auto cursor-pointer">
+              {/* Shiny Glare Overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.5)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.2)_50%,transparent_55%)] pointer-events-none z-0"></div>
+              {/* Glassy Inner Border */}
+              <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/50 pointer-events-none mix-blend-overlay z-0"></div>
+
+              <div className="relative z-10">
                 <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-sm">ESCRO</span>
                 <svg className="w-6 h-6 text-white mt-1.5 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
               </div>
-              <div className="absolute right-4 top-0 h-full flex items-center justify-center">
-                <p className="text-white/95 text-[26px] font-sans font-semibold tracking-[0.15em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+              <div className="absolute right-4 top-0 h-full flex items-center justify-center z-10">
+                <p className="text-white/95 text-[26px] font-sans font-semibold tracking-[0.15em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                   34 5678 9012 3456
                 </p>
               </div>
-              <div className="absolute right-[52px] top-0 h-full flex items-center justify-center">
-                <p className="text-white/70 text-[10px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+              <div className="absolute right-[52px] top-0 h-full flex items-center justify-center z-10">
+                <p className="text-white/70 text-[10px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                   Name Surname
                 </p>
               </div>
@@ -330,25 +345,30 @@ export default function Landing() {
               <div className="relative h-64 md:h-96 flex items-end justify-center overflow-visible">
                 {/* Green Escro Card (Floating & Rotated) */}
                 <div className="absolute right-8 md:right-16 top-[-30px] md:top-[-40px] w-[180px] md:w-[220px] h-[280px] md:h-[340px] rounded-[18px] bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#65a30d] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform rotate-[28deg] p-5 overflow-hidden transition-transform duration-700 hover:-translate-y-4 hover:rotate-[32deg] z-20">
-                  <div>
+                  {/* Shiny Glare Overlay */}
+                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.5)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.2)_50%,transparent_55%)] pointer-events-none z-0"></div>
+                  {/* Glassy Inner Border */}
+                  <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/50 pointer-events-none mix-blend-overlay z-0"></div>
+
+                  <div className="relative z-10">
                     <span className="text-white text-[16px] md:text-[18px] font-bold tracking-[0.12em] drop-shadow-sm">ESCRO</span>
                     <svg className="w-5 h-5 md:w-6 md:h-6 text-white mt-1.5 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
                   </div>
                   
                   {/* EMV Chip */}
-                  <div className="absolute left-6 bottom-10 w-9 h-12 md:w-11 md:h-14 rounded-md border border-black/10 bg-gradient-to-br from-[#ffd700] to-[#b8860b] flex flex-col justify-between p-[2px] opacity-80 mix-blend-overlay">
+                  <div className="absolute left-6 bottom-10 w-9 h-12 md:w-11 md:h-14 rounded-md border border-black/10 bg-gradient-to-br from-[#ffd700] to-[#b8860b] flex flex-col justify-between p-[2px] opacity-80 mix-blend-overlay z-10">
                     <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
                     <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
                     <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
                     <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-black/20"></div>
                   </div>
 
-                  <div className="absolute right-4 top-0 h-full flex items-center justify-center">
+                  <div className="absolute right-4 top-0 h-full flex items-center justify-center z-10">
                     <p className="text-white/95 text-[24px] md:text-[28px] font-sans font-semibold tracking-[0.15em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       34 5678 9012 3456
                     </p>
                   </div>
-                  <div className="absolute right-[46px] md:right-[56px] top-0 h-full flex items-center justify-center">
+                  <div className="absolute right-[46px] md:right-[56px] top-0 h-full flex items-center justify-center z-10">
                     <p className="text-white/70 text-[9px] md:text-[11px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       Name Surname
                     </p>
