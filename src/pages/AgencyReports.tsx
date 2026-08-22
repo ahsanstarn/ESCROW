@@ -38,7 +38,7 @@ export default function AgencyReports() {
   ];
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className=" min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6 lg:mb-8">
         <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Reports</h1>
@@ -48,7 +48,7 @@ export default function AgencyReports() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 lg:mb-8">
         {stats.map((stat, i) => (
-          <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+          <div key={i} className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-5 shadow-sm border border-slate-100">
             <div className="flex items-start justify-between mb-3">
               <div className="p-2 bg-emerald-50 rounded-lg">
                 <stat.icon className={`w-5 h-5 ${stat.trend === 'up' ? 'text-emerald-600' : stat.trend === 'down' ? 'text-red-500' : 'text-blue-600'}`} />
@@ -64,7 +64,7 @@ export default function AgencyReports() {
       </div>
 
       {/* Export Reports */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
+      <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
         <h3 className="text-sm font-semibold text-slate-900 mb-4">Export Reports</h3>
         <div className="flex flex-wrap gap-3">
           <button onClick={() => alert('CSV export started. Your download will begin shortly.')} className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl transition-colors text-sm">
@@ -73,7 +73,7 @@ export default function AgencyReports() {
           <button onClick={() => alert('PDF report generation started. It will be ready for download in a moment.')} className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl transition-colors text-sm">
             <FileBarChart className="w-4 h-4" /> PDF Report
           </button>
-          <button onClick={() => alert('Excel report generation started. Your download will begin shortly.')} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A3E635] hover:bg-[#84cc16] text-black font-semibold rounded-xl transition-colors text-sm">
+          <button onClick={() => alert('Excel report generation started. Your download will begin shortly.')} className="inline-flex items-center gap-2 px-4 py-2.5 border-b border-slate-100 hover:bg-[#84cc16] text-black font-semibold rounded-xl transition-colors text-sm">
             <FileSpreadsheet className="w-4 h-4" /> Excel Report
           </button>
         </div>
@@ -82,7 +82,7 @@ export default function AgencyReports() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
         {/* Conversion Uplift via Escro */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Conversion Uplift via Escro</h3>
           <div className="flex items-end gap-3 h-52">
             {conversionData.map((d, i) => (
@@ -116,7 +116,7 @@ export default function AgencyReports() {
         </div>
 
         {/* Chargeback Reduction Trend */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Chargeback Reduction Trend</h3>
           <div className="flex items-end gap-3 h-52">
             {chargebackData.map((d, i) => (
@@ -136,7 +136,7 @@ export default function AgencyReports() {
       </div>
 
       {/* Average Escro Duration by Category */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
+      <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
         <h3 className="text-sm font-semibold text-slate-900 mb-6">Average Escro Duration by Category</h3>
         <div className="space-y-5">
           {escrowDuration.map((item, i) => (

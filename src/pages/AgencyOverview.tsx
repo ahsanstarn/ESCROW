@@ -53,7 +53,7 @@ export default function AgencyOverview() {
   const areaPoints = `${polylinePoints} 100,100 0,100`;
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className=" min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
         <div>
@@ -67,20 +67,20 @@ export default function AgencyOverview() {
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-200">
             <Activity className="w-3.5 h-3.5" /> 99.98% Uptime
           </span>
-          <button className="relative p-2 bg-white rounded-xl shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors">
+          <button className="relative p-2 bg-white rounded-xl shadow-sm border border-slate-200 hover:bg-[#DDFC95]/10 transition-colors">
             <Bell className="w-5 h-5 text-slate-600" />
             {notifications > 0 && (
               <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">{notifications}</span>
             )}
           </button>
-          <div className="w-9 h-9 rounded-full bg-[#A3E635] flex items-center justify-center text-xs font-semibold text-black">A</div>
+          <div className="w-9 h-9 rounded-full border-b border-slate-100 flex items-center justify-center text-xs font-semibold text-black">A</div>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 lg:mb-8">
         {stats.map((stat, i) => (
-          <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+          <div key={i} className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-5 shadow-sm border border-slate-100">
             <div className="flex items-start justify-between mb-3">
               <div className="p-2 bg-emerald-50 rounded-lg">
                 <stat.icon className="w-5 h-5 text-emerald-600" />
@@ -96,7 +96,7 @@ export default function AgencyOverview() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 lg:mb-8">
         {/* Weekly Volume Bar Chart */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Weekly Transaction Volume</h3>
           <div className="flex items-end gap-3 h-48">
             {weeklyVolume.map((d, i) => (
@@ -115,7 +115,7 @@ export default function AgencyOverview() {
         </div>
 
         {/* Transaction Activity Area Chart */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Transaction Activity</h3>
           <div className="relative h-48">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
@@ -138,7 +138,7 @@ export default function AgencyOverview() {
         </div>
 
         {/* Escrow States Donut */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Escro States Distribution</h3>
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <div className="relative w-32 h-32 flex-shrink-0">
@@ -164,14 +164,14 @@ export default function AgencyOverview() {
       </div>
 
       {/* Recent Transactions Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp shadow-sm border border-slate-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900">Recent Transactions</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#A3E635]">
+              <tr className="border-b border-slate-100">
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Order ID</th>
                 <th className="text-left py-3 px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Client</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Amount</th>
@@ -182,15 +182,15 @@ export default function AgencyOverview() {
             </thead>
             <tbody>
               {transactions.map((tx, i) => (
-                <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                <tr key={i} className="border-b border-slate-50 hover:bg-[#DDFC95]/10 transition-colors">
                   <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.id}</td>
                   <td className="py-3 px-6 text-slate-600 hidden md:table-cell">{tx.client}</td>
                   <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.amount}</td>
                   <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-                      tx.status === 'Funds Held' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
-                      tx.status === 'Released' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
-                      'bg-red-50 text-red-700 border border-red-200'
+                      tx.status === 'Funds Held' ? 'bg-green-100 text-green-800' :
+                      tx.status === 'Released' ? 'bg-blue-100 text-blue-800' :
+                      'bg-red-100 text-red-800'
                     }`}>
                       {tx.status}
                     </span>

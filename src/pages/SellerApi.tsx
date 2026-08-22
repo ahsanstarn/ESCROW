@@ -81,161 +81,161 @@ export default function SellerApi({ userId, userName }: SellerApiProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
+    <div className="min-h-screen bg-[#ECF4E9] p-8 font-sans">
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">API & Webhooks</h1>
-            <p className="mt-1 text-sm text-slate-500">Integrate with our platform using API keys and webhooks</p>
+            <h1 className="text-2xl font-bold text-gray-900">API & Webhooks</h1>
+            <p className="text-sm text-gray-500 mt-1">Manage API keys and webhook integrations</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-              <h2 className="text-lg font-semibold text-slate-900">API Keys</h2>
-              <button onClick={() => alert('New API key generated! Copy it below.')} className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-semibold rounded-lg hover:bg-[#95d630] transition-colors">
-                Generate New
-              </button>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0s both` }}>
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">API Keys</h2>
+                <p className="text-xs text-gray-500">Use these keys to authenticate API requests</p>
+              </div>
+              <button className="bg-[#A3E635] text-[#305941] px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#DDFC95] transition-colors">+ Generate New Key</button>
             </div>
-            <div className="space-y-3">
-              {apiKeys.map((key) => (
-                <div key={key.id} className="p-4 border border-slate-100 rounded-xl">
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm font-semibold text-slate-900">{key.name}</p>
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[10px] font-medium">
-                      <CheckCircle className="w-3 h-3" /> Active
-                    </span>
+            <div className="space-y-6">
+              {apiKeys.map((key, i) => (
+                <div key={key.id}>
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="text-sm font-bold text-gray-900">{key.name}</p>
+                    <span className="px-2 py-1 bg-gray-100 text-gray-600 text-[10px] rounded uppercase font-bold">{key.id}</span>
                   </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <code className="flex-1 text-xs bg-slate-100 text-slate-700 px-2 py-1.5 rounded-lg font-mono">{key.key}</code>
-                    <button
-                      onClick={() => handleCopy(key.id)}
-                      className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors"
-                    >
-                      {copied === key.id ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
-                    </button>
+                  <p className="text-xs text-gray-400 mb-3">Created: {key.created} • Last used: {key.lastUsed}</p>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Public Key</p>
+                      <div className="flex gap-2">
+                        <input readOnly value={`pk_${key.id}_XY299aAbBcCdD123456`} className="flex-1 bg-[#ECF4E9]/50 border border-[#DDFC95] rounded-xl px-4 py-2 text-sm text-gray-800 font-mono focus:outline-none" />
+                        <button onClick={() => handleCopy(key.id)} className="p-2 bg-[#A3E635] rounded-xl text-[#305941]"><Copy className="w-4 h-4"/></button>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Secret Key</p>
+                      <div className="flex gap-2">
+                        <input readOnly type="password" value="sk_live_XY299aAbBcCdD123456" className="flex-1 bg-[#ECF4E9]/50 border border-[#DDFC95] rounded-xl px-4 py-2 text-sm text-gray-800 font-mono focus:outline-none" />
+                        <button className="p-2 bg-[#A3E635] rounded-xl text-[#305941]"><Copy className="w-4 h-4"/></button>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-xs text-slate-500">Created {key.created} • Last used {key.lastUsed}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-            <h2 className="text-lg font-semibold text-slate-900 mb-4">Webhook Endpoint</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Endpoint URL</label>
-                <input
-                  value={webhookUrl}
-                  onChange={e => setWebhookUrl(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50"
-                />
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.1s both` }}>
+              <h2 className="text-lg font-bold text-gray-900">Webhook Endpoint</h2>
+              <p className="text-xs text-gray-500 mb-4">Configure to receive live events</p>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Endpoint URL</p>
+                  <input value={webhookUrl} onChange={e => setWebhookUrl(e.target.value)} className="w-full bg-[#ECF4E9]/50 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#DDFC95]" placeholder="https://api.yourdomain.com/webhooks" />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Secret</p>
+                  <div className="flex gap-2">
+                    <input readOnly value="sec_XYZ88aZz123" className="flex-1 bg-[#ECF4E9]/50 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#DDFC95]" />
+                    <button className="p-2 bg-[#A3E635] rounded-xl text-[#305941]"><Copy className="w-4 h-4"/></button>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={handleUpdateEndpoint} className="flex-1 bg-[#A3E635] text-[#305941] py-2 rounded-xl text-sm font-bold hover:bg-[#DDFC95] transition-colors">Update Endpoint</button>
+                  <button className="flex-1 bg-gray-400 text-white py-2 rounded-xl text-sm font-bold hover:bg-gray-500 transition-colors">Test Webhook</button>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Webhook Secret</label>
-                <input
-                  value={webhookSecret}
-                  onChange={e => setWebhookSecret(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50"
-                />
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.2s both` }}>
+              <h2 className="text-lg font-bold text-gray-900 mb-4">Subscribed Events</h2>
+              <div className="space-y-4">
+                {defaultEvents.slice(0,4).map(e => (
+                  <div key={e.id} className="flex justify-between items-center">
+                    <div>
+                      <p className="text-sm font-bold text-gray-900">{e.id}</p>
+                      <p className="text-xs text-gray-500">Triggered when {e.label.toLowerCase()}</p>
+                    </div>
+                    <button onClick={() => toggleEvent(e.id)} className={`w-12 h-6 rounded-full p-1 transition-colors ${activeEvents[e.id] ? 'bg-[#A3E635]' : 'bg-gray-300'}`}>
+                      <div className={`w-4 h-4 bg-white rounded-full shadow-sm transform transition-transform ${activeEvents[e.id] ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                    </button>
+                  </div>
+                ))}
               </div>
-              <button onClick={handleUpdateEndpoint} disabled={saving} className="w-full py-2.5 bg-[#A3E635] text-black text-sm font-semibold rounded-xl hover:bg-[#95d630] transition-colors disabled:opacity-50">
-                {saving ? 'Saving...' : 'Update Endpoint'}
-              </button>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">Subscribed Events</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {defaultEvents.map((e) => (
-              <button
-                key={e.id}
-                onClick={() => toggleEvent(e.id)}
-                className={`flex items-center justify-between p-3 rounded-xl border transition-colors ${
-                  activeEvents[e.id]
-                    ? 'border-[#A3E635] bg-[#A3E635]/10'
-                    : 'border-slate-200 hover:bg-slate-50'
-                }`}
-              >
-                <span className="text-sm font-medium text-slate-900">{e.label}</span>
-                {activeEvents[e.id] ? (
-                  <div className="w-8 h-5 bg-[#A3E635] rounded-full flex items-center justify-end px-1">
-                    <div className="w-3 h-3 bg-white rounded-full" />
-                  </div>
-                ) : (
-                  <div className="w-8 h-5 bg-slate-300 rounded-full flex items-center justify-start px-1">
-                    <div className="w-3 h-3 bg-white rounded-full" />
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-            <h2 className="text-lg font-semibold text-slate-900">Quick Start</h2>
+        <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.3s both` }}>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2"><span className="text-gray-400">&lt;/&gt;</span> Quick Start</h2>
             <div className="flex gap-2">
-              <button onClick={() => alert('Opening API documentation...')} className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                <ExternalLink className="w-4 h-4" /> View Docs
-              </button>
-              <button onClick={() => alert('SDK download started.')} className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                <Download className="w-4 h-4" /> SDK
-              </button>
+              <button className="bg-[#A3E635] text-[#305941] px-4 py-1.5 rounded-xl text-sm font-bold">View Full Documentation</button>
+              <button className="bg-[#A3E635] text-[#305941] px-4 py-1.5 rounded-xl text-sm font-bold">Download SDK</button>
             </div>
           </div>
-          <div className="bg-[#1a1a1a] rounded-xl p-4 overflow-x-auto">
-            <pre className="text-sm font-mono text-slate-300">
-{`curl -X POST https://api.escrow.com/v1/orders \\
-  -H "Authorization: Bearer live_••••••••••••••" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "amount": 10000,
-    "currency": "USD",
-    "buyer_email": "buyer@example.com"
-  }'`}
+          <div className="bg-[#1a1a2e] rounded-xl p-6 overflow-x-auto">
+            <pre className="text-sm font-mono text-[#DDFC95]">
+{`// Initialize the SDK
+import Escro from '@escro/node';
+
+const escro = new Escro({
+  apiKey: 'sk_live_XYZ99aAbBcCdD123456',
+});
+
+// Create an escrow order
+const order = await escro.orders.create({
+  buyer: 'buyer@example.com',
+  type: 'product',
+  amount: 2500,
+  autoReleaseDuration: 72 // hours
+});`}
             </pre>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="px-3 sm:px-4 lg:px-6 py-4">
-            <h2 className="text-lg font-semibold text-slate-900">Recent Webhook Events</h2>
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.4s both` }}>
+          <div className="p-6 border-b border-gray-100">
+            <h2 className="text-lg font-bold text-gray-900">Recent Webhook Events</h2>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-[#A3E635]">
-                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Time</th>
-                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Event</th>
-                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Status</th>
-                  <th className="text-left py-3 px-3 sm:px-4 text-black font-semibold text-xs uppercase tracking-wider">Code</th>
+          <table className="w-full text-sm">
+            <thead className="bg-[#DDFC95] text-[#305941]">
+              <tr>
+                <th className="text-left py-3 px-6 font-bold">Event</th>
+                <th className="text-left py-3 px-6 font-bold">Order ID</th>
+                <th className="text-left py-3 px-6 font-bold">Status</th>
+                <th className="text-left py-3 px-6 font-bold">Response</th>
+                <th className="text-left py-3 px-6 font-bold">Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentEvents.map((ev, i) => (
+                <tr key={i} className="border-b border-gray-100 hover:bg-[#DDFC95]/10 transition-colors">
+                  <td className="py-4 px-6 text-gray-900 font-medium">{ev.event}</td>
+                  <td className="py-4 px-6 text-gray-500">#83425</td>
+                  <td className="py-4 px-6">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 w-max ${ev.status === 'Success' ? 'bg-[#BCF49D]/40 text-[#1B4D1E]' : 'bg-red-100 text-red-800'}`}>
+                      {ev.status === 'Success' ? <CheckCircle className="w-3 h-3"/> : <XCircle className="w-3 h-3"/>}
+                      {ev.status.toLowerCase()}
+                    </span>
+                  </td>
+                  <td className="py-4 px-6 text-[#305941] font-mono">{ev.code}</td>
+                  <td className="py-4 px-6 text-gray-500">{ev.time}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {recentEvents.map((ev, i) => (
-                  <tr key={i} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                    <td className="py-3 px-3 sm:px-4 text-slate-700">{ev.time}</td>
-                    <td className="py-3 px-3 sm:px-4 font-medium text-slate-900">{ev.event}</td>
-                    <td className="py-3 px-3 sm:px-4">
-                      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
-                        ev.status === 'Success' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
-                      }`}>
-                        {ev.status === 'Success' ? <CheckCircle className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
-                        {ev.status}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 sm:px-4 text-slate-700 font-mono">{ev.code}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

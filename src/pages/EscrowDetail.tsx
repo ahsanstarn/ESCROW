@@ -1,14 +1,11 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { PageHeader } from '@/components/ui/PageHeader';
-import { EscrowTimeline } from '@/components/escrow/EscrowTimeline';
-import { CountdownTimer } from '@/components/ui/CountdownTimer';
 import { Escrow, UserRole } from '@/types';
-import { formatCurrency, formatDate, getEscrowStatusLabel, getEscrowStatusColor } from '@/lib/utils';
+import { formatCurrency } from '@/lib/utils';
 import { api } from '@/lib/api';
 import { useToast } from '@/components/ui/Toast';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { ArrowLeft, Shield, Package, Clock, DollarSign, User, AlertTriangle, Truck, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Package, Clock, User, CheckCircle, Truck } from 'lucide-react';
 
 interface EscrowDetailProps {
   userId?: string;
@@ -82,300 +79,139 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
   if (!escrow) {
     return (
       <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
-        <div className="card p-12 text-center">
-          <p className="text-slate-400">Escro not found</p>
-          <button onClick={() => navigate(-1)} className="btn-secondary mt-4">Go Back</button>
+        <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
+          <p className="text-gray-400">Escro not found</p>
+          <button onClick={() => navigate(-1)} className="bg-[#A3E635] text-[#305941] px-4 py-2 rounded mt-4">Go Back</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto animate-fade-in">
-      <div className="mb-6">
-        <Link to="/" className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          Back to Dashboard
-        </Link>
-      </div>
-
-      <PageHeader
-        title={escrow.escrowCode}
-        subtitle={escrow.description || 'Escro transaction details'}
-        actions={
-          <div className="flex items-center gap-3">
-            <span className={getEscrowStatusColor(escrow.status)}>
-              {getEscrowStatusLabel(escrow.status)}
-            </span>
-          </div>
+    <div className="min-h-screen bg-[#ECF4E9] p-8 font-sans">
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-      />
-
-      <div className="space-y-6">
-        {escrow.status === 'DELIVERED' && escrow.disputeDeadline && (
-          <CountdownTimer
-            targetDate={escrow.disputeDeadline}
-            label="Your confirmation deadline — funds release automatically after this time"
-          />
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="card p-5">
-            <div className="flex items-center gap-3 mb-3">
-              <DollarSign className="w-5 h-5 text-brand-400" />
-              <h3 className="text-sm font-semibold text-slate-300">Transaction</h3>
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-sm text-slate-400">Amount</span>
-                <span className="text-sm font-semibold text-slate-100">{formatCurrency(escrow.amount)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-slate-400">Platform Fee</span>
-                <span className="text-sm text-slate-300">{formatCurrency(escrow.platformFee)}</span>
-              </div>
-              <div className="flex justify-between border-t border-slate-800 pt-2">
-                <span className="text-sm text-slate-400">Seller Receives</span>
-                <span className="text-sm font-semibold text-trust-400">
-                  {formatCurrency(escrow.amount - escrow.platformFee)}
-                </span>
-              </div>
-            </div>
+      `}</style>
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div className="mb-6">
+          <Link to="/" className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Back to Orders
+          </Link>
+        </div>
+        
+        <div className="flex justify-between items-end mb-8">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Order Details</h1>
+            <p className="text-sm text-gray-500 mt-1">{escrow.escrowCode || 'ORD-2026-0124'}</p>
           </div>
+          <button className="bg-[#A3E635] text-[#305941] px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#DDFC95] transition-colors">Take Action</button>
+        </div>
 
-          <div className="card p-5">
-            <div className="flex items-center gap-3 mb-3">
-              <User className="w-5 h-5 text-brand-400" />
-              <h3 className="text-sm font-semibold text-slate-300">Parties</h3>
-            </div>
-            <div className="space-y-3">
-              <div>
-                <p className="text-[11px] text-slate-500">Seller</p>
-                <p className="text-sm text-slate-200">{escrow.merchant?.name || 'Unknown'}</p>
-              </div>
-              <div>
-                <p className="text-[11px] text-slate-500">Buyer</p>
-                <p className="text-sm text-slate-200">{escrow.buyer?.name || 'Unknown'}</p>
-              </div>
-              {escrow.courierId && (
-                <div>
-                  <p className="text-[11px] text-slate-500">Courier</p>
-                  <p className="text-sm text-slate-200">Assigned</p>
-                </div>
-              )}
-            </div>
+        <div className="grid grid-cols-4 gap-4">
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0s both` }}>
+            <p className="text-xs text-gray-500 mb-1">Order Type</p>
+            <h3 className="text-lg font-bold text-gray-900">{escrow.productType === 'PHYSICAL' ? 'Product' : 'Digital Service'}</h3>
+            <p className="text-xs text-gray-400 mt-1">{escrow.description || 'Industrial Grade 3D Printer'}</p>
           </div>
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.1s both` }}>
+            <p className="text-xs text-gray-500 mb-1">Amount</p>
+            <h3 className="text-lg font-bold text-gray-900">{formatCurrency(escrow.amount)}</h3>
+            <p className="text-xs text-gray-400 mt-1">{escrow.currency || 'USD'}</p>
+          </div>
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.2s both` }}>
+            <p className="text-xs text-gray-500 mb-1">Status</p>
+            <span className="inline-block px-3 py-1 bg-[#BCF49D]/40 text-[#1B4D1E] text-xs font-bold rounded mt-1">Held In Escrow</span>
+          </div>
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.3s both` }}>
+            <p className="text-xs text-gray-500 mb-1">Expected Release</p>
+            <h3 className="text-sm font-bold text-gray-900 mt-1">Jan 30, 2026, 06:30 PM</h3>
+          </div>
+        </div>
 
-          <div className="card p-5">
-            <div className="flex items-center gap-3 mb-3">
-              <Package className="w-5 h-5 text-brand-400" />
-              <h3 className="text-sm font-semibold text-slate-300">Delivery</h3>
+        <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.4s both` }}>
+          <div className="flex justify-between mb-4">
+            <h2 className="text-sm font-bold text-gray-900">Delivery Progress</h2>
+            <span className="text-[#305941] font-bold text-sm">50%</span>
+          </div>
+          <div className="h-3 bg-gray-200 rounded-full mb-6 overflow-hidden">
+            <div className="h-full bg-[#DDFC95] rounded-full w-1/2"></div>
+          </div>
+          <div className="flex justify-between text-center">
+            <div>
+              <div className="w-8 h-8 mx-auto rounded-full bg-[#ECF4E9] text-[#305941] flex items-center justify-center mb-2"><CheckCircle className="w-4 h-4" /></div>
+              <p className="text-xs font-bold text-[#305941]">Order Placed</p>
             </div>
-            <div className="space-y-3">
-              <div>
-                <p className="text-[11px] text-slate-500">Type</p>
-                <p className="text-sm text-slate-200">{escrow.productType === 'PHYSICAL' ? 'Physical Product' : 'Digital Service'}</p>
-              </div>
-              {escrow.trackingId && (
-                <div>
-                  <p className="text-[11px] text-slate-500">Tracking</p>
-                  <p className="text-sm font-mono text-slate-200">{escrow.trackingId}</p>
-                </div>
-              )}
-              {escrow.shipmentCarrier && (
-                <div>
-                  <p className="text-[11px] text-slate-500">Carrier</p>
-                  <p className="text-sm text-slate-200">{escrow.shipmentCarrier}</p>
-                </div>
-              )}
+            <div>
+              <div className="w-8 h-8 mx-auto rounded-full bg-[#ECF4E9] text-[#305941] flex items-center justify-center mb-2"><Truck className="w-4 h-4" /></div>
+              <p className="text-xs font-bold text-[#305941]">In Transit</p>
+            </div>
+            <div>
+              <div className="w-8 h-8 mx-auto rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-2"><Package className="w-4 h-4" /></div>
+              <p className="text-xs text-gray-500">Delivered</p>
+            </div>
+            <div>
+              <div className="w-8 h-8 mx-auto rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-2"><CheckCircle className="w-4 h-4" /></div>
+              <p className="text-xs text-gray-500">Confirmed</p>
             </div>
           </div>
         </div>
 
-        {escrow.milestones && escrow.milestones.length > 0 && (
-          <div className="card p-6">
-            <h3 className="text-sm font-semibold text-slate-300 mb-4">Milestones</h3>
-            <div className="space-y-3">
-              {escrow.milestones.map(m => (
-                <div key={m.id} className="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-2 h-2 rounded-full ${
-                      m.status === 'COMPLETED' ? 'bg-trust-500' :
-                      m.status === 'IN_PROGRESS' ? 'bg-brand-500' : 'bg-slate-600'
-                    }`} />
-                    <div>
-                      <p className="text-sm text-slate-200">{m.title}</p>
-                      <p className="text-[11px] text-slate-500">{m.status.replace('_', ' ')}</p>
-                    </div>
-                  </div>
-                  <span className="text-sm font-medium text-slate-300">{formatCurrency(m.amount)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {escrow.stateTransitions && escrow.stateTransitions.length > 0 && (
-          <EscrowTimeline transitions={escrow.stateTransitions} />
-        )}
-
-        <div className="card p-6">
-          <h3 className="text-sm font-semibold text-slate-300 mb-4">Your Protection</h3>
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <Shield className="w-5 h-5 text-brand-400 mt-0.5" />
-              <div>
-                <p className="text-sm text-slate-200">Funds are securely held in a segregated escrow ledger</p>
-                <p className="text-xs text-slate-500 mt-1">The seller cannot access these funds until you confirm delivery</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Clock className="w-5 h-5 text-brand-400 mt-0.5" />
-              <div>
-                <p className="text-sm text-slate-200">Auto-release protection</p>
-                <p className="text-xs text-slate-500 mt-1">If no action is taken, funds release automatically after the confirmation window</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-caution-400 mt-0.5" />
-              <div>
-                <p className="text-sm text-slate-200">Dispute protection</p>
-                <p className="text-xs text-slate-500 mt-1">You can open a dispute before the deadline if there is an issue with your order</p>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl p-0 shadow-sm overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.5s both` }}>
+            <div className="p-6 border-b border-gray-100"><h2 className="text-sm font-bold text-gray-900">Live Tracking</h2></div>
+            <div className="bg-[#232323] h-80 relative flex items-center justify-center">
+              <div className="text-center text-white">
+                <div className="text-[#DDFC95] mb-2">[Map View]</div>
+                <p className="text-xs">Courier Location</p>
+                <p className="text-[10px] text-gray-400">Lat: 37.7749, Lng: -122.4194</p>
+                <p className="text-[10px] text-[#DDFC95] mt-1">En route to delivery address - ETA 2 hours</p>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-wrap gap-3">
-          {escrow.status === 'DELIVERED' && isBuyer && (
-            <button
-              onClick={() => handleAction('confirm', { buyerId: userId })}
-              disabled={actionLoading}
-              className="btn-success flex items-center gap-2"
-            >
-              <CheckCircle className="w-4 h-4" />
-              {actionLoading ? 'Processing...' : 'Confirm Delivery & Release Funds'}
-            </button>
-          )}
-
-          {escrow.status === 'DEPOSITED' && isMerchant && (
-            <button
-              onClick={() => setShowShipForm(!showShipForm)}
-              className="btn-primary flex items-center gap-2"
-            >
-              <Truck className="w-4 h-4" />
-              Mark as Shipped
-            </button>
-          )}
-
-          {(escrow.status === 'SHIPPED' || escrow.status === 'IN_TRANSIT') && isCourier && (
-            <button
-              onClick={() => handleAction('deliver', { courierId: userId })}
-              disabled={actionLoading}
-              className="btn-success flex items-center gap-2"
-            >
-              <CheckCircle className="w-4 h-4" />
-              {actionLoading ? 'Processing...' : 'Confirm Delivery'}
-            </button>
-          )}
-
-          {['DEPOSITED', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED'].includes(escrow.status) && (
-            <button
-              onClick={() => setShowDisputeForm(!showDisputeForm)}
-              className="btn-secondary flex items-center gap-2"
-            >
-              <AlertTriangle className="w-4 h-4" />
-              Open a Dispute
-            </button>
-          )}
-
-          {escrow.status === 'CREATED' && (
-            <button
-              onClick={() => handleAction('deposit', { buyerId: userId })}
-              disabled={actionLoading}
-              className="btn-primary flex items-center gap-2"
-            >
-              {actionLoading ? 'Processing...' : 'Deposit Funds'}
-            </button>
-          )}
-        </div>
-
-        {showShipForm && (
-          <div className="card p-6 animate-slide-up">
-            <h3 className="text-sm font-semibold text-slate-300 mb-4">Ship Order</h3>
+          
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.6s both` }}>
+            <h2 className="text-sm font-bold text-gray-900 mb-6 flex items-center gap-2"><Package className="w-4 h-4 text-gray-500"/> Delivery Information</h2>
             <div className="space-y-4">
               <div>
-                <label className="text-xs text-slate-400">Tracking ID</label>
-                <input
-                  value={trackingId}
-                  onChange={(e) => setTrackingId(e.target.value)}
-                  className="input-field mt-1"
-                  placeholder="e.g. TRK-1234567890"
-                />
+                <p className="text-xs text-gray-500 mb-1">Tracking Number</p>
+                <div className="bg-[#ECF4E9]/50 px-4 py-2 rounded-lg text-sm text-gray-900 font-mono">FSL-2026-124-9876</div>
               </div>
               <div>
-                <label className="text-xs text-slate-400">Carrier</label>
-                <select
-                  value={carrier}
-                  onChange={(e) => setCarrier(e.target.value)}
-                  className="input-field mt-1"
-                >
-                  <option value="">Select carrier</option>
-                  <option value="FedEx">FedEx</option>
-                  <option value="UPS">UPS</option>
-                  <option value="DHL">DHL</option>
-                  <option value="USPS">USPS</option>
-                  <option value="Other">Other</option>
-                </select>
+                <p className="text-xs text-gray-500 mb-1">Courier</p>
+                <div className="bg-[#ECF4E9]/50 px-4 py-2 rounded-lg text-sm text-gray-900 flex items-center gap-2"><User className="w-4 h-4 text-gray-500"/> FastShip Logistics</div>
               </div>
-              <div className="flex gap-3">
-                <button onClick={handleShip} disabled={actionLoading} className="btn-primary flex items-center gap-2">
-                  <Truck className="w-4 h-4" />
-                  {actionLoading ? 'Processing...' : 'Confirm Shipment'}
-                </button>
-                <button onClick={() => setShowShipForm(false)} className="btn-secondary">Cancel</button>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Pickup Address</p>
+                <div className="bg-[#ECF4E9]/50 px-4 py-2 rounded-lg text-sm text-gray-900">Tech Supplies Inc. Warehouse, 1234 Industrial Blvd, San Francisco, CA 94103</div>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Delivery Address</p>
+                <div className="bg-[#ECF4E9]/50 px-4 py-2 rounded-lg text-sm text-gray-900">Acme Corporation, 5678 Business Park Dr, Oakland, CA 94612</div>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Estimated Delivery</p>
+                <div className="bg-[#ECF4E9]/50 px-4 py-2 rounded-lg text-sm text-gray-900 flex items-center gap-2"><Clock className="w-4 h-4 text-gray-500"/> January 30, 2026 at 06:30 PM</div>
               </div>
             </div>
           </div>
-        )}
+        </div>
 
-        {showDisputeForm && (
-          <div className="card p-6 animate-slide-up">
-            <h3 className="text-sm font-semibold text-slate-300 mb-4">Open a Dispute</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="text-xs text-slate-400">Reason</label>
-                <select
-                  value={disputeReason}
-                  onChange={(e) => setDisputeReason(e.target.value)}
-                  className="input-field mt-1"
-                >
-                  <option value="">Select a reason</option>
-                  <option value="Item not as described">Item not as described</option>
-                  <option value="Item not received">Item not received</option>
-                  <option value="Damaged or defective">Damaged or defective</option>
-                  <option value="Service not delivered">Service not delivered</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-xs text-slate-400">Description</label>
-                <textarea
-                  value={disputeDesc}
-                  onChange={(e) => setDisputeDesc(e.target.value)}
-                  className="input-field mt-1 h-24 resize-none"
-                  placeholder="Describe the issue in detail..."
-                />
-              </div>
-              <div className="flex gap-3">
-                <button onClick={handleDispute} disabled={actionLoading || !disputeReason} className="btn-danger">
-                  {actionLoading ? 'Submitting...' : 'Submit Dispute'}
-                </button>
-                <button onClick={() => setShowDisputeForm(false)} className="btn-secondary">Cancel</button>
-              </div>
-            </div>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.7s both` }}>
+            <p className="text-xs text-gray-500 mb-1">Buyer</p>
+            <h3 className="text-sm font-bold text-gray-900">{escrow.buyer?.name || 'Acme Corporation'}</h3>
+            <p className="text-xs text-gray-400 mt-1">{escrow.buyerId || 'buyer_001'}</p>
           </div>
-        )}
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.8s both` }}>
+            <p className="text-xs text-gray-500 mb-1">Seller</p>
+            <h3 className="text-sm font-bold text-gray-900">{escrow.merchant?.name || 'Tech Supplies Inc.'}</h3>
+            <p className="text-xs text-gray-400 mt-1">{escrow.merchantId || 'seller_001'}</p>
+          </div>
+        </div>
+
       </div>
     </div>
   );

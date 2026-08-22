@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Check } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Pricing() {
   const plans = [
@@ -23,26 +24,54 @@ export default function Pricing() {
         </div>
       </nav>
 
-      <section className="pt-32 pb-20 px-4 sm:px-6 bg-black text-white">
+      <section className="pt-32 pb-20 px-4 sm:px-6 bg-black text-white overflow-hidden">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-[#A3E635] text-sm font-medium mb-4">Pricing</p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Protect every payment without changing</h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg">Choose the plan that fits your business needs. All plans include our core escrow protection.</p>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[#A3E635] text-sm font-medium mb-4"
+          >
+            Pricing
+          </motion.p>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6"
+          >
+            Protect every payment without changing
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="text-slate-400 max-w-2xl mx-auto text-lg"
+          >
+            Choose the plan that fits your business needs. All plans include our core escrow protection.
+          </motion.p>
         </div>
       </section>
 
       <section className="py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
-          {plans.map((plan) => (
-            <div key={plan.name} className={`bg-[#f5f5f5] border rounded-2xl p-8 ${plan.popular ? 'border-[#A3E635]/50 ring-1 ring-[#A3E635]/20' : 'border-slate-200'}`}>
-              {plan.popular && <p className="text-[#A3E635] text-xs font-medium mb-3">Most Popular</p>}
+          {plans.map((plan, i) => (
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
+              key={plan.name} 
+              className={`bg-[#f5f5f5] border rounded-2xl p-8 hover:scale-[1.02] transition-transform duration-300 ${plan.popular ? 'border-[#A3E635]/50 ring-1 ring-[#A3E635]/20 shadow-xl' : 'border-slate-200'}`}
+            >
+              {plan.popular && <p className="text-[#A3E635] text-xs font-medium mb-3 tracking-wide uppercase">Most Popular</p>}
               <h3 className="font-bold text-xl mb-2">{plan.name}</h3>
-              <div className="mb-6"><span className="text-4xl font-bold">${plan.price}</span>{plan.price!=='Custom'&&<span className="text-slate-500 text-sm">/month</span>}</div>
+              <div className="mb-6"><span className="text-4xl font-bold">{plan.price === 'Custom' ? '' : '$'}{plan.price}</span>{plan.price!=='Custom'&&<span className="text-slate-500 text-sm">/month</span>}</div>
               <ul className="space-y-3 mb-8">
                 {plan.features.map((f)=>(<li key={f} className="flex items-center gap-2 text-sm text-slate-600"><Check className="w-4 h-4 text-[#A3E635]" strokeWidth={2.5}/>{f}</li>))}
               </ul>
               <Link to="/register" className={`block text-center py-3 rounded-lg font-semibold text-sm ${plan.popular?'bg-[#A3E635] text-black hover:bg-[#b8ed5a]':'bg-black text-white hover:bg-slate-800'} transition-colors`}>{plan.cta}</Link>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>

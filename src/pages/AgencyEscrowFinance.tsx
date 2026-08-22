@@ -30,7 +30,7 @@ export default function AgencyEscrowFinance() {
   ];
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className=" min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6 lg:mb-8">
         <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Escro & Finance</h1>
@@ -77,7 +77,7 @@ export default function AgencyEscrowFinance() {
       {/* Money Flow + Payout Schedule */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
         {/* Money Flow Diagram */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Money Flow Diagram</h3>
           <div className="flex items-center justify-between gap-4">
             <div className="flex-1 bg-emerald-50 rounded-xl p-4 border border-emerald-100">
@@ -107,7 +107,7 @@ export default function AgencyEscrowFinance() {
         </div>
 
         {/* Payout Schedule Bar Chart */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Payout Schedule</h3>
           <div className="flex items-end gap-3 h-44">
             {payoutSchedule.map((p, i) => (
@@ -128,7 +128,7 @@ export default function AgencyEscrowFinance() {
 
       {/* Stats Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 lg:mb-8">
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-5 shadow-sm border border-slate-100">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-emerald-50 rounded-lg">
               <TrendingUp className="w-4 h-4 text-emerald-600" />
@@ -138,7 +138,7 @@ export default function AgencyEscrowFinance() {
           <p className="text-2xl font-bold text-slate-900">{formatCurrency(52450.00)}</p>
           <p className="text-xs text-emerald-600 mt-1 font-medium">+12.5% this month</p>
         </div>
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-5 shadow-sm border border-slate-100">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-blue-50 rounded-lg">
               <DollarSign className="w-4 h-4 text-blue-600" />
@@ -148,7 +148,7 @@ export default function AgencyEscrowFinance() {
           <p className="text-2xl font-bold text-slate-900">{formatCurrency(138450.00)}</p>
           <p className="text-xs text-blue-600 mt-1 font-medium">All time volume</p>
         </div>
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-5 shadow-sm border border-slate-100">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-amber-50 rounded-lg">
               <TrendingDown className="w-4 h-4 text-amber-600" />
@@ -162,7 +162,7 @@ export default function AgencyEscrowFinance() {
 
       {/* Transaction Flow & Distribution */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Transaction Flow & Distribution</h3>
           <div className="grid grid-cols-2 gap-4">
             {flowDistribution.map((item, i) => (
@@ -179,14 +179,14 @@ export default function AgencyEscrowFinance() {
         </div>
 
         {/* Escrow Transactions by Client Table */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp shadow-sm border border-slate-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100">
             <h3 className="text-sm font-semibold text-slate-900">Escro Transactions by Client</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#A3E635]">
+                <tr className="border-b border-slate-100">
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase">Client</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase">Amount</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase">Status</th>
@@ -195,14 +195,14 @@ export default function AgencyEscrowFinance() {
               </thead>
               <tbody>
                 {transactions.map((tx, i) => (
-                  <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                  <tr key={i} className="border-b border-slate-50 hover:bg-[#DDFC95]/10 transition-colors">
                     <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.client}</td>
                     <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{tx.amount}</td>
                     <td className="py-3 px-3 sm:px-4 lg:px-6">
                       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                        tx.status === 'In Escro' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
-                        tx.status === 'Released' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
-                        'bg-red-50 text-red-700 border border-red-200'
+                        tx.status === 'In Escro' ? 'bg-green-100 text-green-800' :
+                        tx.status === 'Released' ? 'bg-blue-100 text-blue-800' :
+                        'bg-red-100 text-red-800'
                       }`}>
                         {tx.status === 'In Escro' ? <ShieldCheck className="w-3 h-3" /> :
                          tx.status === 'Released' ? <CheckCircle className="w-3 h-3" /> :

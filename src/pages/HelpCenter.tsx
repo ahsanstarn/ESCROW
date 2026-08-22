@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-export default function HelpCenter() { // HelpCenter component
+export default function HelpCenter() {
   const faqs = [
     { q:'How does escro work?', a:'Escro holds funds securely until both parties confirm the transaction is complete. The buyer deposits payment, the seller delivers the goods or service, and once the buyer confirms satisfaction, funds are released to the seller.' },
     { q:'How long does an escrow transaction take?', a:'Transaction duration depends on the confirmation window set by the merchant. Typically, transactions complete within 3-7 days, but you can set windows from 1 to 168 hours.' },
@@ -25,28 +26,62 @@ export default function HelpCenter() { // HelpCenter component
         </div>
       </nav>
 
-      <section className="pt-32 pb-20 px-4 sm:px-6 bg-black text-white">
+      <section className="pt-32 pb-20 px-4 sm:px-6 bg-black text-white overflow-hidden">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">How can we help?</h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg mb-8">Find answers to common questions about escrow, transactions, and our platform.</p>
-          <div className="max-w-md mx-auto">
-            <input type="text" placeholder="Search for help..." className="w-full px-5 py-3.5 bg-[#1a1a1a] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50" />
-          </div>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6"
+          >
+            How can we help?
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-slate-400 max-w-2xl mx-auto text-lg mb-8"
+          >
+            Find answers to common questions about escrow, transactions, and our platform.
+          </motion.p>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="max-w-md mx-auto"
+          >
+            <input type="text" placeholder="Search for help..." className="w-full px-5 py-3.5 bg-[#1a1a1a] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 transition-shadow" />
+          </motion.div>
         </div>
       </section>
 
       <section className="py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold mb-10 text-center">Frequently Asked Questions</h2>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-2xl font-bold mb-10 text-center"
+          >
+            Frequently Asked Questions
+          </motion.h2>
           <div className="space-y-4">
-            {faqs.map((faq) => (
-              <details key={faq.q} className="bg-[#f5f5f5] rounded-xl p-6 group cursor-pointer">
-                <summary className="font-semibold text-sm list-none flex items-center justify-between">
+            {faqs.map((faq, i) => (
+              <motion.details 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: i * 0.05 }}
+                key={faq.q} 
+                className="bg-[#f5f5f5] rounded-xl p-6 group cursor-pointer hover:bg-slate-100 transition-colors"
+              >
+                <summary className="font-semibold text-sm list-none flex items-center justify-between outline-none">
                   {faq.q}
-                  <svg className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6"/></svg>
+                  <svg className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6"/></svg>
                 </summary>
-                <p className="mt-4 text-sm text-slate-500 leading-relaxed">{faq.a}</p>
-              </details>
+                <p className="mt-4 text-sm text-slate-500 leading-relaxed overflow-hidden animate-fade-in">{faq.a}</p>
+              </motion.details>
             ))}
           </div>
         </div>

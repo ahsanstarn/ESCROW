@@ -28,21 +28,21 @@ export default function AgencyApi() {
 
   const getMethodStyle = (method: string) => {
     switch (method) {
-      case 'POST': return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
-      case 'GET': return 'bg-blue-50 text-blue-700 border border-blue-200';
-      case 'DELETE': return 'bg-red-50 text-red-700 border border-red-200';
+      case 'POST': return 'bg-green-100 text-green-800';
+      case 'GET': return 'bg-blue-100 text-blue-800';
+      case 'DELETE': return 'bg-red-100 text-red-800';
       default: return 'bg-slate-50 text-slate-700 border border-slate-200';
     }
   };
 
   const getStatusStyle = (status: string) => {
-    if (status.startsWith('2')) return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
-    if (status.startsWith('4')) return 'bg-amber-50 text-amber-700 border border-amber-200';
+    if (status.startsWith('2')) return 'bg-green-100 text-green-800';
+    if (status.startsWith('4')) return 'bg-yellow-100 text-yellow-800';
     return 'bg-slate-50 text-slate-700 border border-slate-200';
   };
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className=" min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6 lg:mb-8">
         <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">API & Webhooks</h1>
@@ -52,7 +52,7 @@ export default function AgencyApi() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 lg:mb-8">
         {stats.map((stat, i) => (
-          <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+          <div key={i} className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-5 shadow-sm border border-slate-100">
             <div className="flex items-center gap-3 mb-3">
               <div className={`p-2 ${stat.bg} rounded-lg`}>
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
@@ -68,10 +68,10 @@ export default function AgencyApi() {
       {/* API Keys + Webhooks */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
         {/* API Keys */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-sm font-semibold text-slate-900">API Keys</h3>
-            <button className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-black bg-[#A3E635] hover:bg-[#84cc16] rounded-lg transition-colors">
+            <button className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-black border-b border-slate-100 hover:bg-[#84cc16] rounded-lg transition-colors">
               <Plus className="w-3.5 h-3.5" /> Generate New Key
             </button>
           </div>
@@ -81,7 +81,7 @@ export default function AgencyApi() {
                 <Key className="w-4 h-4 text-slate-500" />
                 <span className="text-sm font-semibold text-slate-900">Production API Key</span>
               </div>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                 <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5" /> Active
               </span>
             </div>
@@ -89,10 +89,10 @@ export default function AgencyApi() {
               <code className="flex-1 px-3 py-2 bg-white rounded-lg text-sm font-mono text-slate-600 border border-slate-200 truncate">
                 {apiKey}
               </code>
-              <button className="p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors" title="Copy">
+              <button className="p-2 bg-white rounded-lg border border-slate-200 hover:bg-[#DDFC95]/10 transition-colors" title="Copy">
                 <Copy className="w-4 h-4 text-slate-500" />
               </button>
-              <button className="p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors" title="Reveal">
+              <button className="p-2 bg-white rounded-lg border border-slate-200 hover:bg-[#DDFC95]/10 transition-colors" title="Reveal">
                 <Eye className="w-4 h-4 text-slate-500" />
               </button>
             </div>
@@ -101,7 +101,7 @@ export default function AgencyApi() {
         </div>
 
         {/* API Documentation Card */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-5">API Documentation</h3>
           <div className="space-y-3">
             <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
@@ -112,7 +112,7 @@ export default function AgencyApi() {
                 <p className="text-sm font-medium text-slate-900">View Documentation</p>
                 <p className="text-xs text-slate-500 mt-0.5">Comprehensive guides and tutorials</p>
               </div>
-              <button className="ml-auto px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+              <button className="ml-auto px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-[#DDFC95]/10 transition-colors">
                 Open
               </button>
             </div>
@@ -124,7 +124,7 @@ export default function AgencyApi() {
                 <p className="text-sm font-medium text-slate-900">API Reference</p>
                 <p className="text-xs text-slate-500 mt-0.5">Endpoint definitions and schemas</p>
               </div>
-              <button className="ml-auto px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+              <button className="ml-auto px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-[#DDFC95]/10 transition-colors">
                 Open
               </button>
             </div>
@@ -133,14 +133,14 @@ export default function AgencyApi() {
       </div>
 
       {/* Webhook Endpoints Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-6 lg:mb-8">
+      <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp shadow-sm border border-slate-100 overflow-hidden mb-6 lg:mb-8">
         <div className="px-6 py-4 border-b border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900">Webhook Endpoints</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#A3E635]">
+              <tr className="border-b border-slate-100">
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Event Type</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Endpoint URL</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Status</th>
@@ -150,7 +150,7 @@ export default function AgencyApi() {
             </thead>
             <tbody>
               {webhooks.map((wh, i) => (
-                <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                <tr key={i} className="border-b border-slate-50 hover:bg-[#DDFC95]/10 transition-colors">
                   <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <div className="flex items-center gap-2">
                       <Globe className="w-3.5 h-3.5 text-slate-400" />
@@ -159,7 +159,7 @@ export default function AgencyApi() {
                   </td>
                   <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-600 truncate max-w-[200px] hidden md:table-cell">{wh.endpoint}</td>
                   <td className="py-3 px-3 sm:px-4 lg:px-6">
-                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                       <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5" /> {wh.status}
                     </span>
                   </td>
@@ -187,14 +187,14 @@ export default function AgencyApi() {
       </div>
 
       {/* Recent API Activity Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp shadow-sm border border-slate-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900">Recent API Activity</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#A3E635]">
+              <tr className="border-b border-slate-100">
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Method</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Endpoint</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Status</th>
@@ -203,7 +203,7 @@ export default function AgencyApi() {
             </thead>
             <tbody>
               {recentActivity.map((act, i) => (
-                <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                <tr key={i} className="border-b border-slate-50 hover:bg-[#DDFC95]/10 transition-colors">
                   <td className="py-3 px-3 sm:px-4 lg:px-6">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium ${getMethodStyle(act.method)}`}>
                       {act.method}

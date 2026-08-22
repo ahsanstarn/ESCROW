@@ -79,157 +79,123 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
+    <div className="min-h-screen bg-[#ECF4E9] p-8 font-sans">
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Analytics & Trust</h1>
-            <p className="mt-1 text-sm text-slate-500">Monitor performance metrics and build buyer trust</p>
+            <h1 className="text-2xl font-bold text-gray-900">Analytics & Trust</h1>
+            <p className="text-sm text-gray-500 mt-1">Performance insights and trust score analytics</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6 lg:mb-8">
-          {performanceMetrics.map((stat, i) => (
-            <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-              <div className="flex items-start justify-between mb-3">
-                <stat.icon className={`w-5 h-5 ${stat.color}`} />
+        <div>
+          <div className="grid grid-cols-5 gap-4">
+            {performanceMetrics.map((stat, i) => (
+              <div key={i} className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out ${i * 0.1}s both` }}>
+                <p className="text-sm text-gray-500 mb-2">{stat.label}</p>
+                <h3 className="text-3xl font-bold text-gray-900">{stat.value}</h3>
+                <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+                  <span className="text-gray-400">↓</span> {stat.subtitle}
+                </p>
               </div>
-              <p className="text-xs text-slate-500 mb-1">{stat.label}</p>
-              <p className="text-xl font-bold text-slate-900">{stat.value}</p>
-              <p className="text-xs text-slate-400 mt-1">{stat.subtitle}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 lg:mb-8">
-          <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-            <h2 className="text-lg font-semibold text-slate-900 mb-4">Strategic Insights</h2>
-            <div className="space-y-4">
-              {insights.map((insight, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                    insight.impact === 'High' ? 'bg-red-50 text-red-600' :
-                    insight.impact === 'Medium' ? 'bg-amber-50 text-amber-600' :
-                    'bg-blue-50 text-blue-600'
-                  }`}>
-                    <insight.icon className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <p className="text-sm font-semibold text-slate-900">{insight.title}</p>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${
-                        insight.impact === 'High' ? 'bg-red-100 text-red-700' :
-                        insight.impact === 'Medium' ? 'bg-amber-100 text-amber-700' :
-                        'bg-blue-100 text-blue-700'
-                      }`}>
-                        {insight.impact} Impact
-                      </span>
-                    </div>
-                    <p className="text-sm text-slate-500">{insight.description}</p>
-                  </div>
+        <div>
+          <h2 className="text-lg font-bold text-gray-900 mb-4 mt-6">Strategic Insights</h2>
+          <div className="grid grid-cols-3 gap-4">
+            {insights.map((insight, i) => (
+              <div key={i} className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex items-start gap-4" style={{ animation: `fadeInUp 0.5s ease-out ${0.5 + i * 0.1}s both` }}>
+                <div className={`p-2 rounded-xl ${insight.impact === 'High' ? 'bg-[#BCF49D]/20 text-[#305941]' : 'bg-orange-50 text-orange-600'}`}>
+                  <insight.icon className="w-5 h-5" />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-            <h2 className="text-lg font-semibold text-slate-900 mb-4">Account Status</h2>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Status</span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium">
-                  <CheckCircle className="w-3 h-3" /> Active
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Verification</span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium">
-                  <CheckCircle className="w-3 h-3" /> Verified
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Risk Level</span>
-                <span className="text-sm font-medium text-emerald-700">{trustScore >= 70 ? 'Low' : 'Medium'}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Trust Score</span>
-                <span className="text-sm font-bold text-slate-900">{trustScore}/100</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">Total Escrows</span>
-                <span className="text-sm text-slate-900">{totalEscrows}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 lg:mb-8">
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">Performance Trend</h2>
-          <div className="flex items-end gap-2 sm:gap-3 h-48 mb-4">
-            {monthlyTrend.map((metric, i) => {
-              const max = Math.max(...monthlyTrend.map(m => m.delivered));
-              const height = max > 0 ? (metric.delivered / max) * 100 : 0;
-              return (
-                <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="w-full flex flex-col items-center">
-                    <span className="text-xs font-medium text-slate-700 mb-1">{metric.delivered}</span>
-                    <div className="w-full bg-[#A3E635] rounded-t-lg" style={{ height: `${Math.max(height, 5)}%` }} />
-                  </div>
-                  <p className="text-xs text-slate-500 font-medium">{metric.month}</p>
+                <div>
+                  <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-full mb-2 inline-block ${insight.impact === 'High' ? 'bg-[#BCF49D]/20 text-[#305941]' : 'bg-orange-100 text-orange-800'}`}>
+                    {insight.impact} Impact
+                  </span>
+                  <h4 className="text-sm font-bold text-gray-900 leading-tight mb-1">{insight.title}</h4>
+                  <p className="text-xs text-gray-500">{insight.description}</p>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-            <h2 className="text-lg font-semibold text-slate-900 mb-4">Trust Score Breakdown</h2>
-            <div className="space-y-4">
+        <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.8s both` }}>
+          <h2 className="text-lg font-bold text-gray-900 mb-6">5-Month Performance Trend</h2>
+          <div className="space-y-6">
+            {monthlyTrend.map((m, i) => (
+              <div key={i} className="flex items-center gap-8 text-sm">
+                <div className="w-12 text-gray-500">{m.month}</div>
+                <div className="flex-1 flex items-center gap-4">
+                  <span className="w-16 text-xs text-gray-400">Revenue</span>
+                  <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#DDFC95] rounded-full" style={{width: '60%'}}></div>
+                  </div>
+                  <span className="w-12 font-bold">₹{m.delivered * 10}K</span>
+                </div>
+                <div className="flex-1 flex items-center gap-4">
+                  <span className="w-16 text-xs text-gray-400">Disputes</span>
+                  <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-red-800 rounded-full" style={{width: '20%'}}></div>
+                  </div>
+                  <span className="w-4 font-bold">{Math.round(m.delivered/3)}</span>
+                </div>
+                <div className="flex-1 flex items-center gap-4">
+                  <span className="w-20 text-xs text-gray-400">Trust Score</span>
+                  <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#DDFC95] rounded-full" style={{width: '90%'}}></div>
+                  </div>
+                  <span className="w-6 font-bold">92</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.9s both` }}>
+            <h2 className="text-lg font-bold text-gray-900 mb-6">Trust Score Breakdown</h2>
+            <div className="space-y-6">
               {trustBreakdown.map((item, i) => (
-                <div key={i}>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-sm text-slate-700">{item.label}</span>
-                    <span className="text-sm font-medium text-slate-900">{item.score}/100</span>
+                <div key={i} className="flex items-center gap-4">
+                  <span className="w-32 text-sm text-gray-500">{item.label}</span>
+                  <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#DDFC95] rounded-full" style={{width: `${item.score}%`}}></div>
                   </div>
-                  <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                    <div className={`h-full rounded-full ${item.color}`} style={{ width: `${item.score}%` }} />
-                  </div>
+                  <span className="text-sm font-bold">{item.score}</span>
                 </div>
               ))}
             </div>
           </div>
-
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-            <h2 className="text-lg font-semibold text-slate-900 mb-4">Recommended Actions</h2>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
-                <div>
-                  <p className="text-sm font-medium text-slate-900">Enable instant payouts</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Get funds in your account within minutes.</p>
-                </div>
-                <Link to="/seller/wallet" className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
-                  Enable
-                </Link>
+          
+          <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 1.0s both` }}>
+            <h2 className="text-lg font-bold text-gray-900 mb-6">Account Status</h2>
+            <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 mb-6 flex items-center gap-3">
+              <div className="p-2 bg-gray-200 rounded-lg"><Shield className="w-4 h-4 text-gray-600" /></div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">Low Risk Account</p>
+                <p className="text-xs text-gray-500">Auto-release enabled</p>
               </div>
-              <div className="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
-                <div>
-                  <p className="text-sm font-medium text-slate-900">Complete advanced KYC</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Unlock higher transaction limits.</p>
-                </div>
-                <Link to="/seller/settings" className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
-                  Complete
-                </Link>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs text-gray-500">Risk Level</p>
+                <p className="text-lg font-bold text-gray-900">Low</p>
+                <p className="text-xs text-gray-400">This improves auto-release eligibility</p>
               </div>
-              <div className="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
-                <div>
-                  <p className="text-sm font-medium text-slate-900">Set up webhook alerts</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Receive real-time order updates.</p>
-                </div>
-                <Link to="/seller/api" className="px-3 py-1.5 bg-[#A3E635] text-black text-xs font-medium rounded-lg hover:bg-[#95d630] transition-colors">
-                  Configure
-                </Link>
+              <div>
+                <p className="text-xs text-gray-500">Account Age</p>
+                <p className="text-lg font-bold text-gray-900">8 months</p>
+                <p className="text-xs text-gray-400">Member since May 2025</p>
               </div>
             </div>
           </div>

@@ -68,23 +68,23 @@ export default function AgencyBulkOrders() {
 
   const getStatusStyle = (status: string) => {
     switch (status) {
-      case 'Held in Escro': return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
-      case 'Pending Release': return 'bg-amber-50 text-amber-700 border border-amber-200';
-      case 'Completed': return 'bg-blue-50 text-blue-700 border border-blue-200';
-      case 'Disputed': return 'bg-red-50 text-red-700 border border-red-200';
+      case 'Held in Escro': return 'bg-green-100 text-green-800';
+      case 'Pending Release': return 'bg-yellow-100 text-yellow-800';
+      case 'Completed': return 'bg-blue-100 text-blue-800';
+      case 'Disputed': return 'bg-red-100 text-red-800';
       default: return 'bg-slate-50 text-slate-700 border border-slate-200';
     }
   };
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className=" min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Bulk Orders</h1>
           <p className="mt-1 text-sm text-slate-500">Managing {groups.length} bulk order groups</p>
         </div>
-        <button onClick={() => alert('Create Bulk Order form would open here.')} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#A3E635] hover:bg-[#84cc16] text-black font-semibold rounded-xl transition-colors shadow-sm">
+        <button onClick={() => alert('Create Bulk Order form would open here.')} className="inline-flex items-center gap-2 px-4 py-2.5 border-b border-slate-100 hover:bg-[#84cc16] text-black font-semibold rounded-xl transition-colors shadow-sm">
           <Plus className="w-4 h-4" /> Create Bulk Order
         </button>
       </div>
@@ -92,7 +92,7 @@ export default function AgencyBulkOrders() {
       {/* Cards */}
       <div className="space-y-4">
         {groups.map((group) => (
-          <div key={group.id} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+          <div key={group.id} className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-1">
@@ -140,7 +140,7 @@ export default function AgencyBulkOrders() {
                 <button onClick={() => alert('Viewing details for ' + group.id)} className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
                   <Eye className="w-4 h-4" /> View Details
                 </button>
-                <button onClick={() => alert('Release initiated for ' + group.company)} className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-black bg-[#A3E635] hover:bg-[#84cc16] rounded-lg transition-colors">
+                <button onClick={() => alert('Release initiated for ' + group.company)} className="inline-flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-black border-b border-slate-100 hover:bg-[#84cc16] rounded-lg transition-colors">
                   <ArrowUpRight className="w-4 h-4" /> Release All
                 </button>
               </div>

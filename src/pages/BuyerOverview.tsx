@@ -1,10 +1,10 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { formatCurrency } from '@/lib/utils';
-import { api } from '@/lib/api';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { Eye, X } from 'lucide-react';
-import { Escrow, User } from '@/types';
+import { 
+  Clock, CheckCircle, ShieldCheck, 
+  AlertCircle, ChevronRight
+} from 'lucide-react';
 
 interface BuyerOverviewProps {
   userId?: string;
@@ -12,180 +12,231 @@ interface BuyerOverviewProps {
 }
 
 export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) {
-  const [escrows, setEscrows] = useState<Escrow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [merchants, setMerchants] = useState<User[]>([]);
-  const [creating, setCreating] = useState(false);
-  const [form, setForm] = useState({ merchantId: '', amount: '', description: '', productType: 'DIGITAL' as 'DIGITAL' | 'PHYSICAL' });
 
   useEffect(() => {
-    if (!userId) return;
-    Promise.all([
-      api.escrows.list({ buyerId: userId }),
-      api.users.list('MERCHANT'),
-    ]).then(([escrowRes, merchantRes]) => {
-      setEscrows(escrowRes.data || []);
-      setMerchants(merchantRes.data || []);
-    }).catch(() => {}).finally(() => setLoading(false));
-  }, [userId]);
-
-  const thisMonth = useMemo(() => {
-    const now = new Date();
-    return escrows.filter(e => {
-      const d = new Date(e.createdAt);
-      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-    });
-  }, [escrows]);
-
-  const totalReceived = useMemo(() => escrows.reduce((s, e) => s + e.amount, 0), [escrows]);
-  const recentEscrows = useMemo(() => [...escrows].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5), [escrows]);
-
-  const handleCreate = async () => {
-    if (!form.merchantId || !form.amount) return;
-    if (!userId) {
-      console.error('No user ID available');
-      return;
-    }
-    setCreating(true);
-    try {
-      await api.escrows.create({
-        merchantId: form.merchantId,
-        buyerId: userId,
-        amount: parseFloat(form.amount),
-        productType: form.productType,
-        description: form.description,
-      });
-      const res = await api.escrows.list({ buyerId: userId });
-      setEscrows(res.data || []);
-      setShowCreateModal(false);
-      setForm({ merchantId: '', amount: '', description: '', productType: 'DIGITAL' });
-    } catch (err) {
-      console.error('Failed to create escrow:', err);
-    }
-    setCreating(false);
-  };
+    const timer = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (loading) {
     return <LoadingSpinner fullScreen message="Loading dashboard..." />;
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 lg:mb-8">
-          <div>
-            <p className="text-sm text-slate-500 mb-1">Dashboard</p>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Welcome back, {userName?.split(' ')[0] || 'User'}</h1>
-          </div>
-          <button onClick={() => setShowCreateModal(true)} className="mt-3 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-[#A3E635] text-black font-semibold text-sm rounded-lg hover:bg-[#b8ed5a] transition-colors">
-            + New transaction
-          </button>
+    <div className="min-h-screen bg-[#ECF4E9]">
+      <div className="p-6 lg:p-8 max-w-[1440px] mx-auto space-y-6">
+        
+        {/* Header */}
+        <div className="flex flex-col animate-fadeInUp" style={{ animation: 'fadeInUp 0.1s ease-out both' }}>
+          <h1 className="text-2xl font-bold text-slate-900">Buyer Dashboard</h1>
+          <p className="text-sm text-slate-500 mt-1">Overview of your purchases and escrow protection</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 lg:mb-8">
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-            <p className="text-sm text-slate-500 mb-1">Transactions this month</p>
-            <p className="text-2xl font-bold text-slate-900">{thisMonth.length}</p>
-            <div className="mt-3 flex items-end gap-1 h-8">
-              {Array.from({ length: 7 }, (_, i) => (
-                <div key={i} className="flex-1 bg-[#A3E635] rounded-sm" style={{ height: `${Math.max(20, (thisMonth.filter((_, j) => j <= i).length / Math.max(thisMonth.length, 1)) * 100)}%` }} />
-              ))}
+        {/* Top Cards Row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          {/* Card 1: Available Balance */}
+          <div className="bg-[#305941] rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" style={{ animation: 'fadeInUp 0.2s ease-out both' }}>
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <span className="text-white text-xs">↗</span>
+              </div>
+              <span className="px-2 py-1 bg-[#4A7258] text-white text-[10px] rounded uppercase font-semibold">Ready</span>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Available Balance</p>
+              <h2 className="text-3xl font-bold text-white mb-2">$1,250.50</h2>
+              <div className="flex justify-between items-center text-xs text-[#DDFC95]">
+                <span>~ Ready to use</span>
+                <span>Wallet</span>
+              </div>
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-            <p className="text-sm text-slate-500 mb-1">Amount received</p>
-            <p className="text-2xl font-bold text-slate-900">{formatCurrency(totalReceived)}</p>
+
+          {/* Card 2: Funds in Escrow */}
+          <div className="bg-[#305941] rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden" style={{ animation: 'fadeInUp 0.3s ease-out both' }}>
+            <div className="absolute right-0 top-0 opacity-20">
+              <div className="w-16 h-16 border-2 border-white rounded-full -mr-4 -mt-4"></div>
+              <div className="w-12 h-12 border-2 border-white rounded-full -mr-2 -mt-2 absolute top-4 right-4"></div>
+            </div>
+            <div className="flex justify-between items-start mb-4 relative z-10">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <ShieldCheck className="w-4 h-4 text-white" />
+              </div>
+            </div>
+            <div className="relative z-10">
+              <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Funds in Escrow</p>
+              <h2 className="text-3xl font-bold text-white mb-2">$44,300.00</h2>
+              <div className="flex justify-between items-center text-xs text-[#DDFC95]">
+                <span className="flex items-center gap-1"><ShieldCheck className="w-3 h-3" /> Protected</span>
+                <span className="text-right">Secure<br/>6 txns</span>
+              </div>
+            </div>
           </div>
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 sm:col-span-2 lg:col-span-1">
-            <p className="text-sm text-slate-500 mb-1">Volume in USD</p>
-            <p className="text-2xl font-bold text-slate-900">{formatCurrency(totalReceived)}</p>
+
+          {/* Card 3: Active Orders */}
+          <div className="bg-[#0B406B] rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden" style={{ animation: 'fadeInUp 0.4s ease-out both' }}>
+            <div className="absolute right-4 top-4">
+              <div className="w-2 h-2 rounded-full bg-[#4DB6AC]"></div>
+            </div>
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <span className="text-white text-xs">▣</span>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Active Orders</p>
+              <h2 className="text-3xl font-bold text-white mb-2">13</h2>
+              <div className="flex justify-between items-center text-xs text-[#4DB6AC]">
+                <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> In progress</span>
+                <span className="text-right">Status<br/>Tracking</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4: Disputes Open */}
+          <div className="bg-[#8B1E28] rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" style={{ animation: 'fadeInUp 0.5s ease-out both' }}>
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <AlertCircle className="w-4 h-4 text-white" />
+              </div>
+              <span className="px-2 py-1 bg-white/20 text-white text-[10px] rounded uppercase font-semibold">Action</span>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Disputes Open</p>
+              <h2 className="text-3xl font-bold text-white mb-2">6</h2>
+              <div className="flex justify-between items-center text-xs text-[#FF8A8A]">
+                <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> Needs attention</span>
+                <span className="text-right">Active<br/>Cases</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* What Needs Attention Section */}
+        <div className="bg-white rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out both' }}>
+          <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-slate-500" />
+              <h3 className="font-semibold text-slate-900 text-sm">What Needs Attention</h3>
+            </div>
+            <span className="text-xs text-slate-400">3 items</span>
+          </div>
+          <div className="divide-y divide-slate-50">
+            
+            <div className="p-5 flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-[#ECF4E9] flex items-center justify-center flex-shrink-0 mt-1">
+                <AlertCircle className="w-4 h-4 text-[#305941]" />
+              </div>
+              <div className="flex-1">
+                <div className="flex justify-between items-start mb-1">
+                  <p className="text-sm font-semibold text-slate-900">Delivery Confirmation Needed</p>
+                  <span className="px-2 py-1 bg-red-50 text-red-600 text-[10px] rounded font-medium">High Priority</span>
+                </div>
+                <p className="text-xs text-slate-500 mb-3">ORD-2026-0124 - Industrial Grade 3D Printer has been delivered</p>
+                <button className="text-[#305941] text-xs font-semibold flex items-center gap-1 hover:underline">
+                  Confirm Delivery <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+
+            <div className="p-5 flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-[#ECF4E9] flex items-center justify-center flex-shrink-0 mt-1">
+                <AlertCircle className="w-4 h-4 text-[#305941]" />
+              </div>
+              <div className="flex-1">
+                <div className="flex justify-between items-start mb-1">
+                  <p className="text-sm font-semibold text-slate-900">Auto-Release in 48 Hours</p>
+                </div>
+                <p className="text-xs text-slate-500 mb-3">ORD-2026-0118 will automatically release funds if not confirmed</p>
+                <button className="text-[#305941] text-xs font-semibold flex items-center gap-1 hover:underline">
+                  Review Order <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+
+            <div className="p-3 bg-[#FAFAFA] text-center border-t border-slate-50 rounded-b-2xl cursor-pointer hover:bg-slate-50 transition-colors">
+              <span className="text-xs font-semibold text-[#305941]">Show 1 More Items</span>
+            </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="font-bold text-slate-900">Recent Transactions</h2>
-            <Link to="/buyer/transactions" className="text-sm text-slate-500 hover:text-slate-700">View all →</Link>
+        {/* Active Orders Section */}
+        <div className="bg-white rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: 'fadeInUp 0.7s ease-out both' }}>
+          <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-4 text-slate-500 border border-slate-500 rounded-sm inline-flex items-center justify-center text-[10px]">▣</span>
+              <h3 className="font-semibold text-slate-900 text-sm">Active Orders</h3>
+            </div>
+            <Link to="/buyer/transactions" className="text-xs font-semibold text-[#305941] hover:underline underline-offset-2">View All</Link>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-[#f0f5f0]">
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Transaction</th>
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Date</th>
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Amount</th>
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Status</th>
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Actions</th>
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#FCFDFB] text-[10px] text-slate-500 uppercase font-semibold border-b border-slate-100">
+                <tr>
+                  <th className="px-5 py-3">Order</th>
+                  <th className="px-5 py-3">Seller</th>
+                  <th className="px-5 py-3">Amount</th>
+                  <th className="px-5 py-3">Status</th>
+                  <th className="px-5 py-3">Progress</th>
+                  <th className="px-5 py-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody>
-                {recentEscrows.length === 0 ? (
-                  <tr><td colSpan={5} className="py-8 text-center text-slate-500">No transactions yet. Create your first escrow!</td></tr>
-                ) : (
-                  recentEscrows.map(order => (
-                    <tr key={order.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                      <td className="py-4 px-5 font-medium text-slate-900">{order.description || order.escrowCode}</td>
-                      <td className="py-4 px-5 text-slate-500">{new Date(order.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
-                      <td className="py-4 px-5 font-semibold text-slate-900">{formatCurrency(order.amount)}</td>
-                      <td className="py-4 px-5">
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                          {order.status === 'RELEASED' || order.status === 'CONFIRMED' ? 'Completed' : order.status === 'DISPUTED' ? 'Disputed' : 'Pending'}
-                        </span>
-                      </td>
-                      <td className="py-4 px-5">
-                        <Link to={`/escrow/${order.id}`} className="p-1.5 hover:bg-slate-100 rounded-lg inline-flex transition-colors">
-                          <Eye className="w-4 h-4 text-slate-400" />
-                        </Link>
-                      </td>
-                    </tr>
-                  ))
-                )}
+              <tbody className="divide-y divide-slate-50">
+                {[
+                  { id: 'ORD-2026-0124', name: 'Industrial Grade 3D Printer', seller: 'Tech Supplies Inc.', amt: '$2,450.00', status: 'Held in Escrow', statusBg: 'bg-[#BCF49D]', statusText: 'text-[#1B4D1E]', prog: '50%' },
+                  { id: 'ORD-2026-0118', name: 'Custom Web Application Development - Phase 2 Milestone', seller: 'Tech Supplies Inc.', amt: '$8,750.00', status: 'Pending Release', statusBg: 'bg-[#BCF49D]', statusText: 'text-[#1B4D1E]', prog: '90%' },
+                  { id: 'ORD-2026-0115', name: 'CNC Milling Machine MX-5000', seller: 'Tech Supplies Inc.', amt: '$15,200.00', status: 'Disputed', statusBg: 'bg-red-800', statusText: 'text-white', prog: '50%' },
+                  { id: 'ORD-2026-0112', name: 'Professional Camera Kit (5x Canon EOS R5)', seller: 'Tech Supplies Inc.', amt: '$4,300.00', status: 'Held in Escrow', statusBg: 'bg-[#BCF49D]', statusText: 'text-[#1B4D1E]', prog: '25%' },
+                  { id: 'ORD-2026-0125', name: 'High-Performance Server Rack', seller: 'Tech Supplies Inc.', amt: '$6,800.00', status: 'Pending', statusBg: 'bg-[#DDFC95]', statusText: 'text-[#305941]', prog: '10%' },
+                ].map((order, idx) => (
+                  <tr key={idx} className="hover:bg-[#ECF4E9]/30 transition-colors">
+                    <td className="px-5 py-4">
+                      <p className="font-semibold text-slate-900 mb-1">{order.id}</p>
+                      <p className="text-[10px] text-slate-500 truncate max-w-[200px]">{order.name}</p>
+                    </td>
+                    <td className="px-5 py-4 text-slate-600 font-medium">{order.seller}</td>
+                    <td className="px-5 py-4 font-bold text-slate-900">{order.amt}</td>
+                    <td className="px-5 py-4">
+                      <span className={`px-2 py-1 rounded text-[10px] font-semibold ${order.statusBg} ${order.statusText}`}>
+                        {order.status}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4 text-slate-500">{order.prog}</td>
+                    <td className="px-5 py-4 text-right">
+                      <button className="text-[#305941] font-semibold hover:underline">View</button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
-      </div>
 
-      {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowCreateModal(false)} />
-          <div className="relative bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold text-slate-900">New Transaction</h2>
-              <button onClick={() => setShowCreateModal(false)} className="p-1 hover:bg-slate-100 rounded-lg"><X className="w-5 h-5" /></button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Select Merchant</label>
-                <select value={form.merchantId} onChange={e => setForm({ ...form, merchantId: e.target.value })} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50">
-                  <option value="">Choose a merchant</option>
-                  {merchants.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
-                </select>
+        {/* Business Health Summary */}
+        <div className="bg-white rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300 p-6" style={{ animation: 'fadeInUp 0.8s ease-out both' }}>
+          <h3 className="font-bold text-slate-900 mb-4">Business Health Summary</h3>
+          <div className="space-y-3">
+            {[
+              { label: 'Dispute Ratio', value: '2.3%', stat: 'Good' },
+              { label: 'Avg. Release Time', value: '4.2 days', stat: 'Good' },
+              { label: 'On-Time Delivery', value: '94%', stat: 'Good' },
+              { label: 'Repeat Buyer %', value: '67%', stat: 'Good' },
+            ].map((item, idx) => (
+              <div key={idx} className="bg-[#F8FCF5] rounded-xl p-4 flex justify-between items-end border border-transparent hover:border-[#DDFC95] transition-colors">
+                <div>
+                  <p className="text-[10px] text-slate-500 uppercase font-medium mb-1">{item.label}</p>
+                  <p className="text-xl font-bold text-slate-900">{item.value}</p>
+                </div>
+                <span className="text-[10px] text-[#305941] font-medium">{item.stat}</span>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Amount (USD)</label>
-                <input type="number" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} placeholder="0.00" className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Product Type</label>
-                <select value={form.productType} onChange={e => setForm({ ...form, productType: e.target.value as 'DIGITAL' | 'PHYSICAL' })} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50">
-                  <option value="DIGITAL">Digital Service</option>
-                  <option value="PHYSICAL">Physical Product</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Description</label>
-                <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Describe the transaction..." rows={3} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 resize-none" />
-              </div>
-              <button onClick={handleCreate} disabled={creating || !form.merchantId || !form.amount} className="w-full py-2.5 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors disabled:opacity-50">
-                {creating ? 'Creating...' : 'Create Escro'}
-              </button>
-            </div>
+            ))}
           </div>
         </div>
-      )}
+
+      </div>
     </div>
   );
 }

@@ -53,9 +53,9 @@ export default function AgencyDisputes() {
 
   const getPriorityStyle = (priority: string) => {
     switch (priority) {
-      case 'High': return 'bg-red-50 text-red-700 border border-red-200';
-      case 'Medium': return 'bg-amber-50 text-amber-700 border border-amber-200';
-      case 'Low': return 'bg-blue-50 text-blue-700 border border-blue-200';
+      case 'High': return 'bg-red-100 text-red-800';
+      case 'Medium': return 'bg-yellow-100 text-yellow-800';
+      case 'Low': return 'bg-blue-100 text-blue-800';
       default: return 'bg-slate-50 text-slate-700 border border-slate-200';
     }
   };
@@ -69,7 +69,7 @@ export default function AgencyDisputes() {
   };
 
   return (
-    <div className="bg-[#f0f5f0] min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className=" min-h-full p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6 lg:mb-8">
         <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Disputes & Risk</h1>
@@ -79,7 +79,7 @@ export default function AgencyDisputes() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 lg:mb-8">
         {stats.map((stat, i) => (
-          <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+          <div key={i} className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-5 shadow-sm border border-slate-100">
             <div className="flex items-center gap-3 mb-3">
               <div className={`p-2 ${stat.bg} rounded-lg`}>
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
@@ -94,7 +94,7 @@ export default function AgencyDisputes() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:mb-8">
         {/* Dispute Trend Over Time */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Dispute Trend Over Time</h3>
           <div className="relative h-48">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
@@ -121,7 +121,7 @@ export default function AgencyDisputes() {
         </div>
 
         {/* Dispute Frequency by Client */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Dispute Frequency by Client</h3>
           <div className="space-y-4">
             {disputeFrequency.map((item, i) => (
@@ -145,7 +145,7 @@ export default function AgencyDisputes() {
       {/* Risk Score + Alerts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 lg:mb-8">
         {/* Risk Score Scale */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-6 shadow-sm border border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Risk Score Scale</h3>
           <div className="relative pt-2 pb-6">
             <div className="w-full h-3 rounded-full bg-gradient-to-r from-emerald-400 via-amber-400 to-red-500" />
@@ -175,7 +175,7 @@ export default function AgencyDisputes() {
         {/* Risk Alerts */}
         <div className="lg:col-span-2 space-y-4">
           {riskAlerts.map((alert, i) => (
-            <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-start gap-4">
+            <div key={i} className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp p-5 shadow-sm border border-slate-100 flex items-start gap-4">
               <div className={`p-2.5 rounded-xl flex-shrink-0 ${alert.severity === 'high' ? 'bg-red-50' : 'bg-amber-50'}`}>
                 {getSeverityIcon(alert.severity)}
               </div>
@@ -192,14 +192,14 @@ export default function AgencyDisputes() {
       </div>
 
       {/* Active Disputes Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 animate-fadeInUp shadow-sm border border-slate-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100">
           <h3 className="text-sm font-semibold text-slate-900">Active Disputes</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#A3E635]">
+              <tr className="border-b border-slate-100">
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Dispute ID</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider hidden md:table-cell">Order ID</th>
                 <th className="text-left py-3 px-3 sm:px-4 lg:px-6 text-xs font-semibold text-slate-900 uppercase tracking-wider">Client</th>
@@ -211,7 +211,7 @@ export default function AgencyDisputes() {
             </thead>
             <tbody>
               {activeDisputes.map((d, i) => (
-                <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                <tr key={i} className="border-b border-slate-50 hover:bg-[#DDFC95]/10 transition-colors">
                   <td className="py-3 px-3 sm:px-4 lg:px-6 font-medium text-slate-900">{d.id}</td>
                   <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-600 hidden md:table-cell">{d.orderId}</td>
                   <td className="py-3 px-3 sm:px-4 lg:px-6 text-slate-600">{d.client}</td>

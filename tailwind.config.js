@@ -4,6 +4,16 @@ export default {
   theme: {
     extend: {
       colors: {
+        escrow: {
+          background: '#ECF4E9', // Page background
+          primary: '#DDFC95',    // Main lime green accent
+          primaryHover: '#ACFA56', // Active button/hover
+          card: '#FFFFFF',       // Card background
+          badgeBg: '#BCF49D',    // Status badge background
+          badgeText: '#1B4D1E',  // Status badge text
+          darkGreen: '#305941',  // Used in gradients/dark cards
+          border: '#E5E7EB',
+        },
         brand: {
           50: '#f7fee7',
           100: '#ecfccb',
@@ -33,17 +43,18 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['IBM Plex Sans', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       animation: {
-        'fade-in': 'fadeIn 0.6s ease-out',
-        'fade-in-up': 'fadeInUp 0.6s ease-out',
-        'fade-in-down': 'fadeInDown 0.5s ease-out',
-        'slide-in-left': 'slideInLeft 0.5s ease-out',
-        'slide-in-right': 'slideInRight 0.5s ease-out',
-        'scale-in': 'scaleIn 0.4s ease-out',
+        'fade-in': 'fadeIn 0.6s ease-out forwards',
+        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+        'fade-in-down': 'fadeInDown 0.5s ease-out forwards',
+        'slide-in-left': 'slideInLeft 0.5s ease-out forwards',
+        'slide-in-right': 'slideInRight 0.5s ease-out forwards',
+        'scale-in': 'scaleIn 0.4s ease-out forwards',
         'float': 'float 3s ease-in-out infinite',
+        'shimmer': 'shimmer 1.5s infinite',
       },
       keyframes: {
         fadeIn: {
@@ -55,7 +66,7 @@ export default {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         fadeInDown: {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
+          '0%': { opacity: '0', transform: 'translateY(-20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         slideInLeft: {
@@ -73,6 +84,9 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        shimmer: {
+          '100%': { transform: 'translateX(200%)' },
         },
       },
     },

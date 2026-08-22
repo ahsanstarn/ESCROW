@@ -17,150 +17,237 @@ function ScrollReveal({ children, className = '', delay = 0 }: { children: React
 export default function Landing() {
   const { t } = useTranslation();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [payType, setPayType] = useState('Buying');
+  const [itemType, setItemType] = useState('Services');
+  const [amount, setAmount] = useState('1000');
+  const [currency, setCurrency] = useState('USD');
 
   return (
     <div className="min-h-screen bg-white text-black">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 40 40" fill="none">
-              <rect width="40" height="40" rx="8" fill="#A3E635" />
-              <path d="M10 14C12.5 11 15.5 11 18 14C20.5 17 23.5 17 26 14" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-              <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-              <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Hero Section */}
+      <section className="relative w-full h-screen max-h-[900px] min-h-[700px] z-10 pb-[40px]">
+        
+        {/* Background container with rounded corners and overflow hidden */}
+        <div className="absolute inset-0 bg-[#0a0a0a] overflow-hidden rounded-b-[48px] z-0">
+          {/* Geometric Background Lines */}
+          <div className="absolute top-0 right-0 w-[55%] h-[85%] pointer-events-none opacity-40 z-0">
+            <svg viewBox="0 0 800 600" className="w-full h-full" preserveAspectRatio="xMaxYMin slice">
+              <path d="M 200 600 L 200 300 L 500 100 L 800 300 L 800 600" fill="none" stroke="#0d503a" strokeWidth="1.2" />
+              <path d="M 100 700 L 100 400 L 400 200 L 700 400 L 700 700" fill="none" stroke="#0d503a" strokeWidth="1.2" />
+              <path d="M 200 300 L 400 450 L 700 400" fill="none" stroke="#0d503a" strokeWidth="1.2" />
+              <path d="M 500 100 L 500 400" fill="none" stroke="#0d503a" strokeWidth="1.2" />
+              <path d="M 400 200 L 400 450" fill="none" stroke="#0d503a" strokeWidth="1.2" />
             </svg>
-                <span className="text-base md:text-lg font-bold text-white">Escro</span>
-          </Link>
-          <div className="hidden md:flex items-center gap-6 lg:gap-8 text-sm text-slate-300">
-            <a href="#features" className="hover:text-white transition-colors">{t.nav.features}</a>
-            <Link to="/pricing" className="hover:text-white transition-colors">{t.nav.pricing}</Link>
-            <Link to="/help" className="hover:text-white transition-colors">{t.nav.help}</Link>
           </div>
-          <div className="hidden md:flex items-center gap-3">
-            <LanguageSwitcher />
-            <Link to="/login" className="text-sm font-medium text-white hover:text-slate-200 transition-colors px-3 py-2">
-              {t.nav.login}
-            </Link>
-            <Link to="/register" className="text-sm font-semibold bg-[#A3E635] text-black px-4 md:px-5 py-2 rounded-lg hover:bg-[#b8ed5a] transition-colors">
-              {t.nav.register}
-            </Link>
+
+          {/* ===== CARDS: Moved inside so they get clipped by the bottom edge ===== */}
+          <div className="absolute -bottom-[20px] md:-bottom-[40px] left-1/2 -translate-x-1/2 w-[600px] md:w-[700px] h-[380px] md:h-[420px] z-40 pointer-events-none">
+            
+            {/* Blue Card (Left, behind Red) */}
+            <div className="absolute left-[20px] bottom-[20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#22d3ee] via-[#06b6d4] to-[#0891b2] shadow-[0_8px_30px_rgba(0,0,0,0.4)] transform -rotate-[15deg] z-10 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:-rotate-[18deg] pointer-events-auto cursor-pointer">
+              <div>
+                <span className="text-white text-[17px] font-bold tracking-[0.12em]">ESCRO</span>
+                <svg className="w-6 h-6 text-white mt-1.5 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+              </div>
+              <div className="absolute right-4 top-0 h-full flex items-center justify-center">
+                <p className="text-white/95 text-[26px] font-sans font-semibold tracking-[0.15em]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  12 3456
+                </p>
+              </div>
+              <div className="absolute right-[52px] top-0 h-full flex items-center justify-center">
+                <p className="text-white/70 text-[10px] font-sans font-medium uppercase tracking-[0.3em]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  Name Surname
+                </p>
+              </div>
+            </div>
+
+            {/* Red Card (Center, front of Blue, behind Green) */}
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-[40px] w-[240px] md:w-[270px] h-[360px] md:h-[400px] rounded-[20px] bg-gradient-to-b from-[#f43f5e] via-[#e11d48] to-[#dc2626] shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform rotate-0 z-20 p-7 overflow-hidden transition-transform duration-500 hover:-translate-y-4 hover:scale-[1.03] pointer-events-auto cursor-pointer">
+              <div>
+                <span className="text-white text-[19px] font-bold tracking-[0.15em]">ESCRO</span>
+                <svg className="w-7 h-7 text-white mt-2 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+              </div>
+              <div className="absolute right-5 top-0 h-full flex items-center justify-center">
+                <p className="text-white text-[32px] font-sans font-semibold tracking-[0.15em]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  78 9012 3456
+                </p>
+              </div>
+              <div className="absolute right-[64px] top-0 h-full flex items-center justify-center">
+                <p className="text-white/70 text-[12px] font-sans font-medium uppercase tracking-[0.35em]" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  Name Surname
+                </p>
+              </div>
+            </div>
+
+            {/* Green Card (Right, front of Red) */}
+            <div className="absolute right-[10px] bottom-[-20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#65a30d] shadow-[0_15px_40px_rgba(0,0,0,0.5)] transform rotate-[15deg] z-30 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:rotate-[18deg] pointer-events-auto cursor-pointer">
+              <div>
+                <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-sm">ESCRO</span>
+                <svg className="w-6 h-6 text-white mt-1.5 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+              </div>
+              <div className="absolute right-4 top-0 h-full flex items-center justify-center">
+                <p className="text-white/95 text-[26px] font-sans font-semibold tracking-[0.15em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  34 5678 9012 3456
+                </p>
+              </div>
+              <div className="absolute right-[52px] top-0 h-full flex items-center justify-center">
+                <p className="text-white/70 text-[10px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  Name Surname
+                </p>
+              </div>
+            </div>
           </div>
-          <button onClick={() => setMobileNavOpen(!mobileNavOpen)} className="md:hidden p-2 text-white">
-            {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </div>
+
+        {/* ===== TOP CONTENT ROW: Heading + Description ===== */}
+        <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-full max-w-[1200px] px-8 xl:px-12 z-30 flex items-start justify-between gap-8">
+          {/* Left: Title */}
+          <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.2rem] lg:text-[4.8rem] font-bold text-white leading-[1.1] tracking-tight flex-shrink-0">
+            Build trust in<br />every transaction
+          </h1>
+          
+          {/* Right: Description + CTA */}
+          <div className="hidden md:flex flex-col items-end pt-4 flex-shrink-0">
+            <p className="text-[#9ca3af] text-[13px] leading-relaxed mb-5 text-right">
+              Secure escrow for goods, services,<br/>and milestones — holding funds until<br/>delivery is confirmed.
+            </p>
+            <div className="flex items-center gap-3">
+              <Link to="/register" className="bg-[#b8f56c] text-black px-6 py-2.5 rounded-full font-bold text-[14px] hover:bg-[#a3e635] transition-all whitespace-nowrap">
+                Shop Now
+              </Link>
+              <button 
+                onClick={() => setIsVideoOpen(true)}
+                className="w-10 h-10 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center hover:bg-[#2a2a2a] transition-all cursor-pointer"
+              >
+                <Play className="w-4 h-4 text-white ml-0.5" fill="white" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== TOP NAV ===== */}
+        <div className="absolute top-8 w-full max-w-[1200px] left-1/2 -translate-x-1/2 px-8 xl:px-12 flex justify-between items-center z-50">
+          
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <svg className="w-6 h-6 text-[#b8f56c]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 5h14l-2 4H3V5zm4 6h14l-2 4H7v-4zm4 6h10l-2 4h-8v-4z" />
+            </svg>
+            <span className="text-[18px] font-bold text-white tracking-tight">Escro</span>
+          </div>
+
+          {/* Nav Links + Actions */}
+          <div className="hidden lg:flex items-center gap-6">
+            <div className="flex items-center gap-5 text-[13px] font-semibold text-white/90">
+              <a href="#features" className="hover:text-[#b8f56c] transition-colors">Features</a>
+              <span className="text-white/20">-</span>
+              <Link to="/pricing" className="hover:text-[#b8f56c] transition-colors">Pricing</Link>
+              <Link to="/help" className="hover:text-[#b8f56c] transition-colors">Help</Link>
+              <div className="flex items-center gap-1.5 cursor-pointer group">
+                <span className="text-sm">🇺🇸</span>
+                <span className="group-hover:text-[#b8f56c] transition-colors">EN</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-5 ml-4">
+              <Link to="/login" className="bg-[#b8f56c] text-black px-6 py-2 rounded-full font-bold text-[13px] hover:bg-[#a3e635] transition-all">
+                Login
+              </Link>
+              <Link to="/register" className="text-white font-semibold text-[13px] hover:text-[#b8f56c] transition-colors">
+                Register
+              </Link>
+            </div>
+
+            {/* Scroll Pill */}
+            <div className="ml-4 bg-[#b8f56c] w-[36px] h-[90px] rounded-[18px] flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-[#a3e635] transition-colors">
+              <span className="text-black text-[10px] font-bold tracking-widest transform -rotate-90 whitespace-nowrap">Scroll</span>
+              <ArrowRight className="w-3.5 h-3.5 text-black transform rotate-90 stroke-[3]" />
+            </div>
+          </div>
+
+          <button onClick={() => setMobileNavOpen(true)} className="lg:hidden p-2 text-white bg-white/10 rounded-full">
+            <Menu className="w-6 h-6" />
           </button>
         </div>
-        {mobileNavOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-md border-t border-slate-800">
-            <div className="px-4 py-4 space-y-3">
-              <a href="#features" onClick={() => setMobileNavOpen(false)} className="block text-sm text-slate-300 hover:text-white transition-colors py-2">{t.nav.features}</a>
-              <Link to="/pricing" onClick={() => setMobileNavOpen(false)} className="block text-sm text-slate-300 hover:text-white transition-colors py-2">{t.nav.pricing}</Link>
-              <Link to="/help" onClick={() => setMobileNavOpen(false)} className="block text-sm text-slate-300 hover:text-white transition-colors py-2">{t.nav.help}</Link>
-              <div className="border-t border-slate-800 pt-3 flex flex-col gap-2">
-                <Link to="/login" onClick={() => setMobileNavOpen(false)} className="text-sm font-medium text-white py-2">{t.nav.login}</Link>
-                <Link to="/register" onClick={() => setMobileNavOpen(false)} className="text-sm font-semibold bg-[#A3E635] text-black px-5 py-2.5 rounded-lg text-center">{t.nav.register}</Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
 
-      {/* Hero Section */}
-      <section className="bg-black pt-20 md:pt-24 pb-0 px-4 md:px-6 overflow-hidden">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8 items-center min-h-[400px] md:min-h-[520px]">
-          <div className="pt-4 md:pt-8 animate-fade-in-up">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 md:mb-8">
-              {t.hero.title}
-            </h1>
-          </div>
-          <div className="relative hidden md:block">
-            <div className="text-right mb-6 animate-fade-in" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
-              <p className="text-sm text-slate-300 max-w-xs ml-auto mb-4">
-                {t.hero.subtitle}
-              </p>
-              <div className="flex items-center justify-end gap-3">
-                <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-all hover:scale-105">
-                  {t.hero.shopNow}
-                </Link>
-                <button className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center hover:border-white/60 hover:scale-110 transition-all">
-                  <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
-                </button>
+        {/* ===== EXPLORE MORE CUTOUT ===== */}
+        <div className="absolute bottom-[-85px] left-1/2 -translate-x-1/2 z-50">
+          <div className="w-[170px] h-[170px] bg-white rounded-full flex items-center justify-center">
+            <div 
+              onClick={() => setIsVideoOpen(true)}
+              className="w-[110px] h-[110px] bg-[#0a0a0a] rounded-full flex items-center justify-center cursor-pointer group hover:scale-105 transition-transform duration-300 relative -translate-y-[15px]"
+            >
+              <div className="absolute inset-0 animate-[spin_12s_linear_infinite] p-[8px]">
+                <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
+                  <path id="circlePathText" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
+                  <text className="text-[13px] font-bold uppercase tracking-[0.2em]" fill="white">
+                    <textPath href="#circlePathText" startOffset="0%">
+                      Explore More • Explore More •
+                    </textPath>
+                  </text>
+                </svg>
+              </div>
+              <div className="w-10 h-10 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+                <Play className="w-6 h-6 text-white ml-0.5" fill="white" />
               </div>
             </div>
-            <div className="relative h-80 flex items-center justify-center">
-              <div className="absolute left-0 top-10 w-56 h-36 rounded-2xl bg-gradient-to-br from-teal-400 to-teal-600 shadow-2xl transform -rotate-12 -translate-x-4" style={{ perspective: '1000px' }}>
-                <div className="p-5 h-full flex flex-col justify-between">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-6 h-4" viewBox="0 0 24 16" fill="white" opacity="0.9"><circle cx="6" cy="8" r="5" /><circle cx="18" cy="8" r="5" opacity="0.6" /></svg>
-                    <span className="text-white/80 text-xs font-medium tracking-wider">ESCRO</span>
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-[10px] mb-1">CARD NUMBER</p>
-                    <p className="text-white text-sm font-mono tracking-wider">4532 •••• •••• 3456</p>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <p className="text-white/60 text-[8px]">CARD HOLDER</p>
-                      <p className="text-white text-[10px] font-medium">THE SURNAME</p>
-                    </div>
-                    <p className="text-white text-[10px]">09/26</p>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute right-4 top-0 w-56 h-36 rounded-2xl bg-gradient-to-br from-red-400 via-orange-400 to-red-500 shadow-2xl transform rotate-12 translate-x-4" style={{ perspective: '1000px' }}>
-                <div className="p-5 h-full flex flex-col justify-between">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-6 h-4" viewBox="0 0 24 16" fill="white" opacity="0.9"><circle cx="6" cy="8" r="5" /><circle cx="18" cy="8" r="5" opacity="0.6" /></svg>
-                    <span className="text-white/80 text-xs font-medium tracking-wider">ESCRO</span>
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-[10px] mb-1">CARD NUMBER</p>
-                    <p className="text-white text-sm font-mono tracking-wider">5891 •••• •••• 7813</p>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <p className="text-white/60 text-[8px]">CARD HOLDER</p>
-                      <p className="text-white text-[10px] font-medium">THE SURNAME</p>
-                    </div>
-                    <p className="text-white text-[10px]">11/24</p>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute left-1/2 -translate-x-1/2 top-16 w-60 h-40 rounded-2xl bg-gradient-to-br from-[#A3E635] to-[#78c800] shadow-2xl transform rotate-0 z-10">
-                <div className="p-5 h-full flex flex-col justify-between">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-6 h-4" viewBox="0 0 24 16" fill="black" opacity="0.7"><circle cx="6" cy="8" r="5" /><circle cx="18" cy="8" r="5" opacity="0.5" /></svg>
-                    <span className="text-black/70 text-xs font-bold tracking-wider">ESCRO</span>
-                  </div>
-                  <div>
-                    <p className="text-black/50 text-[10px] mb-1">CARD NUMBER</p>
-                    <p className="text-black text-sm font-mono tracking-wider">4532 •••• •••• 2104</p>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <p className="text-black/50 text-[8px]">CARD HOLDER</p>
-                      <p className="text-black text-[10px] font-medium">THE SURNAME</p>
-                    </div>
-                    <p className="text-black text-[10px]">09/26</p>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full bg-[#1a1a1a] border-2 border-slate-600 flex flex-col items-center justify-center z-20">
-                <span className="text-[9px] text-slate-400 font-medium">Explore</span>
-                <span className="text-[9px] text-white font-bold">More</span>
-                <Play className="w-3 h-3 text-white mt-0.5" fill="white" />
-              </div>
-            </div>
-          </div>
-          {/* Mobile hero CTA */}
-          <div className="md:hidden flex flex-col items-center text-center pb-8">
-            <p className="text-sm text-slate-300 mb-4">{t.hero.subtitle}</p>
-            <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-all">
-              {t.hero.shopNow}
-            </Link>
           </div>
         </div>
       </section>
+
+      {/* Mobile Navigation Overlay */}
+      {mobileNavOpen && (
+        <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col p-6 animate-fade-in">
+          <div className="flex justify-between items-center mb-12">
+            <Link to="/" className="flex items-center gap-3">
+              <svg className="w-8 h-8" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="8" fill="#A3E635" />
+                <path d="M10 14C12.5 11 15.5 11 18 14C20.5 17 23.5 17 26 14" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+                <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+                <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
+              </svg>
+              <span className="text-xl font-bold text-white tracking-tight">Escro</span>
+            </Link>
+            <button onClick={() => setMobileNavOpen(false)} className="p-2 text-white">
+              <X className="w-8 h-8" />
+            </button>
+          </div>
+          <div className="flex flex-col gap-6 text-2xl font-bold">
+            <a href="#features" onClick={() => setMobileNavOpen(false)} className="text-white">Features</a>
+            <Link to="/pricing" onClick={() => setMobileNavOpen(false)} className="text-white">Pricing</Link>
+            <Link to="/help" onClick={() => setMobileNavOpen(false)} className="text-white">Help</Link>
+          </div>
+          <div className="mt-auto flex flex-col gap-4">
+            <Link to="/login" onClick={() => setMobileNavOpen(false)} className="w-full py-4 text-center rounded-xl bg-white/10 text-white font-bold text-lg">
+              Login
+            </Link>
+            <Link to="/register" onClick={() => setMobileNavOpen(false)} className="w-full py-4 text-center rounded-xl bg-[#A3E635] text-black font-bold text-lg">
+              Register
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Video Modal */}
+      {isVideoOpen && (
+        <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 animate-fade-in-up">
+            <button 
+              onClick={() => setIsVideoOpen(false)}
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-black/80 rounded-full flex items-center justify-center text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <div className="w-full h-full flex items-center justify-center text-slate-500">
+              <div className="text-center">
+                <Play className="w-16 h-16 text-slate-700 mx-auto mb-4" />
+                <p>Demo Video Placeholder</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Features Section */}
       <ScrollReveal>
@@ -210,16 +297,16 @@ export default function Landing() {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-3 md:gap-6">
-            <div className="bg-[#f5f5f5] rounded-2xl md:rounded-3xl p-4 md:p-10 text-center">
-              <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-black mb-1 md:mb-2">10K+</p>
+            <div className="bg-[#f5f5f5] rounded-2xl md:rounded-3xl p-4 md:p-10 text-center hover:-translate-y-2 hover:shadow-xl hover:bg-white border border-transparent hover:border-slate-100 transition-all duration-300 cursor-pointer">
+              <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-black mb-1 md:mb-2">10K+</p>
               <p className="text-[10px] sm:text-xs md:text-slate-500 text-slate-600 font-medium">{t.about.stats.users}</p>
             </div>
-            <div className="bg-[#f5f5f5] rounded-2xl md:rounded-3xl p-4 md:p-10 text-center">
-              <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-black mb-1 md:mb-2">100%</p>
+            <div className="bg-[#f5f5f5] rounded-2xl md:rounded-3xl p-4 md:p-10 text-center hover:-translate-y-2 hover:shadow-xl hover:bg-white border border-transparent hover:border-slate-100 transition-all duration-300 cursor-pointer">
+              <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-black mb-1 md:mb-2">100%</p>
               <p className="text-[10px] sm:text-xs md:text-slate-500 text-slate-600 font-medium">{t.about.stats.secure}</p>
             </div>
-            <div className="bg-[#f5f5f5] rounded-2xl md:rounded-3xl p-4 md:p-10 text-center">
-              <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-black mb-1 md:mb-2">4.9/5</p>
+            <div className="bg-[#f5f5f5] rounded-2xl md:rounded-3xl p-4 md:p-10 text-center hover:-translate-y-2 hover:shadow-xl hover:bg-white border border-transparent hover:border-slate-100 transition-all duration-300 cursor-pointer">
+              <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-black mb-1 md:mb-2">4.9/5</p>
               <p className="text-[10px] sm:text-xs md:text-slate-500 text-slate-600 font-medium">{t.about.stats.rating}</p>
             </div>
           </div>
@@ -240,19 +327,48 @@ export default function Landing() {
                   Enable Escro Protection <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
-              <div className="relative h-48 md:h-80 flex items-center justify-center">
-                <div className="w-36 h-24 md:w-48 md:h-32 bg-gradient-to-br from-[#A3E635] to-[#78c800] rounded-2xl shadow-2xl transform rotate-12 translate-x-4 rotate-y-6">
-                  <div className="p-3 md:p-4 h-full flex flex-col justify-between">
-                    <span className="text-black/60 text-[6px] md:text-[8px] font-bold tracking-wider">ESCRO</span>
-                    <div>
-                      <p className="text-black text-[10px] md:text-xs font-mono">4532 •••• 3456</p>
-                    </div>
+              <div className="relative h-64 md:h-96 flex items-end justify-center overflow-visible">
+                {/* Green Escro Card (Floating & Rotated) */}
+                <div className="absolute right-8 md:right-16 top-[-30px] md:top-[-40px] w-[180px] md:w-[220px] h-[280px] md:h-[340px] rounded-[18px] bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#65a30d] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform rotate-[28deg] p-5 overflow-hidden transition-transform duration-700 hover:-translate-y-4 hover:rotate-[32deg] z-20">
+                  <div>
+                    <span className="text-white text-[16px] md:text-[18px] font-bold tracking-[0.12em] drop-shadow-sm">ESCRO</span>
+                    <svg className="w-5 h-5 md:w-6 md:h-6 text-white mt-1.5 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+                  </div>
+                  
+                  {/* EMV Chip */}
+                  <div className="absolute left-6 bottom-10 w-9 h-12 md:w-11 md:h-14 rounded-md border border-black/10 bg-gradient-to-br from-[#ffd700] to-[#b8860b] flex flex-col justify-between p-[2px] opacity-80 mix-blend-overlay">
+                    <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
+                    <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
+                    <div className="w-full h-[1px] bg-black/20 my-[3px]"></div>
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-black/20"></div>
+                  </div>
+
+                  <div className="absolute right-4 top-0 h-full flex items-center justify-center">
+                    <p className="text-white/95 text-[24px] md:text-[28px] font-sans font-semibold tracking-[0.15em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                      34 5678 9012 3456
+                    </p>
+                  </div>
+                  <div className="absolute right-[46px] md:right-[56px] top-0 h-full flex items-center justify-center">
+                    <p className="text-white/70 text-[9px] md:text-[11px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-sm" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                      Name Surname
+                    </p>
                   </div>
                 </div>
-                <div className="absolute bottom-4 md:bottom-8 right-6 md:right-8">
-                  <svg width="80" height="70" viewBox="0 0 120 100" fill="none" className="md:w-[120px] md:h-[100px]">
-                    <path d="M60 90 C50 70, 30 60, 40 40 C45 30, 55 25, 65 30 C75 35, 80 50, 75 65 C72 72, 65 85, 60 90Z" fill="#c4845e" />
-                    <path d="M65 30 C68 25, 72 22, 75 25 C78 28, 76 35, 73 40" fill="#d49570" />
+
+                {/* Hand reaching out from bottom right */}
+                <div className="absolute bottom-0 right-[-20px] md:right-0 w-[240px] md:w-[320px] z-10 translate-y-4">
+                  <svg viewBox="0 0 320 200" fill="none" className="w-full h-auto drop-shadow-2xl">
+                    {/* Sleeve */}
+                    <path d="M 320 200 L 320 120 C 300 110, 260 120, 200 160 L 150 200 Z" fill="#d1d5db" />
+                    {/* Hand Base */}
+                    <path d="M 210 150 C 180 130, 140 135, 120 145 C 90 160, 100 170, 130 170 L 160 170 C 170 170, 200 190, 230 190 Z" fill="#c4845e" />
+                    {/* Fingers */}
+                    <path d="M 120 145 C 100 135, 80 140, 70 150 C 60 160, 90 165, 110 160" fill="#d49570" stroke="#b0704c" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M 125 152 C 105 142, 85 147, 75 157 C 65 167, 95 172, 115 167" fill="#c4845e" stroke="#b0704c" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M 130 159 C 110 149, 90 154, 80 164 C 70 174, 100 179, 120 174" fill="#b0704c" stroke="#905030" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M 135 166 C 115 156, 95 161, 85 171 C 75 181, 105 186, 125 181" fill="#c4845e" stroke="#b0704c" strokeWidth="2" strokeLinecap="round" />
+                    {/* Thumb */}
+                    <path d="M 160 170 C 140 185, 110 190, 100 180 C 90 170, 110 160, 130 155" fill="#d49570" stroke="#b0704c" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 </div>
               </div>
@@ -351,12 +467,13 @@ export default function Landing() {
           </div>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            <div className="bg-[#A3E635] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between md:row-span-2 min-h-[280px] md:min-h-[400px]">
+            {/* Hold and release payments globally */}
+            <div className="bg-[#A3E635] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between md:row-span-2 min-h-[280px] md:min-h-[400px] group hover:scale-[1.02] transition-transform duration-300">
               <div>
                 <h3 className="text-lg md:text-2xl font-bold text-black mb-2">Hold and release payments globally</h3>
                 <a href="/register" className="text-xs md:text-sm font-medium text-black/70 hover:text-black">Explore Escro Payments →</a>
               </div>
-              <div className="mt-4 md:mt-8 bg-white rounded-xl p-3 md:p-4 shadow-lg">
+              <div className="mt-4 md:mt-8 bg-white rounded-xl p-3 md:p-4 shadow-lg group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300">
                 <p className="text-[10px] md:text-xs text-slate-500 mb-1">Escro Amount</p>
                 <p className="text-lg md:text-2xl font-bold mb-2 md:mb-4">NGN 1,000,000</p>
                 <div className="space-y-1.5 md:space-y-2">
@@ -374,12 +491,13 @@ export default function Landing() {
               </div>
             </div>
 
-            <div className="bg-[#2a2a2a] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px]">
+            {/* Invoices backed by escrow */}
+            <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px] group hover:bg-[#2a2a2a] hover:-translate-y-1 transition-all duration-300 cursor-pointer">
               <div>
-                <h3 className="text-base md:text-xl font-bold text-white mb-2">Invoices backed by escrow</h3>
+                <h3 className="text-base md:text-xl font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Invoices backed by escrow</h3>
                 <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Learn more about Escro Invoices</a>
               </div>
-              <div className="mt-3 md:mt-4 bg-white rounded-lg p-2 md:p-3 shadow-lg">
+              <div className="mt-3 md:mt-4 bg-white rounded-lg p-2 md:p-3 shadow-lg group-hover:-translate-y-1 group-hover:shadow-2xl transition-all duration-300">
                 <div className="flex justify-between items-center mb-1 md:mb-2">
                   <span className="text-[7px] md:text-[8px] text-slate-400">Invoice</span>
                   <span className="text-[7px] md:text-[8px] text-slate-400">11/24</span>
@@ -388,51 +506,74 @@ export default function Landing() {
               </div>
             </div>
 
-            <div className="bg-[#2a2a2a] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px]">
-              <div>
-                <h3 className="text-base md:text-xl font-bold text-white mb-2">Smart company cards with spending control</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Learn more about Escro Cards</a>
+            {/* Smart company cards with spending control */}
+            <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[220px] md:min-h-[260px] group hover:bg-[#2a2a2a] transition-all duration-300 cursor-pointer overflow-hidden relative">
+              <div className="z-10">
+                <h3 className="text-base md:text-xl font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Smart company cards with spending control</h3>
+                <a href="/register" className="text-xs md:text-sm font-medium text-blue-400 hover:text-blue-300">Learn more about Escro Cards</a>
               </div>
-              <div className="mt-3 md:mt-4 relative h-14 md:h-20">
-                <div className="absolute left-0 top-0 w-24 md:w-32 h-14 md:h-20 rounded-lg bg-gradient-to-br from-[#A3E635] to-[#78c800] shadow-lg transform -rotate-6">
-                  <div className="p-2 md:p-3 h-full flex flex-col justify-between">
-                    <span className="text-black/60 text-[5px] md:text-[6px] font-bold">ESCRO</span>
-                    <p className="text-black text-[7px] md:text-[8px] font-mono">4532 •••• 2104</p>
+              
+              <div className="absolute right-[-20px] bottom-[-40px] md:bottom-[-60px] w-full h-40 md:h-52 flex items-end justify-end perspective-1000">
+                
+                {/* Black Card */}
+                <div className="absolute bottom-8 right-32 w-32 md:w-48 h-20 md:h-32 rounded-lg bg-gradient-to-br from-gray-700 to-black shadow-lg transform -rotate-45 group-hover:-rotate-[50deg] group-hover:-translate-x-12 group-hover:-translate-y-4 transition-all duration-500 ease-out border border-white/10">
+                  <div className="p-2 md:p-4 h-full flex flex-col justify-between">
+                    <span className="text-white/40 text-[6px] md:text-[8px] font-bold">ESCRO</span>
                   </div>
                 </div>
-                <div className="absolute left-5 md:left-6 top-2 w-24 md:w-32 h-14 md:h-20 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 shadow-lg transform rotate-3">
-                  <div className="p-2 md:p-3 h-full flex flex-col justify-between">
-                    <span className="text-white/60 text-[5px] md:text-[6px] font-bold">ESCRO</span>
-                    <p className="text-white text-[7px] md:text-[8px] font-mono">5891 •••• 7813</p>
+
+                {/* Red Card */}
+                <div className="absolute bottom-6 right-24 w-32 md:w-48 h-20 md:h-32 rounded-lg bg-gradient-to-br from-red-600 to-red-900 shadow-lg transform -rotate-35 group-hover:-rotate-[40deg] group-hover:-translate-x-6 group-hover:-translate-y-2 transition-all duration-500 ease-out border border-white/10">
+                  <div className="p-2 md:p-4 h-full flex flex-col justify-between">
+                    <span className="text-white/50 text-[6px] md:text-[8px] font-bold">ESCRO</span>
+                  </div>
+                </div>
+
+                {/* Green Card */}
+                <div className="absolute bottom-4 right-16 w-32 md:w-48 h-20 md:h-32 rounded-lg bg-gradient-to-br from-[#A3E635] to-green-600 shadow-lg transform -rotate-25 group-hover:-rotate-[30deg] group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 ease-out border border-black/10">
+                  <div className="p-2 md:p-4 h-full flex flex-col justify-between">
+                    <span className="text-black/60 text-[6px] md:text-[8px] font-bold">ESCRO</span>
+                  </div>
+                </div>
+
+                {/* Blue/Teal Card (Top) */}
+                <div className="absolute bottom-2 right-8 w-32 md:w-48 h-20 md:h-32 rounded-lg bg-gradient-to-br from-cyan-400 to-teal-600 shadow-xl transform -rotate-15 group-hover:-rotate-[20deg] group-hover:translate-x-6 group-hover:translate-y-2 transition-all duration-500 ease-out border border-white/20">
+                  <div className="p-2 md:p-4 h-full flex flex-col justify-between">
+                    <span className="text-white/80 text-[6px] md:text-[8px] font-bold">ESCRO</span>
+                    <p className="text-white text-[7px] md:text-[10px] font-mono tracking-widest text-right">5678 9012 3456</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#2a2a2a] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px]">
-              <div>
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#A3E635] flex items-center justify-center mb-2 md:mb-3">
-                  <svg className="w-4 h-4 md:w-5 md:h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>
-                </div>
-                <h3 className="text-base md:text-xl font-bold text-white mb-2">Hold, exchange, and release at fair rates</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Explore Escro Exchange</a>
+            {/* Hold, exchange, and release */}
+            <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-center items-center text-center min-h-[160px] md:min-h-[190px] group hover:bg-[#2a2a2a] hover:scale-[1.02] transition-all duration-300 cursor-pointer">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center mb-3 md:mb-4 group-hover:bg-[#A3E635] group-hover:rotate-180 transition-all duration-700">
+                <span className="text-black text-xl font-bold">*</span>
               </div>
+              <h3 className="text-base md:text-xl font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Hold, exchange, and release at fair rates</h3>
+              <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Explore Escro Exchange</a>
             </div>
 
-            <div className="bg-[#2a2a2a] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px] sm:col-span-2 md:col-span-1">
+            {/* Set and manage escrow permissions */}
+            <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px] sm:col-span-2 md:col-span-1 group hover:bg-[#2a2a2a] hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden">
               <div>
-                <h3 className="text-base md:text-xl font-bold text-white mb-2">Set and manage escrow permissions with your team</h3>
+                <h3 className="text-base md:text-xl font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Set and manage escrow permissions with your team</h3>
+                <p className="text-[10px] md:text-xs text-slate-400">Stay in control of who can approve, hold, release, or dispute funds across your organization.</p>
               </div>
-              <div className="mt-3 md:mt-4 bg-white rounded-lg p-2 md:p-3 shadow-lg max-w-[140px] md:max-w-[180px]">
-                <div className="flex items-center gap-2 mb-1 md:mb-2">
-                  <span className="text-[8px] md:text-[10px] font-medium text-slate-600">Custom Role</span>
-                  <span className="text-[7px] md:text-[8px] text-slate-400">×</span>
+              <div className="mt-4 md:mt-6 bg-white rounded-lg p-3 md:p-4 shadow-lg w-[80%] ml-auto group-hover:scale-105 transition-transform duration-300 origin-bottom-right">
+                <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+                  <span className="text-[10px] md:text-xs font-bold text-slate-800">Custom Role</span>
+                  <span className="text-[10px] text-slate-400">×</span>
                 </div>
-                <div className="space-y-0.5">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#A3E635]" />
-                    <span className="text-[8px] md:text-[10px] text-slate-600">Transfers</span>
-                    <svg className="w-2.5 h-2.5 md:w-3 md:h-3 text-[#A3E635] ml-auto" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between bg-slate-50 p-1.5 rounded">
+                    <span className="text-[10px] text-slate-700 font-medium">Transfers</span>
+                    <div className="w-5 h-3 bg-blue-500 rounded-full flex items-center px-0.5 justify-end"><div className="w-2 h-2 bg-white rounded-full"></div></div>
+                  </div>
+                  <div className="flex items-center justify-between p-1.5">
+                    <span className="text-[10px] text-slate-700">View transfers</span>
+                    <div className="w-5 h-3 bg-blue-500 rounded-full flex items-center px-0.5 justify-end"><div className="w-2 h-2 bg-white rounded-full"></div></div>
                   </div>
                 </div>
               </div>
@@ -443,24 +584,32 @@ export default function Landing() {
 
       {/* Control your spend with smart rules */}
       <section className="py-12 md:py-20 px-4 md:px-6 bg-black">
-        <div className="max-w-7xl mx-auto text-center mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white leading-tight">Control your spend with smart rules</h2>
+        <div className="max-w-7xl mx-auto text-center mb-10 md:mb-14">
+          <h2 className="text-3xl md:text-5xl lg:text-[64px] font-bold text-white leading-tight tracking-tight">Control your spend<br className="hidden md:block" /> with smart rules</h2>
         </div>
-        <div className="max-w-md mx-auto space-y-2 md:space-y-3">
+        <div className="max-w-[540px] mx-auto flex flex-col gap-3 md:gap-4">
           {[
-            { cat: 'Logistics', date: 'March 23, 2022', amount: '$100', color: 'bg-slate-700' },
-            { cat: 'Graphics', date: 'March 25, 2022', amount: '$45', color: 'bg-slate-700' },
-            { cat: 'Retail', date: 'March 27, 2022', amount: '-$241', color: 'bg-white' },
-            { cat: 'Others', date: 'March 25, 2022', amount: '$100', color: 'bg-slate-700' },
-            { cat: 'Tech', date: 'March 29, 2022', amount: '$45', color: 'bg-slate-700' },
+            { cat: 'Logistics', date: 'March 25, 2022', amount: '$100' },
+            { cat: 'Graphics', date: 'March 29, 2022', amount: '$45' },
+            { cat: 'Retail', date: 'March 27, 2022', amount: '-$241', active: true },
+            { cat: 'Others', date: 'March 25, 2022', amount: '$100' },
+            { cat: 'Tech', date: 'March 29, 2022', amount: '$45' },
           ].map((t, i) => (
-            <div key={i} className={`${t.color} rounded-lg px-4 md:px-5 py-2.5 md:py-3 flex items-center justify-between ${t.color === 'bg-white' ? 'text-black' : 'text-slate-300'}`}>
-              <div className="flex items-center gap-2 md:gap-3">
-                <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${t.color === 'bg-white' ? 'bg-red-400' : 'bg-slate-500'}`} />
-                <span className="text-xs md:text-sm font-medium">{t.cat}</span>
-                <span className="text-[10px] md:text-xs text-slate-500">{t.date}</span>
+            <div 
+              key={i} 
+              className={`group rounded-xl px-5 md:px-8 py-4 flex items-center justify-between cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${t.active ? 'bg-white text-black scale-[1.02] shadow-xl' : 'bg-[#29303D] text-slate-300 hover:bg-white hover:text-black'}`}
+            >
+              <div className="flex items-center gap-4 w-[65%]">
+                <div className="relative flex items-center justify-center">
+                  <div className={`w-3.5 h-3.5 rounded-full border-2 transition-colors duration-300 ${t.active ? 'border-[#ff7a00]' : 'border-slate-500 group-hover:border-[#ff7a00]'}`}></div>
+                  <div className={`absolute w-1.5 h-1.5 rounded-full transition-colors duration-300 ${t.active ? 'bg-[#ff7a00]' : 'bg-transparent group-hover:bg-[#ff7a00]'}`}></div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 w-full items-center">
+                  <span className={`text-[15px] font-medium transition-colors duration-300 ${t.active ? 'text-black' : 'text-white group-hover:text-black'}`}>{t.cat}</span>
+                  <span className={`text-[13px] transition-colors duration-300 ${t.active ? 'text-slate-500' : 'text-slate-400 group-hover:text-slate-500'}`}>{t.date}</span>
+                </div>
               </div>
-              <span className="text-xs md:text-sm font-semibold">{t.amount}</span>
+              <span className={`text-[15px] font-bold transition-colors duration-300 ${t.active ? 'text-black' : 'text-white group-hover:text-black'}`}>{t.amount}</span>
             </div>
           ))}
         </div>
@@ -479,22 +628,41 @@ export default function Landing() {
                 <div className="space-y-2 md:space-y-3">
                   <div className="flex flex-wrap items-center gap-2 md:gap-3">
                     <span className="text-xs text-slate-500 w-8 md:w-12">Pay</span>
-                    <select className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32">
+                    <select 
+                      value={payType}
+                      onChange={(e) => setPayType(e.target.value)}
+                      className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]"
+                    >
                       <option>Buying</option>
-                      <option>Services</option>
+                      <option>Selling</option>
                     </select>
                     <span className="text-xs text-slate-500 hidden sm:inline">Item type</span>
-                    <select className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32">
+                    <select 
+                      value={itemType}
+                      onChange={(e) => setItemType(e.target.value)}
+                      className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]"
+                    >
                       <option>Services</option>
                       <option>Products</option>
                     </select>
                   </div>
                   <div className="flex flex-wrap items-center gap-2 md:gap-3">
                     <span className="text-xs text-slate-500 w-8 md:w-12">For $</span>
-                    <input type="text" value="1000" className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32" readOnly />
+                    <input 
+                      type="text" 
+                      value={amount} 
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]" 
+                    />
                     <span className="text-xs text-slate-500 hidden sm:inline">Currency</span>
-                    <select className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32">
+                    <select 
+                      value={currency}
+                      onChange={(e) => setCurrency(e.target.value)}
+                      className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]"
+                    >
                       <option>USD</option>
+                      <option>EUR</option>
+                      <option>GBP</option>
                     </select>
                   </div>
                 </div>
@@ -508,16 +676,16 @@ export default function Landing() {
                     <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M8 12l2 2 4-4" /></svg>
                   </div>
                   <div>
-                    <p className="text-white font-medium text-xs md:text-sm">Pay for services as you go with milestone payments</p>
+                    <p className="text-white font-medium text-xs md:text-sm">Pay for {itemType.toLowerCase()} as you go with milestone payments</p>
                   </div>
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   {[
-                    'Buyer and seller agree on schedule',
-                    'Buyer pays Escro.com',
-                    'Seller provides the service',
-                    'Buyer approves the milestone',
-                    'Escro.com pays the seller',
+                    `${payType === 'Buying' ? 'Buyer and seller agree on schedule' : 'Seller and buyer agree on schedule'}`,
+                    `${payType === 'Buying' ? 'Buyer pays Escro.com' : 'Buyer pays Escro.com'}`,
+                    `${payType === 'Buying' ? 'Seller provides the ' : 'You provide the '}${itemType.toLowerCase().slice(0, -1)}`,
+                    `${payType === 'Buying' ? 'Buyer approves the milestone' : 'Buyer approves the milestone'}`,
+                    `Escro.com pays the seller`,
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-2 md:gap-3">
                       <div className={`w-3.5 h-3.5 md:w-4 md:h-4 rounded-full border ${i === 0 ? 'border-[#A3E635] bg-[#A3E635]' : 'border-slate-600'} flex items-center justify-center`}>

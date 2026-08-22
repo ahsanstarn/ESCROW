@@ -1,10 +1,11 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/utils';
-import { api } from '@/lib/api';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { Eye, X } from 'lucide-react';
-import { Escrow, User } from '@/types';
+import { 
+  Wallet, DollarSign, Clock, AlertTriangle, ShieldCheck, 
+  ChevronRight, Box, CheckCircle2, TrendingUp, MoreHorizontal 
+} from 'lucide-react';
 
 interface SellerDashboardProps {
   userId?: string;
@@ -12,180 +13,199 @@ interface SellerDashboardProps {
 }
 
 export default function SellerDashboard({ userId, userName }: SellerDashboardProps) {
-  const [escrows, setEscrows] = useState<Escrow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [buyers, setBuyers] = useState<User[]>([]);
-  const [creating, setCreating] = useState(false);
-  const [form, setForm] = useState({ buyerId: '', amount: '', description: '', productType: 'DIGITAL' as 'DIGITAL' | 'PHYSICAL' });
 
   useEffect(() => {
-    if (!userId) return;
-    Promise.all([
-      api.escrows.list({ merchantId: userId }),
-      api.users.list('BUYER'),
-    ]).then(([escrowRes, buyerRes]) => {
-      setEscrows(escrowRes.data || []);
-      setBuyers(buyerRes.data || []);
-    }).catch(() => {}).finally(() => setLoading(false));
-  }, [userId]);
-
-  const thisMonth = useMemo(() => {
-    const now = new Date();
-    return escrows.filter(e => {
-      const d = new Date(e.createdAt);
-      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-    });
-  }, [escrows]);
-
-  const totalReceived = useMemo(() => escrows.reduce((s, e) => s + e.amount, 0), [escrows]);
-  const recentEscrows = useMemo(() => [...escrows].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5), [escrows]);
-
-  const handleCreate = async () => {
-    if (!form.buyerId || !form.amount) return;
-    if (!userId) {
-      console.error('No user ID available');
-      return;
-    }
-    setCreating(true);
-    try {
-      await api.escrows.create({
-        merchantId: userId,
-        buyerId: form.buyerId,
-        amount: parseFloat(form.amount),
-        productType: form.productType,
-        description: form.description,
-      });
-      const res = await api.escrows.list({ merchantId: userId });
-      setEscrows(res.data || []);
-      setShowCreateModal(false);
-      setForm({ buyerId: '', amount: '', description: '', productType: 'DIGITAL' });
-    } catch (err) {
-      console.error('Failed to create escrow:', err);
-    }
-    setCreating(false);
-  };
+    const timer = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (loading) {
     return <LoadingSpinner fullScreen message="Loading dashboard..." />;
   }
 
+  const kpiCards = [
+    { title: 'Available Balance', value: '$15,500.00', sub: '3 active transactions', icon: Wallet, hasAction: true },
+    { title: 'Funds in Escrow', value: '$15,500.00', sub: 'Across 6 Orders', icon: DollarSign },
+    { title: 'Next Expected Release', value: '$8,750.00', sub: '22h 18m', icon: Clock },
+    { title: 'Disputes Requiring Action', value: '1', sub: 'Immediate attention required', icon: AlertTriangle, warning: true },
+    { title: 'Trust Score', value: '33%', sub: 'Success Rate', icon: ShieldCheck },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#f0f5f0]">
-      <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 lg:mb-8">
-          <div>
-            <p className="text-sm text-slate-500 mb-1">Dashboard</p>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Welcome back, {userName?.split(' ')[0] || 'User'}</h1>
-          </div>
-          <button onClick={() => setShowCreateModal(true)} className="mt-3 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-[#A3E635] text-black font-semibold text-sm rounded-lg hover:bg-[#b8ed5a] transition-colors">
-            + New transaction
-          </button>
+    <div className="min-h-screen bg-transparent">
+      <style>{`
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      `}</style>
+      <div className="p-6 lg:p-8 max-w-[1440px] mx-auto space-y-6">
+        
+        <div style={{ animation: 'fadeInUp 0.5s ease-out 0s both' }}>
+          <h1 className="text-2xl font-bold text-slate-900">Seller Dashboard</h1>
+          <p className="text-sm text-slate-500 mt-1">Monitor funds in escrow, release timers, and disputes</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 lg:mb-8">
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-            <p className="text-sm text-slate-500 mb-1">Transactions this month</p>
-            <p className="text-2xl font-bold text-slate-900">{thisMonth.length}</p>
-            <div className="mt-3 flex items-end gap-1 h-8">
-              {Array.from({ length: 7 }, (_, i) => (
-                <div key={i} className="flex-1 bg-[#A3E635] rounded-sm" style={{ height: `${Math.max(20, (thisMonth.filter((_, j) => j <= i).length / Math.max(thisMonth.length, 1)) * 100)}%` }} />
-              ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {kpiCards.map((card, index) => (
+            <div key={index} style={{ animation: `fadeInUp 0.5s ease-out ${(index + 1) * 0.1}s both` }} className="bg-[#FFFFFF] rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group flex flex-col">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${card.warning ? 'bg-red-100' : 'bg-[#DDFC95]/20'}`}>
+                <card.icon className={`w-5 h-5 ${card.warning ? 'text-red-700' : 'text-[#305941]'}`} />
+              </div>
+              <p className="text-sm font-medium text-slate-500 mb-1">{card.title}</p>
+              <h2 className="text-2xl font-bold text-slate-900 mb-1">{card.value}</h2>
+              <p className="text-xs text-slate-400 flex-1">{card.sub}</p>
+              {card.hasAction && (
+                <button className="mt-4 w-full py-2 bg-[#DDFC95] hover:bg-[#A3E635] text-[#305941] font-semibold text-sm rounded-xl transition-colors flex items-center justify-center gap-2">
+                  <Wallet className="w-4 h-4" /> Withdraw
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-[#FFFFFF] rounded-2xl shadow-sm p-6" style={{ animation: `fadeInUp 0.5s ease-out 0.6s both` }}>
+          <h3 className="font-semibold text-slate-900 mb-4">What Needs Attention</h3>
+          <div className="divide-y divide-slate-100">
+            <div className="py-3 flex items-center gap-4 hover:bg-[#DDFC95]/10 rounded-xl px-2 transition-colors cursor-pointer group">
+              <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-100 transition-colors">
+                <Box className="w-5 h-5 text-orange-500" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-slate-900">Order #83421 — Mark as Delivered</p>
+                <p className="text-xs text-slate-500">12h left</p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" />
+            </div>
+            <div className="py-3 flex items-center gap-4 hover:bg-[#DDFC95]/10 rounded-xl px-2 transition-colors cursor-pointer group">
+              <div className="w-10 h-10 rounded-xl bg-[#BCF49D]/50 flex items-center justify-center flex-shrink-0 group-hover:bg-[#BCF49D] transition-colors">
+                <CheckCircle2 className="w-5 h-5 text-[#1B4D1E]" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-slate-900">Milestone 2 ready for submission</p>
+                <p className="text-xs text-slate-500">Order #83422</p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" />
+            </div>
+            <div className="py-3 flex items-center gap-4 hover:bg-[#DDFC95]/10 rounded-xl px-2 transition-colors cursor-pointer group">
+              <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 group-hover:bg-red-100 transition-colors">
+                <AlertTriangle className="w-5 h-5 text-red-500" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-slate-900">Buyer raised a dispute — respond within 24h</p>
+                <p className="text-xs text-slate-500">ORD-2026-0115</p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" />
+            </div>
+            <div className="py-3 flex items-center gap-4 hover:bg-[#DDFC95]/10 rounded-xl px-2 transition-colors cursor-pointer group">
+              <div className="w-10 h-10 rounded-xl bg-yellow-50 flex items-center justify-center flex-shrink-0 group-hover:bg-yellow-100 transition-colors">
+                <ShieldCheck className="w-5 h-5 text-yellow-600" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-slate-900">KYC required to enable payouts</p>
+                <p className="text-xs text-slate-500">Compliance Now</p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" />
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-            <p className="text-sm text-slate-500 mb-1">Amount received</p>
-            <p className="text-2xl font-bold text-slate-900">{formatCurrency(totalReceived)}</p>
-          </div>
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 sm:col-span-2 lg:col-span-1">
-            <p className="text-sm text-slate-500 mb-1">Volume in USD</p>
-            <p className="text-2xl font-bold text-slate-900">{formatCurrency(totalReceived)}</p>
-          </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="font-bold text-slate-900">Recent Transactions</h2>
-            <Link to="/seller/transactions" className="text-sm text-slate-500 hover:text-slate-700">View all →</Link>
+        <div className="bg-[#FFFFFF] rounded-2xl shadow-sm p-6 overflow-hidden" style={{ animation: `fadeInUp 0.5s ease-out 0.7s both` }}>
+          <div className="mb-4">
+            <h3 className="font-semibold text-slate-900">Orders & Escrow Status</h3>
+            <p className="text-xs text-slate-500 mt-1">All transactions sorted by expected release date</p>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-[#f0f5f0]">
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Transaction</th>
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Date</th>
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Amount</th>
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Status</th>
-                  <th className="text-left py-3 px-5 text-xs font-semibold text-slate-500 uppercase">Actions</th>
+            <table className="w-full text-sm text-left">
+              <thead className="bg-[#DDFC95]/20 text-xs text-[#305941] font-semibold uppercase rounded-xl">
+                <tr>
+                  <th className="px-4 py-3 rounded-l-xl">Order ID</th>
+                  <th className="px-4 py-3">Buyer</th>
+                  <th className="px-4 py-3">Amount</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">Risk</th>
+                  <th className="px-4 py-3">Delivery</th>
+                  <th className="px-4 py-3">Expected Release</th>
+                  <th className="px-4 py-3 rounded-r-xl"></th>
                 </tr>
               </thead>
-              <tbody>
-                {recentEscrows.length === 0 ? (
-                  <tr><td colSpan={5} className="py-8 text-center text-slate-500">No transactions yet. Create your first escrow!</td></tr>
-                ) : (
-                  recentEscrows.map(order => (
-                    <tr key={order.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                      <td className="py-4 px-5 font-medium text-slate-900">{order.description || order.escrowCode}</td>
-                      <td className="py-4 px-5 text-slate-500">{new Date(order.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
-                      <td className="py-4 px-5 font-semibold text-slate-900">{formatCurrency(order.amount)}</td>
-                      <td className="py-4 px-5">
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                          {order.status === 'RELEASED' || order.status === 'CONFIRMED' ? 'Completed' : order.status === 'DISPUTED' ? 'Disputed' : 'Pending'}
-                        </span>
-                      </td>
-                      <td className="py-4 px-5">
-                        <Link to={`/escrow/${order.id}`} className="p-1.5 hover:bg-slate-100 rounded-lg inline-flex transition-colors">
-                          <Eye className="w-4 h-4 text-slate-400" />
-                        </Link>
-                      </td>
-                    </tr>
-                  ))
-                )}
+              <tbody className="divide-y divide-slate-50">
+                {[
+                  { id: 'ORD-2026-0107', sub: 'esc_6p7g8t9s', buyer: 'NetConnect Solutions', amt: '$3,800.00', status: 'Completed', statusCls: 'bg-green-100 text-green-800', risk: 'Low Risk', riskBg: 'bg-[#BCF49D]', delivery: 'Confirmed', time: 'Expired' },
+                  { id: 'ORD-2026-0113', sub: 'esc_2l3m4n5o', buyer: 'HomeTech Solutions', amt: '$7,650.00', status: 'Completed', statusCls: 'bg-green-100 text-green-800', risk: 'Low Risk', riskBg: 'bg-[#BCF49D]', delivery: 'Confirmed', time: 'Expired' },
+                  { id: 'ORD-2026-0108', sub: 'esc_5o6p7q8r', buyer: 'Global Enterprises', amt: '$12,100.00', status: 'Completed', statusCls: 'bg-green-100 text-green-800', risk: 'Low Risk', riskBg: 'bg-[#BCF49D]', delivery: 'Confirmed', time: 'Expired' },
+                  { id: 'ORD-2026-0116', sub: 'esc_1k2l3m4n', buyer: 'RoboTech Industries', amt: '$18,300.00', status: 'Disputed', statusCls: 'bg-red-100 text-red-800', risk: 'High Risk', riskBg: 'bg-red-100 text-red-800', delivery: 'Delivered', time: 'Expired' },
+                  { id: 'ORD-2026-0109', sub: 'esc_5o6p7q8r', buyer: 'SafeGuard Security', amt: '$5,100.00', status: 'Pending', statusCls: 'bg-yellow-100 text-yellow-800', risk: 'Medium Risk', riskBg: 'bg-yellow-100 text-yellow-800', delivery: 'In Transit', time: 'Expired' },
+                ].map((order, idx) => (
+                  <tr key={idx} className="hover:bg-[#DDFC95]/10 transition-colors group">
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-slate-900">{order.id}</p>
+                      <p className="text-[10px] text-slate-400">{order.sub}</p>
+                    </td>
+                    <td className="px-4 py-3 text-slate-600">{order.buyer}</td>
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-slate-900">{order.amt}</p>
+                      <p className="text-[10px] text-slate-400">USD</p>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded-md text-[10px] font-semibold ${order.statusCls}`}>
+                        {order.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded-md text-[10px] font-semibold text-slate-700 ${order.riskBg}`}>
+                        {order.risk}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-slate-600 text-xs">{order.delivery}</td>
+                    <td className="px-4 py-3 text-slate-600 flex items-center gap-1 text-xs">
+                      <Clock className="w-3 h-3" /> {order.time}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
+                        <MoreHorizontal className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
-      </div>
 
-      {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowCreateModal(false)} />
-          <div className="relative bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold text-slate-900">New Transaction</h2>
-              <button onClick={() => setShowCreateModal(false)} className="p-1 hover:bg-slate-100 rounded-lg"><X className="w-5 h-5" /></button>
+        <div className="bg-[#FFFFFF] rounded-2xl shadow-sm p-6" style={{ animation: `fadeInUp 0.5s ease-out 0.8s both` }}>
+          <h3 className="font-semibold text-slate-900 mb-6">Business Health Summary</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x divide-slate-100">
+            <div className="text-center px-4 hover:-translate-y-1 transition-transform cursor-default">
+              <h2 className="text-3xl font-bold text-slate-900 mb-1">2.3%</h2>
+              <p className="text-xs text-slate-500 mb-2">Dispute Ratio</p>
+              <div className="flex items-center justify-center gap-1 text-xs font-semibold text-[#1B4D1E]">
+                <TrendingUp className="w-3 h-3" /> Good
+              </div>
             </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Select Buyer</label>
-                <select value={form.buyerId} onChange={e => setForm({ ...form, buyerId: e.target.value })} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50">
-                  <option value="">Choose a buyer</option>
-                  {buyers.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
-                </select>
+            <div className="text-center px-4 hover:-translate-y-1 transition-transform cursor-default">
+              <h2 className="text-3xl font-bold text-slate-900 mb-1">4.2 days</h2>
+              <p className="text-xs text-slate-500 mb-2">Avg. Release Time</p>
+              <div className="flex items-center justify-center gap-1 text-xs font-semibold text-[#1B4D1E]">
+                <TrendingUp className="w-3 h-3" /> Good
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Amount (USD)</label>
-                <input type="number" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} placeholder="0.00" className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50" />
+            </div>
+            <div className="text-center px-4 hover:-translate-y-1 transition-transform cursor-default">
+              <h2 className="text-3xl font-bold text-slate-900 mb-1">94%</h2>
+              <p className="text-xs text-slate-500 mb-2">On-Time Delivery</p>
+              <div className="flex items-center justify-center gap-1 text-xs font-semibold text-[#1B4D1E]">
+                <TrendingUp className="w-3 h-3" /> Good
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Product Type</label>
-                <select value={form.productType} onChange={e => setForm({ ...form, productType: e.target.value as 'DIGITAL' | 'PHYSICAL' })} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50">
-                  <option value="DIGITAL">Digital Service</option>
-                  <option value="PHYSICAL">Physical Product</option>
-                </select>
+            </div>
+            <div className="text-center px-4 hover:-translate-y-1 transition-transform cursor-default">
+              <h2 className="text-3xl font-bold text-slate-900 mb-1">67%</h2>
+              <p className="text-xs text-slate-500 mb-2">Repeat Buyer %</p>
+              <div className="flex items-center justify-center gap-1 text-xs font-semibold text-[#1B4D1E]">
+                <TrendingUp className="w-3 h-3" /> Good
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Description</label>
-                <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Describe the transaction..." rows={3} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A3E635]/50 resize-none" />
-              </div>
-              <button onClick={handleCreate} disabled={creating || !form.buyerId || !form.amount} className="w-full py-2.5 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors disabled:opacity-50">
-                {creating ? 'Creating...' : 'Create Escro'}
-              </button>
             </div>
           </div>
         </div>
-      )}
+
+      </div>
     </div>
   );
 }
