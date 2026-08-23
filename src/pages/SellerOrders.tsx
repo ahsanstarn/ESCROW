@@ -66,7 +66,7 @@ export default function SellerOrders({ userId, userName }: SellerOrdersProps) {
       `}</style>
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div style={{ animation: 'fadeInUp 0.5s ease-out 0s both' }} className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 lg:mb-8">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Transactions</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900">Transactions</h1>
           <Link to="/seller" className="mt-3 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-[#DDFC95] text-[#305941] font-semibold text-sm rounded-xl hover:bg-[#A3E635] transition-colors">
             + New transaction
           </Link>

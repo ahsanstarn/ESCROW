@@ -91,7 +91,7 @@ export default function SellerApi({ userId, userName }: SellerApiProps) {
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">API & Webhooks</h1>
+            <h1 className="text-2xl font-display font-bold text-gray-900">API & Webhooks</h1>
             <p className="text-sm text-gray-500 mt-1">Manage API keys and webhook integrations</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
@@ -101,7 +101,7 @@ export default function SellerApi({ userId, userName }: SellerApiProps) {
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0s both` }}>
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h2 className="text-lg font-bold text-gray-900">API Keys</h2>
+                <h2 className="text-lg font-display font-bold text-gray-900">API Keys</h2>
                 <p className="text-xs text-gray-500">Use these keys to authenticate API requests</p>
               </div>
               <button className="bg-[#A3E635] text-[#305941] px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#DDFC95] transition-colors">+ Generate New Key</button>
@@ -137,7 +137,7 @@ export default function SellerApi({ userId, userName }: SellerApiProps) {
 
           <div className="space-y-6">
             <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.1s both` }}>
-              <h2 className="text-lg font-bold text-gray-900">Webhook Endpoint</h2>
+              <h2 className="text-lg font-display font-bold text-gray-900">Webhook Endpoint</h2>
               <p className="text-xs text-gray-500 mb-4">Configure to receive live events</p>
               <div className="space-y-4">
                 <div>
@@ -159,7 +159,7 @@ export default function SellerApi({ userId, userName }: SellerApiProps) {
             </div>
 
             <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.2s both` }}>
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Subscribed Events</h2>
+              <h2 className="text-lg font-display font-bold text-gray-900 mb-4">Subscribed Events</h2>
               <div className="space-y-4">
                 {defaultEvents.slice(0,4).map(e => (
                   <div key={e.id} className="flex justify-between items-center">
@@ -179,7 +179,7 @@ export default function SellerApi({ userId, userName }: SellerApiProps) {
 
         <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.3s both` }}>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2"><span className="text-gray-400">&lt;/&gt;</span> Quick Start</h2>
+            <h2 className="text-lg font-display font-bold text-gray-900 flex items-center gap-2"><span className="text-gray-400">&lt;/&gt;</span> Quick Start</h2>
             <div className="flex gap-2">
               <button className="bg-[#A3E635] text-[#305941] px-4 py-1.5 rounded-xl text-sm font-bold">View Full Documentation</button>
               <button className="bg-[#A3E635] text-[#305941] px-4 py-1.5 rounded-xl text-sm font-bold">Download SDK</button>
@@ -207,7 +207,7 @@ const order = await escro.orders.create({
 
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.4s both` }}>
           <div className="p-6 border-b border-gray-100">
-            <h2 className="text-lg font-bold text-gray-900">Recent Webhook Events</h2>
+            <h2 className="text-lg font-display font-bold text-gray-900">Recent Webhook Events</h2>
           </div>
           <table className="w-full text-sm">
             <thead className="bg-[#DDFC95] text-[#305941]">

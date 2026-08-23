@@ -33,7 +33,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
         
         {/* Header */}
         <div className="flex flex-col animate-fadeInUp" style={{ animation: 'fadeInUp 0.1s ease-out both' }}>
-          <h1 className="text-2xl font-bold text-slate-900">Buyer Dashboard</h1>
+          <h1 className="text-2xl font-display font-bold text-slate-900">Buyer Dashboard</h1>
           <p className="text-sm text-slate-500 mt-1">Order ORD-2026-0112</p>
         </div>
 
@@ -43,7 +43,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
             <ShieldCheck className="w-6 h-6 text-[#305941]" />
           </div>
           <div>
-            <h3 className="font-bold text-slate-900 text-sm mb-1">Your money is protected and held until you confirm delivery</h3>
+            <h3 className="font-display font-bold text-slate-900 text-sm mb-1">Your money is protected and held until you confirm delivery</h3>
             <p className="text-xs text-slate-500 leading-relaxed">
               Your payment of <strong className="text-slate-900">$2,450.00 USD</strong> is securely held in escrow. Funds will only be released to the seller after you confirm receipt of your order, or automatically after the protection period expires if no issues are reported.
             </p>
@@ -56,7 +56,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
             {/* Escrow Status Stepper */}
             <div className="bg-white rounded-2xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: 'fadeInUp 0.3s ease-out both' }}>
               <div className="flex justify-between items-center mb-8">
-                <h3 className="font-bold text-slate-900 text-sm">Escrow Status</h3>
+                <h3 className="font-display font-bold text-slate-900 text-sm">Escrow Status</h3>
                 <span className="px-3 py-1 bg-[#BCF49D] text-[#1B4D1E] text-[10px] rounded font-bold uppercase">Held in Escrow</span>
               </div>
               
@@ -104,7 +104,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
 
             {/* Order Details */}
             <div className="bg-white rounded-2xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: 'fadeInUp 0.4s ease-out both' }}>
-              <h3 className="font-bold text-slate-900 text-sm mb-6 border-b border-slate-100 pb-4">Order Details</h3>
+              <h3 className="font-display font-bold text-slate-900 text-sm mb-6 border-b border-slate-100 pb-4">Order Details</h3>
               <div className="grid grid-cols-2 gap-y-6 gap-x-8">
                 <div>
                   <p className="text-[10px] text-slate-500 uppercase font-medium mb-1">Order ID</p>
@@ -137,7 +137,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
             <div className="bg-white rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: 'fadeInUp 0.5s ease-out both' }}>
               <div className="p-4 border-b border-slate-100 flex items-center gap-2">
                 <Box className="w-4 h-4 text-slate-500" />
-                <h3 className="font-bold text-slate-900 text-sm">Transaction History</h3>
+                <h3 className="font-display font-bold text-slate-900 text-sm">Transaction History</h3>
               </div>
               <div className="p-6">
                 <div className="flex gap-4">
@@ -160,7 +160,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
             <div className="bg-white rounded-2xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: 'fadeInUp 0.3s ease-out both' }}>
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-4 h-4 text-slate-900" />
-                <h3 className="font-bold text-slate-900 text-sm">Protection Period</h3>
+                <h3 className="font-display font-bold text-slate-900 text-sm">Protection Period</h3>
               </div>
               <p className="text-[10px] text-slate-500 mb-1">Auto-release in</p>
               <div className="flex items-center gap-1 mb-4">
@@ -172,7 +172,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
 
             {/* Actions */}
             <div className="bg-white rounded-2xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: 'fadeInUp 0.4s ease-out both' }}>
-              <h3 className="font-bold text-slate-900 text-sm mb-4">Actions</h3>
+              <h3 className="font-display font-bold text-slate-900 text-sm mb-4">Actions</h3>
               <button className="w-full py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
                 <Info className="w-4 h-4" /> Report an Issue
               </button>
@@ -180,7 +180,7 @@ export default function BuyerTransactions({ userId, userName }: BuyerTransaction
 
             {/* Quick Info */}
             <div className="bg-white rounded-2xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: 'fadeInUp 0.5s ease-out both' }}>
-              <h3 className="font-bold text-slate-900 text-sm mb-4">Quick Info</h3>
+              <h3 className="font-display font-bold text-slate-900 text-sm mb-4">Quick Info</h3>
               <div className="space-y-4 text-xs">
                 <div className="flex justify-between items-center pb-2 border-b border-slate-50">
                   <span className="text-slate-500">Created</span>

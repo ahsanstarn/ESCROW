@@ -20,7 +20,7 @@ export default function AdminKyc() {
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-6 lg:mb-8">KYC Verification</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900 mb-6 lg:mb-8">KYC Verification</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {kycItems.map(item => (
@@ -63,7 +63,7 @@ export default function AdminKyc() {
                   </div>
                 </div>
 
-                <h3 className="font-bold text-slate-900 mb-4">Confirm or Deny</h3>
+                <h3 className="font-display font-bold text-slate-900 mb-4">Confirm or Deny</h3>
                 <div className="flex gap-3">
                   <button className="flex-1 py-2.5 bg-[#A3E635] text-black font-semibold text-sm rounded-lg hover:bg-[#b8ed5a] transition-colors">
                     Approve

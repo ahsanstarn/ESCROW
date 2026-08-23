@@ -23,7 +23,7 @@ export default function Contact() {
 
       <section className="pt-32 pb-20 px-4 sm:px-6 bg-black text-white">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Get in touch</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6">Get in touch</h1>
           <p className="text-slate-400 max-w-2xl mx-auto text-lg">Have questions about Escro? We'd love to hear from you.</p>
         </div>
       </section>
@@ -35,7 +35,7 @@ export default function Contact() {
               <div className="w-16 h-16 bg-[#A3E635] rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg className="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
               </div>
-              <h2 className="text-2xl font-bold mb-2">Message sent!</h2>
+              <h2 className="text-2xl font-display font-bold mb-2">Message sent!</h2>
               <p className="text-slate-500 mb-6">We'll get back to you within 24 hours.</p>
               <Link to="/" className="text-[#A3E635] font-medium hover:text-[#b8ed5a]">Back to homepage</Link>
             </div>

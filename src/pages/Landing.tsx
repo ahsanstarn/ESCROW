@@ -124,7 +124,7 @@ export default function Landing() {
         {/* ===== TOP CONTENT ROW: Heading + Description ===== */}
         <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-full max-w-[1200px] px-8 xl:px-12 z-30 flex items-start justify-between gap-8">
           {/* Left: Title */}
-          <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.2rem] lg:text-[4.8rem] font-bold text-white leading-[1.1] tracking-tight flex-shrink-0">
+          <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.2rem] lg:text-[4.8rem] font-display font-bold text-white leading-[1.1] tracking-tight flex-shrink-0">
             Build trust in<br />every transaction
           </h1>
           
@@ -277,7 +277,7 @@ export default function Landing() {
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
             <div className="md:sticky md:top-24">
               <p className="text-[#A3E635] text-sm font-medium mb-3">{t.features.label}</p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">{t.features.title}</h2>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 md:mb-6 leading-tight">{t.features.title}</h2>
               <p className="text-slate-500 text-sm md:text-base mb-6 md:mb-8 max-w-md leading-relaxed">
                 {t.features.desc}
               </p>
@@ -293,7 +293,7 @@ export default function Landing() {
             <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
               {t.features.items.map((f, i) => (
                 <div key={i} className="bg-[#f5f5f5] rounded-xl p-5 md:p-6 hover:shadow-md hover:scale-105 transition-all" style={{ animation: `fadeInUp 0.5s ease-out ${i * 0.1}s both` }}>
-                  <h3 className="font-bold text-sm mb-2 md:mb-3 text-black">{f.title}</h3>
+                  <h3 className="font-display font-bold text-sm mb-2 md:mb-3 text-black">{f.title}</h3>
                   <p className="text-xs md:text-sm text-slate-500 mb-3 md:mb-4 leading-relaxed">{f.desc}</p>
                   <a href="/register" className="text-sm font-medium text-black hover:text-[#A3E635] transition-colors">{t.features.learnMore}</a>
                 </div>
@@ -309,7 +309,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start mb-10 md:mb-16">
             <div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">{t.about.title}</h2>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-tight">{t.about.title}</h2>
             </div>
             <div>
               <p className="text-slate-500 text-sm md:text-base leading-relaxed">
@@ -340,7 +340,7 @@ export default function Landing() {
           <div className="bg-[#1a1a1a] rounded-2xl md:rounded-3xl overflow-hidden">
             <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
               <div className="p-6 md:p-10 lg:p-14">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 md:mb-6 leading-tight">Make an impression with escrow</h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white mb-4 md:mb-6 leading-tight">Make an impression with escrow</h2>
                 <p className="text-slate-400 text-xs md:text-sm mb-4 md:mb-6 leading-relaxed">
                   Show your customers that payments are protected by default. Funds are securely held and released only after delivery or milestone approval. Add visible escrow protection at checkout for a professional, trust-first experience. Available on eligible plans.
                 </p>
@@ -404,7 +404,7 @@ export default function Landing() {
             <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
               <div className="p-6 md:p-10 lg:p-14">
                 <p className="text-[#A3E635] text-xs font-medium mb-3 tracking-wide uppercase">{t.international.label}</p>
-                <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">{t.international.title}</h2>
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-white mb-4 md:mb-6 leading-tight">{t.international.title}</h2>
                 <p className="text-slate-400 text-xs md:text-sm mb-6 md:mb-8 leading-relaxed">
                   {t.international.desc}
                 </p>
@@ -449,7 +449,7 @@ export default function Landing() {
           </div>
 
           <div className="text-center">
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-6">{t.stats.title}</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold mb-4 md:mb-6">{t.stats.title}</h2>
             <p className="text-slate-500 max-w-2xl mx-auto mb-8 md:mb-12 text-xs md:text-sm leading-relaxed">
               {t.stats.desc}
             </p>
@@ -483,14 +483,14 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 md:mb-16">
             <p className="text-slate-400 text-xs md:text-sm mb-3">Teamwork makes the deal work</p>
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white leading-tight">Discover the meaning of efficiency<br className="hidden sm:block" /> with Escro Business</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-white leading-tight">Discover the meaning of efficiency<br className="hidden sm:block" /> with Escro Business</h2>
           </div>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {/* Hold and release payments globally */}
             <div className="bg-[#A3E635] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between md:row-span-2 min-h-[280px] md:min-h-[400px] group hover:scale-[1.02] transition-transform duration-300">
               <div>
-                <h3 className="text-lg md:text-2xl font-bold text-black mb-2">Hold and release payments globally</h3>
+                <h3 className="text-lg md:text-2xl font-display font-bold text-black mb-2">Hold and release payments globally</h3>
                 <a href="/register" className="text-xs md:text-sm font-medium text-black/70 hover:text-black">Explore Escro Payments →</a>
               </div>
               <div className="mt-4 md:mt-8 bg-white rounded-xl p-3 md:p-4 shadow-lg group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300">
@@ -514,7 +514,7 @@ export default function Landing() {
             {/* Invoices backed by escrow */}
             <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px] group hover:bg-[#2a2a2a] hover:-translate-y-1 transition-all duration-300 cursor-pointer">
               <div>
-                <h3 className="text-base md:text-xl font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Invoices backed by escrow</h3>
+                <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Invoices backed by escrow</h3>
                 <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Learn more about Escro Invoices</a>
               </div>
               <div className="mt-3 md:mt-4 bg-white rounded-lg p-2 md:p-3 shadow-lg group-hover:-translate-y-1 group-hover:shadow-2xl transition-all duration-300">
@@ -529,7 +529,7 @@ export default function Landing() {
             {/* Smart company cards with spending control */}
             <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[220px] md:min-h-[260px] group hover:bg-[#2a2a2a] transition-all duration-300 cursor-pointer overflow-hidden relative">
               <div className="z-10">
-                <h3 className="text-base md:text-xl font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Smart company cards with spending control</h3>
+                <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Smart company cards with spending control</h3>
                 <a href="/register" className="text-xs md:text-sm font-medium text-blue-400 hover:text-blue-300">Learn more about Escro Cards</a>
               </div>
               
@@ -571,14 +571,14 @@ export default function Landing() {
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center mb-3 md:mb-4 group-hover:bg-[#A3E635] group-hover:rotate-180 transition-all duration-700">
                 <span className="text-black text-xl font-bold">*</span>
               </div>
-              <h3 className="text-base md:text-xl font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Hold, exchange, and release at fair rates</h3>
+              <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Hold, exchange, and release at fair rates</h3>
               <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Explore Escro Exchange</a>
             </div>
 
             {/* Set and manage escrow permissions */}
             <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px] sm:col-span-2 md:col-span-1 group hover:bg-[#2a2a2a] hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden">
               <div>
-                <h3 className="text-base md:text-xl font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Set and manage escrow permissions with your team</h3>
+                <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Set and manage escrow permissions with your team</h3>
                 <p className="text-[10px] md:text-xs text-slate-400">Stay in control of who can approve, hold, release, or dispute funds across your organization.</p>
               </div>
               <div className="mt-4 md:mt-6 bg-white rounded-lg p-3 md:p-4 shadow-lg w-[80%] ml-auto group-hover:scale-105 transition-transform duration-300 origin-bottom-right">
@@ -605,7 +605,7 @@ export default function Landing() {
       {/* Control your spend with smart rules */}
       <section className="py-12 md:py-20 px-4 md:px-6 bg-black">
         <div className="max-w-7xl mx-auto text-center mb-10 md:mb-14">
-          <h2 className="text-3xl md:text-5xl lg:text-[64px] font-bold text-white leading-tight tracking-tight">Control your spend<br className="hidden md:block" /> with smart rules</h2>
+          <h2 className="text-3xl md:text-5xl lg:text-[64px] font-display font-bold text-white leading-tight tracking-tight">Control your spend<br className="hidden md:block" /> with smart rules</h2>
         </div>
         <div className="max-w-[540px] mx-auto flex flex-col gap-3 md:gap-4">
           {[
@@ -641,7 +641,7 @@ export default function Landing() {
           <div className="bg-[#1a1a1a] rounded-2xl md:rounded-3xl overflow-hidden p-6 md:p-10 lg:p-14">
             <div className="grid md:grid-cols-2 gap-8 md:gap-12">
               <div>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4 leading-tight">Never transact online without using Escro protection</h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white mb-3 md:mb-4 leading-tight">Never transact online without using Escro protection</h2>
                 <p className="text-slate-400 text-xs md:text-sm mb-6 md:mb-8 leading-relaxed">
                   With Escro you can buy and sell anything safely without the risk of chargebacks. Truly secure payments.
                 </p>
@@ -724,7 +724,7 @@ export default function Landing() {
       {/* Protect every payment */}
       <section className="py-8 md:py-12 px-4 md:px-6 bg-white text-center">
             <p className="text-xs text-slate-400 mb-3 md:mb-4">{t.cta.subtitle}</p>
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-6">{t.cta.title}</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold mb-4 md:mb-6">{t.cta.title}</h2>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
               <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-colors w-full sm:w-auto justify-center">
                 {t.cta.tryProtection}
@@ -738,7 +738,7 @@ export default function Landing() {
       {/* Connect your platform */}
       <section className="py-12 md:py-20 px-4 md:px-6 bg-black">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">{t.connect.title}</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-white mb-4 md:mb-6 leading-tight">{t.connect.title}</h2>
           <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 md:px-8 py-2.5 md:py-3 rounded-full font-semibold text-sm hover:bg-[#b8ed5a] transition-colors">
             {t.connect.cta}
           </Link>

@@ -40,7 +40,7 @@ export default function AdminUserDetail() {
         </Link>
 
         <div className="mb-6 lg:mb-8">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">{user.name}</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900">{user.name}</h1>
           <p className="text-sm text-slate-500">{user.email}</p>
         </div>
 
@@ -64,7 +64,7 @@ export default function AdminUserDetail() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h2 className="font-bold text-slate-900 mb-6">User Information</h2>
+          <h2 className="font-display font-bold text-slate-900 mb-6">User Information</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-slate-500 mb-1">Email address</p>

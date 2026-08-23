@@ -29,7 +29,7 @@ export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) 
         
         {/* Header */}
         <div className="flex flex-col animate-fadeInUp" style={{ animation: 'fadeInUp 0.1s ease-out both' }}>
-          <h1 className="text-2xl font-bold text-slate-900">Buyer Dashboard</h1>
+          <h1 className="text-2xl font-display font-bold text-slate-900">Buyer Dashboard</h1>
           <p className="text-sm text-slate-500 mt-1">Overview of your purchases and escrow protection</p>
         </div>
 
@@ -46,7 +46,7 @@ export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) 
             </div>
             <div>
               <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Available Balance</p>
-              <h2 className="text-3xl font-bold text-white mb-2">$1,250.50</h2>
+              <h2 className="text-3xl font-display font-bold text-white mb-2">$1,250.50</h2>
               <div className="flex justify-between items-center text-xs text-[#DDFC95]">
                 <span>~ Ready to use</span>
                 <span>Wallet</span>
@@ -67,7 +67,7 @@ export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) 
             </div>
             <div className="relative z-10">
               <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Funds in Escrow</p>
-              <h2 className="text-3xl font-bold text-white mb-2">$44,300.00</h2>
+              <h2 className="text-3xl font-display font-bold text-white mb-2">$44,300.00</h2>
               <div className="flex justify-between items-center text-xs text-[#DDFC95]">
                 <span className="flex items-center gap-1"><ShieldCheck className="w-3 h-3" /> Protected</span>
                 <span className="text-right">Secure<br/>6 txns</span>
@@ -87,7 +87,7 @@ export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) 
             </div>
             <div>
               <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Active Orders</p>
-              <h2 className="text-3xl font-bold text-white mb-2">13</h2>
+              <h2 className="text-3xl font-display font-bold text-white mb-2">13</h2>
               <div className="flex justify-between items-center text-xs text-[#4DB6AC]">
                 <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> In progress</span>
                 <span className="text-right">Status<br/>Tracking</span>
@@ -105,7 +105,7 @@ export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) 
             </div>
             <div>
               <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Disputes Open</p>
-              <h2 className="text-3xl font-bold text-white mb-2">6</h2>
+              <h2 className="text-3xl font-display font-bold text-white mb-2">6</h2>
               <div className="flex justify-between items-center text-xs text-[#FF8A8A]">
                 <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> Needs attention</span>
                 <span className="text-right">Active<br/>Cases</span>
@@ -217,7 +217,7 @@ export default function BuyerOverview({ userId, userName }: BuyerOverviewProps) 
 
         {/* Business Health Summary */}
         <div className="bg-white rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300 p-6" style={{ animation: 'fadeInUp 0.8s ease-out both' }}>
-          <h3 className="font-bold text-slate-900 mb-4">Business Health Summary</h3>
+          <h3 className="font-display font-bold text-slate-900 mb-4">Business Health Summary</h3>
           <div className="space-y-3">
             {[
               { label: 'Dispute Ratio', value: '2.3%', stat: 'Good' },

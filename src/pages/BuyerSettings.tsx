@@ -23,7 +23,7 @@ export default function BuyerSettings({ userId, userName }: BuyerSettingsProps) 
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Settings</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900">Settings</h1>
             <p className="mt-1 text-sm text-slate-500">Manage your account settings and preferences</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
@@ -32,7 +32,7 @@ export default function BuyerSettings({ userId, userName }: BuyerSettingsProps) 
         <div className="max-w-2xl space-y-6">
           {/* Personal info */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-            <h2 className="font-bold text-slate-900 mb-6">Personal info</h2>
+            <h2 className="font-display font-bold text-slate-900 mb-6">Personal info</h2>
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <div>
@@ -60,7 +60,7 @@ export default function BuyerSettings({ userId, userName }: BuyerSettingsProps) 
 
           {/* Preferences */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-            <h2 className="font-bold text-slate-900 mb-6">Preferences</h2>
+            <h2 className="font-display font-bold text-slate-900 mb-6">Preferences</h2>
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-slate-900">Language</p>

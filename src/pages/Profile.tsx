@@ -42,13 +42,13 @@ export default function Profile({ userId, userName, role = 'buyer' }: ProfilePro
     <div className="min-h-screen bg-[#f0f5f0]">
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div className="mb-6 lg:mb-8">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Profile Settings</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900">Profile Settings</h1>
           <p className="mt-1 text-sm text-slate-500">Update your personal details and contact information.</p>
         </div>
 
         <div className="max-w-2xl space-y-6">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-            <h2 className="font-bold text-slate-900 mb-6">Personal Information</h2>
+            <h2 className="font-display font-bold text-slate-900 mb-6">Personal Information</h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Username</label>
@@ -118,7 +118,7 @@ export default function Profile({ userId, userName, role = 'buyer' }: ProfilePro
           </div>
 
           <div className="bg-white rounded-2xl shadow-sm border border-red-100 p-6">
-            <h2 className="font-bold text-slate-900 mb-2">Close Account</h2>
+            <h2 className="font-display font-bold text-slate-900 mb-2">Close Account</h2>
             <p className="text-sm text-slate-500 mb-4">Close your account and remove all your data</p>
             <button className="px-6 py-2.5 border border-red-300 text-red-600 font-semibold text-sm rounded-lg hover:bg-red-50 transition-colors">
               Close Account

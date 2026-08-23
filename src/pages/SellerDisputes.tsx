@@ -54,7 +54,7 @@ export default function SellerDisputes({ userId, userName }: SellerDisputesProps
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div style={{ animation: 'fadeInUp 0.5s ease-out 0s both' }} className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Disputes</h1>
+            <h1 className="text-xl sm:text-2xl font-display font-bold text-slate-900">Disputes</h1>
             <p className="mt-1 text-sm text-slate-500">Manage and resolve buyer disputes efficiently</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />

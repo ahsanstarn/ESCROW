@@ -63,7 +63,7 @@ export default function BankAccounts({ userId, userName, role = 'buyer' }: BankA
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Bank Accounts</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900">Bank Accounts</h1>
             <p className="mt-1 text-sm text-slate-500">Add and manage your bank accounts for receiving payments.</p>
           </div>
           <button onClick={() => setShowAddModal(true)} className="mt-3 sm:mt-0 inline-flex items-center gap-2 px-4 py-2 bg-[#A3E635] text-black font-semibold text-sm rounded-lg hover:bg-[#b8ed5a] transition-colors">
@@ -119,7 +119,7 @@ export default function BankAccounts({ userId, userName, role = 'buyer' }: BankA
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
           <div className="relative bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold text-slate-900">Add Bank Account</h2>
+              <h2 className="text-lg font-display font-bold text-slate-900">Add Bank Account</h2>
               <button onClick={() => setShowAddModal(false)} className="p-1 hover:bg-slate-100 rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-4">

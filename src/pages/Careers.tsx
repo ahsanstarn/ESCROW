@@ -28,7 +28,7 @@ export default function Careers() {
       <section className="pt-32 pb-20 px-4 sm:px-6 bg-black text-white">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-[#A3E635] text-sm font-medium mb-4">Join Our Team</p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Build the future of trust</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6">Build the future of trust</h1>
           <p className="text-slate-400 max-w-2xl mx-auto text-lg">Help us make online transactions safer for everyone. We're looking for passionate people to join our mission.</p>
         </div>
       </section>
@@ -41,7 +41,7 @@ export default function Careers() {
             { title: 'Growth & Learning', desc: 'Annual learning budget, mentorship programs, and clear career progression paths.' },
           ].map((p) => (
             <div key={p.title} className="bg-[#f5f5f5] rounded-2xl p-8">
-              <h3 className="font-bold text-lg mb-3">{p.title}</h3>
+              <h3 className="font-display font-bold text-lg mb-3">{p.title}</h3>
               <p className="text-slate-500 text-sm leading-relaxed">{p.desc}</p>
             </div>
           ))}
@@ -50,7 +50,7 @@ export default function Careers() {
 
       <section className="py-20 px-4 sm:px-6 bg-[#f5f5f5]">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center">Open Positions</h2>
+          <h2 className="text-3xl font-display font-bold mb-12 text-center">Open Positions</h2>
           <div className="space-y-4">
             {jobs.map((job) => (
               <div key={job.title} className="bg-white rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:shadow-md transition-shadow cursor-pointer border border-slate-100">

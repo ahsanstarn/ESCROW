@@ -104,7 +104,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
         
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Order Details</h1>
+            <h1 className="text-2xl font-display font-bold text-gray-900">Order Details</h1>
             <p className="text-sm text-gray-500 mt-1">{escrow.escrowCode || 'ORD-2026-0124'}</p>
           </div>
           <button className="bg-[#A3E635] text-[#305941] px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#DDFC95] transition-colors">Take Action</button>
@@ -113,12 +113,12 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
         <div className="grid grid-cols-4 gap-4">
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0s both` }}>
             <p className="text-xs text-gray-500 mb-1">Order Type</p>
-            <h3 className="text-lg font-bold text-gray-900">{escrow.productType === 'PHYSICAL' ? 'Product' : 'Digital Service'}</h3>
+            <h3 className="text-lg font-display font-bold text-gray-900">{escrow.productType === 'PHYSICAL' ? 'Product' : 'Digital Service'}</h3>
             <p className="text-xs text-gray-400 mt-1">{escrow.description || 'Industrial Grade 3D Printer'}</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.1s both` }}>
             <p className="text-xs text-gray-500 mb-1">Amount</p>
-            <h3 className="text-lg font-bold text-gray-900">{formatCurrency(escrow.amount)}</h3>
+            <h3 className="text-lg font-display font-bold text-gray-900">{formatCurrency(escrow.amount)}</h3>
             <p className="text-xs text-gray-400 mt-1">{escrow.currency || 'USD'}</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.2s both` }}>
@@ -127,13 +127,13 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.3s both` }}>
             <p className="text-xs text-gray-500 mb-1">Expected Release</p>
-            <h3 className="text-sm font-bold text-gray-900 mt-1">Jan 30, 2026, 06:30 PM</h3>
+            <h3 className="text-sm font-display font-bold text-gray-900 mt-1">Jan 30, 2026, 06:30 PM</h3>
           </div>
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.4s both` }}>
           <div className="flex justify-between mb-4">
-            <h2 className="text-sm font-bold text-gray-900">Delivery Progress</h2>
+            <h2 className="text-sm font-display font-bold text-gray-900">Delivery Progress</h2>
             <span className="text-[#305941] font-bold text-sm">50%</span>
           </div>
           <div className="h-3 bg-gray-200 rounded-full mb-6 overflow-hidden">
@@ -161,7 +161,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
 
         <div className="grid grid-cols-2 gap-6">
           <div className="bg-white rounded-2xl p-0 shadow-sm overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.5s both` }}>
-            <div className="p-6 border-b border-gray-100"><h2 className="text-sm font-bold text-gray-900">Live Tracking</h2></div>
+            <div className="p-6 border-b border-gray-100"><h2 className="text-sm font-display font-bold text-gray-900">Live Tracking</h2></div>
             <div className="bg-[#232323] h-80 relative flex items-center justify-center">
               <div className="text-center text-white">
                 <div className="text-[#DDFC95] mb-2">[Map View]</div>
@@ -173,7 +173,7 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
           </div>
           
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.6s both` }}>
-            <h2 className="text-sm font-bold text-gray-900 mb-6 flex items-center gap-2"><Package className="w-4 h-4 text-gray-500"/> Delivery Information</h2>
+            <h2 className="text-sm font-display font-bold text-gray-900 mb-6 flex items-center gap-2"><Package className="w-4 h-4 text-gray-500"/> Delivery Information</h2>
             <div className="space-y-4">
               <div>
                 <p className="text-xs text-gray-500 mb-1">Tracking Number</p>
@@ -202,12 +202,12 @@ export function EscrowDetail({ userId, userRole }: EscrowDetailProps) {
         <div className="grid grid-cols-2 gap-6">
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.7s both` }}>
             <p className="text-xs text-gray-500 mb-1">Buyer</p>
-            <h3 className="text-sm font-bold text-gray-900">{escrow.buyer?.name || 'Acme Corporation'}</h3>
+            <h3 className="text-sm font-display font-bold text-gray-900">{escrow.buyer?.name || 'Acme Corporation'}</h3>
             <p className="text-xs text-gray-400 mt-1">{escrow.buyerId || 'buyer_001'}</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.8s both` }}>
             <p className="text-xs text-gray-500 mb-1">Seller</p>
-            <h3 className="text-sm font-bold text-gray-900">{escrow.merchant?.name || 'Tech Supplies Inc.'}</h3>
+            <h3 className="text-sm font-display font-bold text-gray-900">{escrow.merchant?.name || 'Tech Supplies Inc.'}</h3>
             <p className="text-xs text-gray-400 mt-1">{escrow.merchantId || 'seller_001'}</p>
           </div>
         </div>

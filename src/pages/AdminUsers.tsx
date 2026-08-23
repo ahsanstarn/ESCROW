@@ -44,7 +44,7 @@ export default function AdminUsers({ userId }: AdminUsersProps) {
   return (
     <div className="min-h-screen bg-[#f0f5f0]">
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-6 lg:mb-8">Users</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900 mb-6 lg:mb-8">Users</h1>
 
         <div className="flex gap-6 mb-6 border-b border-slate-200">
           {TABS.map(tab => (

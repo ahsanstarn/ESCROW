@@ -23,7 +23,7 @@ export default function BuyerExplore() {
         
         {/* Header */}
         <div className="flex flex-col animate-fadeInUp" style={{ animation: 'fadeInUp 0.1s ease-out both' }}>
-          <h1 className="text-2xl font-bold text-slate-900">Explore</h1>
+          <h1 className="text-2xl font-display font-bold text-slate-900">Explore</h1>
           <p className="text-sm text-slate-500 mt-1">Browse escrow-protected products from trusted sellers</p>
         </div>
 
@@ -34,7 +34,7 @@ export default function BuyerExplore() {
               <ShieldCheck className="w-6 h-6 text-[#DDFC95]" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white mb-1">Escrow Protected Shopping</h2>
+              <h2 className="text-xl font-display font-bold text-white mb-1">Escrow Protected Shopping</h2>
               <p className="text-sm text-white/80">Pay safely. Seller is paid only after you confirm delivery. Your money is protected every step of the way.</p>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function BuyerExplore() {
                 </div>
               </div>
               <div className="p-5 flex-1 flex flex-col">
-                <h3 className="font-bold text-slate-900 mb-2">{prod.name}</h3>
+                <h3 className="font-display font-bold text-slate-900 mb-2">{prod.name}</h3>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex items-center gap-1 bg-[#F9FBE7] px-1.5 py-0.5 rounded text-[10px] font-bold text-[#305941]">
                     <Star className="w-3 h-3 fill-[#305941]" /> {prod.rating}
@@ -85,7 +85,7 @@ export default function BuyerExplore() {
                 </div>
                 <div className="flex items-end justify-between mt-auto pt-4 border-t border-slate-50">
                   <div>
-                    <h2 className="text-xl font-bold text-slate-900 mb-1">{prod.price}</h2>
+                    <h2 className="text-xl font-display font-bold text-slate-900 mb-1">{prod.price}</h2>
                     <p className="text-[10px] text-slate-500">Sold by <span className="font-semibold text-slate-700">{prod.seller}</span></p>
                   </div>
                   <div className="flex flex-col items-end gap-2">
@@ -104,14 +104,14 @@ export default function BuyerExplore() {
 
         {/* How Escrow Works Footer */}
         <div className="bg-white rounded-2xl p-8 shadow-sm text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300 mt-8" style={{ animation: 'fadeInUp 1s ease-out both' }}>
-          <h2 className="text-lg font-bold text-slate-900 mb-8">How Escrow Protection Works</h2>
+          <h2 className="text-lg font-display font-bold text-slate-900 mb-8">How Escrow Protection Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col items-center">
               <div className="w-16 h-16 rounded-2xl bg-[#DDFC95] flex items-center justify-center text-2xl font-bold text-[#305941] mb-4 relative">
                 1
                 <div className="absolute top-0 right-0 w-3 h-3 bg-white rounded-full translate-x-1 -translate-y-1"></div>
               </div>
-              <h3 className="font-bold text-slate-900 text-sm mb-2">Payment Held Securely</h3>
+              <h3 className="font-display font-bold text-slate-900 text-sm mb-2">Payment Held Securely</h3>
               <p className="text-xs text-slate-500 max-w-[250px]">Your payment is held in escrow. The seller cannot access funds until delivery is confirmed.</p>
             </div>
             <div className="flex flex-col items-center">
@@ -119,7 +119,7 @@ export default function BuyerExplore() {
                 2
                 <div className="absolute top-0 right-0 w-3 h-3 bg-white rounded-full translate-x-1 -translate-y-1"></div>
               </div>
-              <h3 className="font-bold text-slate-900 text-sm mb-2">Receive & Inspect</h3>
+              <h3 className="font-display font-bold text-slate-900 text-sm mb-2">Receive & Inspect</h3>
               <p className="text-xs text-slate-500 max-w-[250px]">Get your item delivered. You have time to inspect and confirm everything is as expected.</p>
             </div>
             <div className="flex flex-col items-center">
@@ -127,7 +127,7 @@ export default function BuyerExplore() {
                 3
                 <div className="absolute top-0 right-0 w-3 h-3 bg-white rounded-full translate-x-1 -translate-y-1"></div>
               </div>
-              <h3 className="font-bold text-slate-900 text-sm mb-2">Confirm & Release</h3>
+              <h3 className="font-display font-bold text-slate-900 text-sm mb-2">Confirm & Release</h3>
               <p className="text-xs text-slate-500 max-w-[250px]">Once satisfied, confirm delivery. Funds are released to the seller. Your purchase is protected.</p>
             </div>
           </div>

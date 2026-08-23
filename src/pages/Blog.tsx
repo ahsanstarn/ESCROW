@@ -28,7 +28,7 @@ export default function Blog() {
       <section className="pt-32 pb-20 px-4 sm:px-6 bg-black text-white">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-[#A3E635] text-sm font-medium mb-4">Blog</p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Insights & Updates</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6">Insights & Updates</h1>
           <p className="text-slate-400 max-w-2xl mx-auto text-lg">Stay informed with the latest news, guides, and industry insights from the Escro team.</p>
         </div>
       </section>
@@ -41,7 +41,7 @@ export default function Blog() {
                 <span className="text-xs font-medium bg-[#A3E635]/20 text-black px-3 py-1 rounded-full">{p.cat}</span>
                 <span className="text-xs text-slate-400">{p.date}</span>
               </div>
-              <h2 className="text-xl font-bold mb-3 leading-snug">{p.title}</h2>
+              <h2 className="text-xl font-display font-bold mb-3 leading-snug">{p.title}</h2>
               <p className="text-slate-500 text-sm leading-relaxed mb-4">{p.excerpt}</p>
               <span className="text-[#A3E635] text-sm font-medium hover:text-[#b8ed5a]">Read more →</span>
             </article>

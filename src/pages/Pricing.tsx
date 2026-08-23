@@ -65,7 +65,7 @@ export default function Pricing() {
               className={`bg-[#f5f5f5] border rounded-2xl p-8 hover:scale-[1.02] transition-transform duration-300 ${plan.popular ? 'border-[#A3E635]/50 ring-1 ring-[#A3E635]/20 shadow-xl' : 'border-slate-200'}`}
             >
               {plan.popular && <p className="text-[#A3E635] text-xs font-medium mb-3 tracking-wide uppercase">Most Popular</p>}
-              <h3 className="font-bold text-xl mb-2">{plan.name}</h3>
+              <h3 className="font-display font-bold text-xl mb-2">{plan.name}</h3>
               <div className="mb-6"><span className="text-4xl font-bold">{plan.price === 'Custom' ? '' : '$'}{plan.price}</span>{plan.price!=='Custom'&&<span className="text-slate-500 text-sm">/month</span>}</div>
               <ul className="space-y-3 mb-8">
                 {plan.features.map((f)=>(<li key={f} className="flex items-center gap-2 text-sm text-slate-600"><Check className="w-4 h-4 text-[#A3E635]" strokeWidth={2.5}/>{f}</li>))}

@@ -22,7 +22,7 @@ export default function BuyerWallet() {
         
         {/* Header */}
         <div className="flex flex-col animate-fadeInUp" style={{ animation: 'fadeInUp 0.1s ease-out both' }}>
-          <h1 className="text-2xl font-bold text-slate-900">Wallet</h1>
+          <h1 className="text-2xl font-display font-bold text-slate-900">Wallet</h1>
           <p className="text-sm text-slate-500 mt-1">Manage your funds and transaction history</p>
         </div>
 
@@ -38,7 +38,7 @@ export default function BuyerWallet() {
             </div>
             <div>
               <p className="text-xs font-medium text-white/70 mb-1 uppercase tracking-wider">Available Balance</p>
-              <h2 className="text-3xl font-bold text-white mb-4">$1,250.50</h2>
+              <h2 className="text-3xl font-display font-bold text-white mb-4">$1,250.50</h2>
               <button className="w-full bg-white text-[#305941] py-2 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors">
                 <ArrowUpRight className="w-4 h-4" /> Withdraw Funds
               </button>
@@ -55,7 +55,7 @@ export default function BuyerWallet() {
             </div>
             <div>
               <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">In Escrow</p>
-              <h2 className="text-3xl font-bold text-slate-900 mb-1">$11,200.00</h2>
+              <h2 className="text-3xl font-display font-bold text-slate-900 mb-1">$11,200.00</h2>
               <p className="text-xs text-slate-400">2 active orders</p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export default function BuyerWallet() {
             </div>
             <div>
               <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Total Refunds</p>
-              <h2 className="text-3xl font-bold text-slate-900 mb-1">$890.00</h2>
+              <h2 className="text-3xl font-display font-bold text-slate-900 mb-1">$890.00</h2>
               <p className="text-xs text-slate-400">1 refund processed</p>
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function BuyerWallet() {
 
         {/* Transaction History Section */}
         <div className="bg-white rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 p-6" style={{ animation: 'fadeInUp 0.5s ease-out both' }}>
-          <h3 className="font-bold text-slate-900 mb-4">Transaction History</h3>
+          <h3 className="font-display font-bold text-slate-900 mb-4">Transaction History</h3>
           
           <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
             <div className="flex gap-2">
@@ -133,7 +133,7 @@ export default function BuyerWallet() {
             <div className="w-12 h-12 rounded-xl bg-[#DDFC95] flex items-center justify-center mb-4">
               <ShieldCheck className="w-6 h-6 text-[#305941]" />
             </div>
-            <h3 className="font-bold text-slate-900 text-sm">How Escrow Protects Your Money</h3>
+            <h3 className="font-display font-bold text-slate-900 text-sm">How Escrow Protects Your Money</h3>
           </div>
           <div className="md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>

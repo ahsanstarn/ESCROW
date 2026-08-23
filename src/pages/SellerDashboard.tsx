@@ -40,7 +40,7 @@ export default function SellerDashboard({ userId, userName }: SellerDashboardPro
       <div className="p-6 lg:p-8 max-w-[1440px] mx-auto space-y-6">
         
         <div style={{ animation: 'fadeInUp 0.5s ease-out 0s both' }}>
-          <h1 className="text-2xl font-bold text-slate-900">Seller Dashboard</h1>
+          <h1 className="text-2xl font-display font-bold text-slate-900">Seller Dashboard</h1>
           <p className="text-sm text-slate-500 mt-1">Monitor funds in escrow, release timers, and disputes</p>
         </div>
 
@@ -51,7 +51,7 @@ export default function SellerDashboard({ userId, userName }: SellerDashboardPro
                 <card.icon className={`w-5 h-5 ${card.warning ? 'text-red-700' : 'text-[#305941]'}`} />
               </div>
               <p className="text-sm font-medium text-slate-500 mb-1">{card.title}</p>
-              <h2 className="text-2xl font-bold text-slate-900 mb-1">{card.value}</h2>
+              <h2 className="text-2xl font-display font-bold text-slate-900 mb-1">{card.value}</h2>
               <p className="text-xs text-slate-400 flex-1">{card.sub}</p>
               {card.hasAction && (
                 <button className="mt-4 w-full py-2 bg-[#DDFC95] hover:bg-[#A3E635] text-[#305941] font-semibold text-sm rounded-xl transition-colors flex items-center justify-center gap-2">
@@ -175,28 +175,28 @@ export default function SellerDashboard({ userId, userName }: SellerDashboardPro
           <h3 className="font-semibold text-slate-900 mb-6">Business Health Summary</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x divide-slate-100">
             <div className="text-center px-4 hover:-translate-y-1 transition-transform cursor-default">
-              <h2 className="text-3xl font-bold text-slate-900 mb-1">2.3%</h2>
+              <h2 className="text-3xl font-display font-bold text-slate-900 mb-1">2.3%</h2>
               <p className="text-xs text-slate-500 mb-2">Dispute Ratio</p>
               <div className="flex items-center justify-center gap-1 text-xs font-semibold text-[#1B4D1E]">
                 <TrendingUp className="w-3 h-3" /> Good
               </div>
             </div>
             <div className="text-center px-4 hover:-translate-y-1 transition-transform cursor-default">
-              <h2 className="text-3xl font-bold text-slate-900 mb-1">4.2 days</h2>
+              <h2 className="text-3xl font-display font-bold text-slate-900 mb-1">4.2 days</h2>
               <p className="text-xs text-slate-500 mb-2">Avg. Release Time</p>
               <div className="flex items-center justify-center gap-1 text-xs font-semibold text-[#1B4D1E]">
                 <TrendingUp className="w-3 h-3" /> Good
               </div>
             </div>
             <div className="text-center px-4 hover:-translate-y-1 transition-transform cursor-default">
-              <h2 className="text-3xl font-bold text-slate-900 mb-1">94%</h2>
+              <h2 className="text-3xl font-display font-bold text-slate-900 mb-1">94%</h2>
               <p className="text-xs text-slate-500 mb-2">On-Time Delivery</p>
               <div className="flex items-center justify-center gap-1 text-xs font-semibold text-[#1B4D1E]">
                 <TrendingUp className="w-3 h-3" /> Good
               </div>
             </div>
             <div className="text-center px-4 hover:-translate-y-1 transition-transform cursor-default">
-              <h2 className="text-3xl font-bold text-slate-900 mb-1">67%</h2>
+              <h2 className="text-3xl font-display font-bold text-slate-900 mb-1">67%</h2>
               <p className="text-xs text-slate-500 mb-2">Repeat Buyer %</p>
               <div className="flex items-center justify-center gap-1 text-xs font-semibold text-[#1B4D1E]">
                 <TrendingUp className="w-3 h-3" /> Good

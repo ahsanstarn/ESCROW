@@ -17,7 +17,7 @@ export default function BuyerCards({ userId, userName }: BuyerCardsProps) {
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
           <div>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Cards</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900">Cards</h1>
             <p className="mt-1 text-sm text-slate-500">Manage your payment cards and limits</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
@@ -29,7 +29,7 @@ export default function BuyerCards({ userId, userName }: BuyerCardsProps) {
             <div className="w-16 h-16 rounded-full bg-[#A3E635]/20 flex items-center justify-center mb-4">
               <CreditCard className="w-8 h-8 text-[#A3E635]" />
             </div>
-            <h2 className="font-bold text-lg text-slate-900 mb-2">No Payment Cards Yet</h2>
+            <h2 className="font-display font-bold text-lg text-slate-900 mb-2">No Payment Cards Yet</h2>
             <p className="text-sm text-slate-500 mb-6">
               Add a payment card to start making secure transactions.
             </p>
@@ -40,7 +40,7 @@ export default function BuyerCards({ userId, userName }: BuyerCardsProps) {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h2 className="font-bold text-lg text-slate-900 mb-4">Card Settings</h2>
+          <h2 className="font-display font-bold text-lg text-slate-900 mb-4">Card Settings</h2>
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
               <div>

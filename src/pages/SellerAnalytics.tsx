@@ -89,7 +89,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Analytics & Trust</h1>
+            <h1 className="text-2xl font-display font-bold text-gray-900">Analytics & Trust</h1>
             <p className="text-sm text-gray-500 mt-1">Performance insights and trust score analytics</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
@@ -100,7 +100,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
             {performanceMetrics.map((stat, i) => (
               <div key={i} className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out ${i * 0.1}s both` }}>
                 <p className="text-sm text-gray-500 mb-2">{stat.label}</p>
-                <h3 className="text-3xl font-bold text-gray-900">{stat.value}</h3>
+                <h3 className="text-3xl font-display font-bold text-gray-900">{stat.value}</h3>
                 <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
                   <span className="text-gray-400">↓</span> {stat.subtitle}
                 </p>
@@ -110,7 +110,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
         </div>
 
         <div>
-          <h2 className="text-lg font-bold text-gray-900 mb-4 mt-6">Strategic Insights</h2>
+          <h2 className="text-lg font-display font-bold text-gray-900 mb-4 mt-6">Strategic Insights</h2>
           <div className="grid grid-cols-3 gap-4">
             {insights.map((insight, i) => (
               <div key={i} className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex items-start gap-4" style={{ animation: `fadeInUp 0.5s ease-out ${0.5 + i * 0.1}s both` }}>
@@ -130,7 +130,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.8s both` }}>
-          <h2 className="text-lg font-bold text-gray-900 mb-6">5-Month Performance Trend</h2>
+          <h2 className="text-lg font-display font-bold text-gray-900 mb-6">5-Month Performance Trend</h2>
           <div className="space-y-6">
             {monthlyTrend.map((m, i) => (
               <div key={i} className="flex items-center gap-8 text-sm">
@@ -163,7 +163,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
 
         <div className="grid grid-cols-2 gap-6">
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.9s both` }}>
-            <h2 className="text-lg font-bold text-gray-900 mb-6">Trust Score Breakdown</h2>
+            <h2 className="text-lg font-display font-bold text-gray-900 mb-6">Trust Score Breakdown</h2>
             <div className="space-y-6">
               {trustBreakdown.map((item, i) => (
                 <div key={i} className="flex items-center gap-4">
@@ -178,7 +178,7 @@ export default function SellerAnalytics({ userId, userName }: SellerAnalyticsPro
           </div>
           
           <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 1.0s both` }}>
-            <h2 className="text-lg font-bold text-gray-900 mb-6">Account Status</h2>
+            <h2 className="text-lg font-display font-bold text-gray-900 mb-6">Account Status</h2>
             <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 mb-6 flex items-center gap-3">
               <div className="p-2 bg-gray-200 rounded-lg"><Shield className="w-4 h-4 text-gray-600" /></div>
               <div>

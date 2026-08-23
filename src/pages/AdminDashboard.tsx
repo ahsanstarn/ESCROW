@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div className="mb-6 lg:mb-8">
           <p className="text-sm text-slate-500 mb-1">Dashboard</p>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Welcome back, Admin</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-900">Welcome back, Admin</h1>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

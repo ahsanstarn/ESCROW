@@ -40,7 +40,7 @@ export default function SellerSettings({ userId, userName }: SellerSettingsProps
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Settings & Compliance</h1>
+            <h1 className="text-2xl font-display font-bold text-gray-900">Settings & Compliance</h1>
             <p className="text-sm text-gray-500 mt-1">Manage compliance, verification, and account settings</p>
           </div>
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
@@ -70,7 +70,7 @@ export default function SellerSettings({ userId, userName }: SellerSettingsProps
         </div>
 
         <div style={{ animation: `fadeInUp 0.5s ease-out 0.1s both` }}>
-          <h2 className="text-sm font-bold text-gray-900 mb-3 mt-4">Compliance & Verification</h2>
+          <h2 className="text-sm font-display font-bold text-gray-900 mb-3 mt-4">Compliance & Verification</h2>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <div className="flex gap-3 mb-4">
@@ -96,26 +96,26 @@ export default function SellerSettings({ userId, userName }: SellerSettingsProps
         </div>
 
         <div style={{ animation: `fadeInUp 0.5s ease-out 0.2s both` }}>
-          <h2 className="text-sm font-bold text-gray-900 mb-3 mt-4">Risk Assessment</h2>
+          <h2 className="text-sm font-display font-bold text-gray-900 mb-3 mt-4">Risk Assessment</h2>
           <div className="grid grid-cols-4 gap-4">
             <div className="bg-white rounded-2xl p-4 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <p className="text-xs text-gray-500 mb-1">Account Risk Level</p>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Low</h3>
+              <h3 className="text-2xl font-display font-bold text-gray-900 mb-2">Low</h3>
               <p className="text-[10px] text-gray-400">Based on transaction history and behavior</p>
             </div>
             <div className="bg-white rounded-2xl p-4 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <p className="text-xs text-gray-500 mb-1">Trust Score</p>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">92 / 100</h3>
+              <h3 className="text-2xl font-display font-bold text-gray-900 mb-2">92 / 100</h3>
               <p className="text-[10px] text-gray-400">High standing with platform</p>
             </div>
             <div className="bg-white rounded-2xl p-4 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <p className="text-xs text-gray-500 mb-1">Dispute Ratio</p>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">2.3%</h3>
+              <h3 className="text-2xl font-display font-bold text-gray-900 mb-2">2.3%</h3>
               <p className="text-[10px] text-gray-400">Higher than optimal (target: &lt;2%)</p>
             </div>
             <div className="bg-white rounded-2xl p-4 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <p className="text-xs text-gray-500 mb-1">Verification Level</p>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Level 2</h3>
+              <h3 className="text-2xl font-display font-bold text-gray-900 mb-2">Level 2</h3>
               <p className="text-[10px] text-gray-400">Complete KYC for Level 3</p>
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function SellerSettings({ userId, userName }: SellerSettingsProps
 
         <div className="bg-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animation: `fadeInUp 0.5s ease-out 0.3s both` }}>
           <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
-            <h2 className="text-sm font-bold text-gray-900">Business Profile</h2>
+            <h2 className="text-sm font-display font-bold text-gray-900">Business Profile</h2>
             <button className="text-blue-500 text-sm font-bold">Edit Profile</button>
           </div>
           <div className="grid grid-cols-2 gap-y-6 gap-x-12">
@@ -172,7 +172,7 @@ export default function SellerSettings({ userId, userName }: SellerSettingsProps
         </div>
 
         <div style={{ animation: `fadeInUp 0.5s ease-out 0.4s both` }}>
-          <h2 className="text-sm font-bold text-gray-900 mb-3 mt-4">Security & Privacy Settings</h2>
+          <h2 className="text-sm font-display font-bold text-gray-900 mb-3 mt-4">Security & Privacy Settings</h2>
           <div className="space-y-4">
             <div className="bg-white rounded-2xl p-4 shadow-sm flex justify-between items-center hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <div>

@@ -20,7 +20,7 @@ export default function About() {
       <section className="pt-32 pb-20 px-4 sm:px-6 bg-black text-white">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-[#A3E635] text-sm font-medium mb-4">About Us</p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Making transactions safer for everyone</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6">Making transactions safer for everyone</h1>
           <p className="text-slate-400 max-w-2xl mx-auto text-lg">We're building the world's most trusted escrow platform, protecting buyers and sellers in every transaction.</p>
         </div>
       </section>
@@ -28,7 +28,7 @@ export default function About() {
       <section className="py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Our mission</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">Our mission</h2>
             <p className="text-slate-500 leading-relaxed mb-6">Founded in 2022, Escro was built on a simple belief: every transaction deserves to be protected. We eliminate the trust gap between buyers and sellers by holding funds securely until both parties are satisfied.</p>
             <p className="text-slate-500 leading-relaxed">Today, we process over $3.2 billion in transactions annually, serving over 1.5 million customers across 180+ countries.</p>
           </div>
@@ -45,11 +45,11 @@ export default function About() {
 
       <section className="py-20 px-4 sm:px-6 bg-black text-white">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Our values</h2>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">Our values</h2>
           <div className="grid md:grid-cols-3 gap-8 mt-12">
             {[{t:'Trust First',d:'Every decision starts with protecting our users'},{t:'Radical Transparency',d:'No hidden fees, no surprises, ever'},{t:'Global Reach',d:'Empowering commerce across borders without barriers'}].map(v=>(
               <div key={v.t} className="bg-[#1a1a1a] rounded-2xl p-8 border border-slate-800/50">
-                <h3 className="text-xl font-bold mb-3">{v.t}</h3>
+                <h3 className="text-xl font-display font-bold mb-3">{v.t}</h3>
                 <p className="text-slate-400 text-sm">{v.d}</p>
               </div>
             ))}
