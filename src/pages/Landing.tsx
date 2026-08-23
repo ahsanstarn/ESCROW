@@ -48,6 +48,8 @@ export default function Landing() {
             <div className="group absolute left-[20px] bottom-[20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#22d3ee] via-[#06b6d4] to-[#0891b2] shadow-[0_8px_30px_rgba(0,0,0,0.4)] transform -rotate-[15deg] z-10 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:-rotate-[18deg] pointer-events-auto cursor-pointer">
               {/* Shiny Glare Overlay */}
               <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.4)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.15)_50%,transparent_55%)] pointer-events-none z-0"></div>
+              {/* Animated Glare on Hover */}
+              <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/50 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
               {/* Glassy Inner Border */}
               <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/40 pointer-events-none mix-blend-overlay z-0"></div>
               
@@ -71,6 +73,8 @@ export default function Landing() {
             <div className="group absolute left-1/2 -translate-x-1/2 bottom-[40px] w-[240px] md:w-[270px] h-[360px] md:h-[400px] rounded-[20px] bg-gradient-to-b from-[#f43f5e] via-[#e11d48] to-[#dc2626] shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform rotate-0 z-20 p-7 overflow-hidden transition-transform duration-500 hover:-translate-y-4 hover:scale-[1.03] pointer-events-auto cursor-pointer">
               {/* Shiny Glare Overlay */}
               <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.35)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.15)_50%,transparent_55%)] pointer-events-none z-0"></div>
+              {/* Animated Glare on Hover */}
+              <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/50 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
               {/* Glassy Inner Border */}
               <div className="absolute inset-0 rounded-[20px] border-[1.5px] border-white/40 pointer-events-none mix-blend-overlay z-0"></div>
 
@@ -94,6 +98,8 @@ export default function Landing() {
             <div className="group absolute right-[10px] bottom-[-20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#65a30d] shadow-[0_15px_40px_rgba(0,0,0,0.5)] transform rotate-[15deg] z-30 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:rotate-[18deg] pointer-events-auto cursor-pointer">
               {/* Shiny Glare Overlay */}
               <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.5)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.2)_50%,transparent_55%)] pointer-events-none z-0"></div>
+              {/* Animated Glare on Hover */}
+              <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/50 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
               {/* Glassy Inner Border */}
               <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/50 pointer-events-none mix-blend-overlay z-0"></div>
 
@@ -382,8 +388,8 @@ export default function Landing() {
                 </div>
 
                 {/* Hand reaching out from bottom right */}
-                <div className="absolute bottom-[-10px] right-[-20px] md:right-0 w-[300px] md:w-[380px] z-10 pointer-events-none mix-blend-screen">
-                  <img src="/hand.png" alt="Hand holding card" className="w-full h-auto drop-shadow-2xl opacity-90 hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-[-8px] right-[-30px] md:right-[-10px] w-[280px] md:w-[360px] z-10 pointer-events-none" style={{ mixBlendMode: 'lighten' }}>
+                  <img src="/hand.png" alt="Hand reaching for card" className="w-full h-auto drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)]" style={{ filter: 'brightness(1.05) contrast(1.1)' }} />
                 </div>
               </div>
             </div>
