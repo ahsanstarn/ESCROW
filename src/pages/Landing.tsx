@@ -343,9 +343,9 @@ export default function Landing() {
                   Enable Escro Protection <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
-              <div className="relative h-[340px] md:h-[420px] flex items-end justify-center overflow-hidden rounded-b-2xl md:rounded-b-none md:rounded-r-3xl">
-                {/* Floating Green Escro Card - Positioned in top-right above the hand */}
-                <div className="group absolute right-4 sm:right-10 md:right-14 top-2 md:top-4 w-[150px] sm:w-[175px] md:w-[200px] h-[230px] sm:h-[270px] md:h-[305px] rounded-[16px] md:rounded-[20px] bg-gradient-to-br from-[#c4f860] via-[#a3e635] to-[#7ac714] shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform rotate-[27deg] p-4 sm:p-5 overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:rotate-[30deg] z-20 cursor-pointer">
+              <div className="relative h-[340px] sm:h-[380px] md:h-[420px] flex items-end justify-center overflow-hidden rounded-b-2xl md:rounded-b-none md:rounded-r-3xl">
+                {/* Floating Green Escro Card - Positioned in top-right well above the hand */}
+                <div className="group absolute right-4 sm:right-10 md:right-16 top-3 sm:top-5 md:top-6 w-[140px] sm:w-[165px] md:w-[185px] h-[215px] sm:h-[250px] md:h-[280px] rounded-[16px] md:rounded-[20px] bg-gradient-to-br from-[#cbf865] via-[#a3e635] to-[#7ac714] shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform rotate-[25deg] p-4 sm:p-5 overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:rotate-[28deg] z-20 cursor-pointer">
                   {/* Static Glare Overlay */}
                   <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(255,255,255,0.15)_20%,rgba(255,255,255,0.7)_25%,rgba(255,255,255,0)_30%,rgba(255,255,255,0)_45%,rgba(255,255,255,0.25)_50%,rgba(255,255,255,0)_55%)] pointer-events-none z-0 mix-blend-overlay"></div>
                   {/* Animated Glare on Hover */}
@@ -354,14 +354,14 @@ export default function Landing() {
                   <div className="absolute inset-0 rounded-[16px] md:rounded-[20px] border-[1.5px] border-white/60 pointer-events-none mix-blend-overlay z-0"></div>
 
                   {/* Contactless Icon (Top Right) */}
-                  <div className="absolute top-4 right-4 sm:top-5 sm:right-5 z-10 opacity-90">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.2" strokeLinecap="round" className="drop-shadow-sm mix-blend-overlay opacity-60">
+                  <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 z-10 opacity-90">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.2" strokeLinecap="round" className="drop-shadow-sm mix-blend-overlay opacity-60">
                       <path d="M8.5 2.5a15 15 0 0 1 7 0 M6 6a11 11 0 0 1 12 0 M3.5 10a7 7 0 0 1 17 0" />
                     </svg>
                   </div>
                   
-                  {/* EMV Chip (Middle Left) */}
-                  <div className="absolute left-4 sm:left-5 bottom-12 sm:bottom-16 w-8 h-10 sm:w-10 sm:h-12 rounded-md border border-black/25 bg-[#d9ea4b] flex flex-col justify-between p-[2px] opacity-80 shadow-sm z-10">
+                  {/* EMV Chip (Bottom Left) */}
+                  <div className="absolute left-3.5 sm:left-4 bottom-10 sm:bottom-14 w-8 h-9 sm:w-9 sm:h-11 rounded-md border border-black/25 bg-[#d9ea4b] flex flex-col justify-between p-[2px] opacity-80 shadow-sm z-10">
                     <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
                     <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
                     <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
@@ -369,21 +369,21 @@ export default function Landing() {
                   </div>
 
                   {/* Text: Numbers */}
-                  <div className="absolute right-3 sm:right-5 top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white text-[20px] sm:text-[24px] md:text-[26px] font-sans font-bold tracking-[0.12em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  <div className="absolute right-3 sm:right-4 top-0 h-full flex items-center justify-center z-10">
+                    <p className="text-white text-[18px] sm:text-[22px] md:text-[24px] font-sans font-bold tracking-[0.12em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       1234 5678 9012 3456
                     </p>
                   </div>
                   {/* Text: Name */}
-                  <div className="absolute right-[38px] sm:right-[48px] md:right-[52px] top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white/80 text-[9px] sm:text-[10px] md:text-[11px] font-sans font-semibold uppercase tracking-[0.25em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  <div className="absolute right-[34px] sm:right-[42px] md:right-[46px] top-0 h-full flex items-center justify-center z-10">
+                    <p className="text-white/80 text-[8px] sm:text-[9px] md:text-[10px] font-sans font-semibold uppercase tracking-[0.25em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       NAME SURNAME
                     </p>
                   </div>
                 </div>
 
-                {/* Open Hand - Positioned at bottom receiving the floating card */}
-                <div className="absolute bottom-0 right-0 sm:right-2 md:right-6 w-[280px] sm:w-[340px] md:w-[400px] z-10 pointer-events-none" style={{ mixBlendMode: 'lighten' }}>
+                {/* Open Hand - Positioned at bottom flush with container edge */}
+                <div className="absolute bottom-0 right-0 sm:right-2 md:right-4 w-[290px] sm:w-[360px] md:w-[420px] z-10 pointer-events-none" style={{ mixBlendMode: 'lighten' }}>
                   <img 
                     src="/hand.png" 
                     alt="Hand receiving escrow card" 
