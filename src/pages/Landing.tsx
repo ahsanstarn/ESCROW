@@ -24,7 +24,7 @@ export default function Landing() {
   const [currency, setCurrency] = useState('USD');
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-white text-black font-sans">
       {/* Hero Section */}
       <section className="relative w-full h-screen max-h-[900px] min-h-[700px] z-10 pb-[40px]">
         
@@ -125,17 +125,17 @@ export default function Landing() {
         <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-full max-w-[1200px] px-8 xl:px-12 z-30 flex items-start justify-between gap-8">
           {/* Left: Title */}
           <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.2rem] lg:text-[4.8rem] font-display font-bold text-white leading-[1.1] tracking-tight flex-shrink-0">
-            Build trust in<br />every transaction
+            {t.hero.title}
           </h1>
           
           {/* Right: Description + CTA */}
           <div className="hidden md:flex flex-col items-end pt-4 flex-shrink-0">
-            <p className="text-[#9ca3af] text-[13px] leading-relaxed mb-5 text-right">
-              Secure escrow for goods, services,<br/>and milestones — holding funds until<br/>delivery is confirmed.
+            <p className="text-[#9ca3af] text-[13px] leading-relaxed mb-5 text-right max-w-sm">
+              {t.hero.subtitle}
             </p>
             <div className="flex items-center gap-3">
-              <Link to="/register" className="bg-[#b8f56c] text-black px-6 py-2.5 rounded-full font-bold text-[14px] hover:bg-[#a3e635] transition-all whitespace-nowrap">
-                Shop Now
+              <Link to="/register" className="bg-[#b8f56c] text-black px-6 py-2.5 rounded-full font-bold text-[14px] shadow-[0_4px_14px_rgba(184,245,108,0.35)] hover:shadow-[0_6px_20px_rgba(184,245,108,0.55)] hover:scale-[1.04] active:scale-[0.98] transition-all whitespace-nowrap">
+                {t.hero.shopNow}
               </Link>
               <button 
                 onClick={() => setIsVideoOpen(true)}
@@ -161,19 +161,19 @@ export default function Landing() {
           {/* Nav Links + Actions */}
           <div className="hidden lg:flex items-center gap-6">
             <div className="flex items-center gap-5 text-[13px] font-semibold text-white/90">
-              <a href="#features" className="hover:text-[#b8f56c] transition-colors">Features</a>
+              <a href="#features" className="hover:text-[#b8f56c] transition-colors">{t.nav.features}</a>
               <span className="text-white/20">-</span>
-              <Link to="/pricing" className="hover:text-[#b8f56c] transition-colors">Pricing</Link>
-              <Link to="/help" className="hover:text-[#b8f56c] transition-colors">Help</Link>
+              <Link to="/pricing" className="hover:text-[#b8f56c] transition-colors">{t.nav.pricing}</Link>
+              <Link to="/help" className="hover:text-[#b8f56c] transition-colors">{t.nav.help}</Link>
               <LanguageSwitcher />
             </div>
 
             <div className="flex items-center gap-4 ml-2">
-              <Link to="/login" className="bg-[#b8f56c] text-black px-6 py-2 rounded-full font-bold text-[13px] hover:bg-[#a3e635] transition-all">
-                Login
+              <Link to="/login" className="bg-[#b8f56c] text-black px-6 py-2 rounded-full font-bold text-[13px] shadow-[0_4px_12px_rgba(184,245,108,0.3)] hover:bg-[#a3e635] hover:scale-[1.03] active:scale-[0.98] transition-all">
+                {t.nav.login}
               </Link>
               <Link to="/register" className="text-white font-semibold text-[13px] hover:text-[#b8f56c] transition-colors">
-                Register
+                {t.nav.register}
               </Link>
             </div>
           </div>
@@ -226,9 +226,9 @@ export default function Landing() {
             </button>
           </div>
           <div className="flex flex-col gap-6 text-xl font-bold">
-            <a href="#features" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">Features</a>
-            <Link to="/pricing" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">Pricing</Link>
-            <Link to="/help" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">Help</Link>
+            <a href="#features" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">{t.nav.features}</a>
+            <Link to="/pricing" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">{t.nav.pricing}</Link>
+            <Link to="/help" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">{t.nav.help}</Link>
             <div className="pt-2">
               <span className="text-xs text-slate-400 font-medium block mb-2">Language</span>
               <LanguageSwitcher />
@@ -236,10 +236,10 @@ export default function Landing() {
           </div>
           <div className="mt-auto flex flex-col gap-4">
             <Link to="/login" onClick={() => setMobileNavOpen(false)} className="w-full py-4 text-center rounded-xl bg-white/10 text-white font-bold text-lg">
-              Login
+              {t.nav.login}
             </Link>
             <Link to="/register" onClick={() => setMobileNavOpen(false)} className="w-full py-4 text-center rounded-xl bg-[#A3E635] text-black font-bold text-lg">
-              Register
+              {t.nav.register}
             </Link>
           </div>
         </div>
@@ -255,8 +255,8 @@ export default function Landing() {
             >
               <X className="w-6 h-6" />
             </button>
-            <div className="w-full h-full flex items-center justify-center text-slate-500">
-              <div className="text-center">
+            <div className="w-full h-full flex items-center justify-center text-white text-center p-8">
+              <div>
                 <Play className="w-16 h-16 text-slate-700 mx-auto mb-4" />
                 <p>Demo Video Placeholder</p>
               </div>
@@ -277,7 +277,7 @@ export default function Landing() {
                 {t.features.desc}
               </p>
               <div className="flex items-center gap-4">
-                <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-colors">
+                <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 py-3 rounded-full font-semibold text-sm shadow-[0_4px_14px_rgba(163,230,53,0.35)] hover:bg-[#b8ed5a] hover:scale-[1.03] active:scale-[0.98] transition-all">
                   {t.features.seeHow}
                 </Link>
                 <button className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center hover:bg-black transition-colors">
@@ -332,36 +332,41 @@ export default function Landing() {
       {/* Make an Impression Section */}
       <section className="px-4 md:px-6 pb-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-[#1a1a1a] rounded-2xl md:rounded-3xl overflow-hidden">
+          <div className="bg-[#0a0a0a] rounded-3xl md:rounded-[36px] overflow-hidden shadow-2xl">
             <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
-              <div className="p-6 md:p-10 lg:p-14">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white mb-4 md:mb-6 leading-tight">Make an impression with escrow</h2>
-                <p className="text-slate-400 text-xs md:text-sm mb-4 md:mb-6 leading-relaxed">
-                  Show your customers that payments are protected by default. Funds are securely held and released only after delivery or milestone approval. Add visible escrow protection at checkout for a professional, trust-first experience. Available on eligible plans.
+              <div className="p-6 md:p-12 lg:p-16">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-white mb-4 md:mb-6 leading-tight">
+                  {t.impression.title}
+                </h2>
+                <p className="text-slate-400 text-xs md:text-sm mb-6 md:mb-8 leading-relaxed max-w-lg">
+                  {t.impression.desc}
                 </p>
-                <a href="/register" className="inline-flex items-center gap-2 text-[#A3E635] font-medium text-sm hover:text-[#b8ed5a] transition-colors">
-                  Enable Escro Protection <ArrowRight className="w-4 h-4" />
+                <a href="/register" className="inline-flex items-center gap-2 text-[#A3E635] font-bold text-sm hover:text-[#b8ed5a] transition-colors">
+                  {t.impression.enable} <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
-              <div className="relative h-[340px] sm:h-[380px] md:h-[420px] flex items-end justify-center overflow-hidden rounded-b-2xl md:rounded-b-none md:rounded-r-3xl">
-                {/* Floating Green Escro Card - Positioned in top-right well above the hand */}
-                <div className="group absolute right-4 sm:right-10 md:right-16 top-3 sm:top-5 md:top-6 w-[140px] sm:w-[165px] md:w-[185px] h-[215px] sm:h-[250px] md:h-[280px] rounded-[16px] md:rounded-[20px] bg-gradient-to-br from-[#cbf865] via-[#a3e635] to-[#7ac714] shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform rotate-[25deg] p-4 sm:p-5 overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:rotate-[28deg] z-20 cursor-pointer">
+
+              {/* Right Visual: Floating Card at Top Right & Hand at Bottom Right */}
+              <div className="relative h-[380px] sm:h-[440px] md:h-[480px] flex items-end justify-center overflow-hidden">
+                
+                {/* Floating Green Escro Card - Cleanly elevated in top-right well above hand */}
+                <div className="group absolute right-6 sm:right-12 md:right-16 top-4 sm:top-6 md:top-8 w-[145px] sm:w-[170px] md:w-[195px] h-[225px] sm:h-[265px] md:h-[295px] rounded-[18px] md:rounded-[22px] bg-gradient-to-br from-[#cbf865] via-[#a3e635] to-[#7ac714] shadow-[0_25px_60px_rgba(0,0,0,0.7)] transform rotate-[24deg] p-4 sm:p-5 overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:rotate-[27deg] z-20 cursor-pointer">
                   {/* Static Glare Overlay */}
                   <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(255,255,255,0.15)_20%,rgba(255,255,255,0.7)_25%,rgba(255,255,255,0)_30%,rgba(255,255,255,0)_45%,rgba(255,255,255,0.25)_50%,rgba(255,255,255,0)_55%)] pointer-events-none z-0 mix-blend-overlay"></div>
                   {/* Animated Glare on Hover */}
                   <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/80 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
                   {/* Glassy Inner Border */}
-                  <div className="absolute inset-0 rounded-[16px] md:rounded-[20px] border-[1.5px] border-white/60 pointer-events-none mix-blend-overlay z-0"></div>
+                  <div className="absolute inset-0 rounded-[18px] md:rounded-[22px] border-[1.5px] border-white/60 pointer-events-none mix-blend-overlay z-0"></div>
 
                   {/* Contactless Icon (Top Right) */}
                   <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 z-10 opacity-90">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.2" strokeLinecap="round" className="drop-shadow-sm mix-blend-overlay opacity-60">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.2" strokeLinecap="round" className="drop-shadow-sm mix-blend-overlay opacity-60">
                       <path d="M8.5 2.5a15 15 0 0 1 7 0 M6 6a11 11 0 0 1 12 0 M3.5 10a7 7 0 0 1 17 0" />
                     </svg>
                   </div>
                   
                   {/* EMV Chip (Bottom Left) */}
-                  <div className="absolute left-3.5 sm:left-4 bottom-10 sm:bottom-14 w-8 h-9 sm:w-9 sm:h-11 rounded-md border border-black/25 bg-[#d9ea4b] flex flex-col justify-between p-[2px] opacity-80 shadow-sm z-10">
+                  <div className="absolute left-3.5 sm:left-4 bottom-10 sm:bottom-14 w-8 h-9 sm:w-10 sm:h-12 rounded-md border border-black/25 bg-[#d9ea4b] flex flex-col justify-between p-[2px] opacity-80 shadow-sm z-10">
                     <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
                     <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
                     <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
@@ -370,24 +375,24 @@ export default function Landing() {
 
                   {/* Text: Numbers */}
                   <div className="absolute right-3 sm:right-4 top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white text-[18px] sm:text-[22px] md:text-[24px] font-sans font-bold tracking-[0.12em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                    <p className="text-white text-[19px] sm:text-[23px] md:text-[25px] font-sans font-bold tracking-[0.12em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       1234 5678 9012 3456
                     </p>
                   </div>
                   {/* Text: Name */}
-                  <div className="absolute right-[34px] sm:right-[42px] md:right-[46px] top-0 h-full flex items-center justify-center z-10">
+                  <div className="absolute right-[36px] sm:right-[44px] md:right-[48px] top-0 h-full flex items-center justify-center z-10">
                     <p className="text-white/80 text-[8px] sm:text-[9px] md:text-[10px] font-sans font-semibold uppercase tracking-[0.25em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       NAME SURNAME
                     </p>
                   </div>
                 </div>
 
-                {/* Open Hand - Positioned at bottom flush with container edge */}
-                <div className="absolute bottom-0 right-0 sm:right-2 md:right-4 w-[290px] sm:w-[360px] md:w-[420px] z-10 pointer-events-none" style={{ mixBlendMode: 'lighten' }}>
+                {/* Open Hand - Positioned at bottom receiving the floating card */}
+                <div className="absolute bottom-0 right-0 sm:right-2 md:right-4 w-[300px] sm:w-[380px] md:w-[440px] z-10 pointer-events-none" style={{ mixBlendMode: 'lighten' }}>
                   <img 
                     src="/hand.png" 
                     alt="Hand receiving escrow card" 
-                    className="w-full h-auto drop-shadow-[0_12px_24px_rgba(0,0,0,0.8)]" 
+                    className="w-full h-auto drop-shadow-[0_16px_32px_rgba(0,0,0,0.9)]" 
                     style={{ filter: 'brightness(1.08) contrast(1.12)' }} 
                   />
                 </div>
@@ -400,27 +405,31 @@ export default function Landing() {
       {/* International Escro Section */}
       <section className="py-8 md:py-16 px-4 md:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-[#1a1a1a] rounded-2xl md:rounded-3xl overflow-hidden">
+          <div className="bg-[#0a0a0a] rounded-3xl md:rounded-[36px] overflow-hidden p-6 md:p-12 lg:p-16">
             <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
-              <div className="p-6 md:p-10 lg:p-14">
-                <p className="text-[#A3E635] text-xs font-medium mb-3 tracking-wide uppercase">{t.international.label}</p>
+              <div>
+                <p className="text-[#A3E635] text-xs font-semibold mb-3 tracking-wider uppercase">{t.international.label}</p>
                 <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-white mb-4 md:mb-6 leading-tight">{t.international.title}</h2>
-                <p className="text-slate-400 text-xs md:text-sm mb-6 md:mb-8 leading-relaxed">
+                <p className="text-slate-400 text-xs md:text-sm mb-6 md:mb-8 leading-relaxed max-w-md">
                   {t.international.desc}
                 </p>
                 <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                  <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-colors">
+                  <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 py-3 rounded-full font-bold text-sm shadow-[0_4px_14px_rgba(163,230,53,0.35)] hover:bg-[#b8ed5a] hover:scale-[1.03] active:scale-[0.98] transition-all">
                     {t.international.getStarted}
                   </Link>
-                  <Link to="/register" className="inline-flex items-center gap-2 border border-slate-600 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold text-sm hover:bg-slate-800 transition-colors">
+                  <Link to="/register" className="inline-flex items-center gap-2 border border-slate-700 text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-slate-800 transition-colors">
                     {t.international.contactSales}
                   </Link>
                 </div>
               </div>
               <div className="hidden md:flex items-center justify-center p-8">
-                <div className="w-48 h-80 bg-slate-800 rounded-3xl border-4 border-slate-700 shadow-2xl">
-                  <div className="w-full h-full rounded-3xl bg-gradient-to-b from-slate-700 to-slate-800 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="5" y="2" width="14" height="20" rx="3" /><line x1="12" y1="18" x2="12" y2="18.01" strokeWidth="2" /></svg>
+                <div className="w-52 h-80 bg-[#141414] rounded-3xl border-2 border-slate-800 shadow-2xl flex items-center justify-center">
+                  <div className="w-full h-full rounded-3xl bg-gradient-to-b from-[#1c1c1c] to-[#121212] flex flex-col items-center justify-center p-6 text-center">
+                    <div className="w-12 h-12 rounded-2xl bg-[#A3E635]/10 flex items-center justify-center text-[#A3E635] mb-4">
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M6 8h.01M10 8h.01" /><circle cx="12" cy="12" r="3" /></svg>
+                    </div>
+                    <span className="text-sm font-bold text-white mb-1">Global Payouts</span>
+                    <span className="text-xs text-slate-400">180+ countries supported</span>
                   </div>
                 </div>
               </div>
@@ -435,11 +444,11 @@ export default function Landing() {
           <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 mb-8 md:mb-12">
             <div className="text-center">
               <p className="text-lg md:text-2xl lg:text-3xl font-bold">$3,200,000,000+</p>
-              <p className="text-[10px] md:text-xs text-slate-500 mt-1">USD Processed</p>
+              <p className="text-[10px] md:text-xs text-slate-500 mt-1">{t.stats.processed}</p>
             </div>
             <div className="text-center">
               <p className="text-lg md:text-2xl lg:text-3xl font-bold">1,500,000+</p>
-              <p className="text-[10px] md:text-xs text-slate-500 mt-1">Customers Trust Ecoro</p>
+              <p className="text-[10px] md:text-xs text-slate-500 mt-1">{t.stats.customers}</p>
             </div>
             <div className="flex items-center gap-4 md:gap-6">
               <span className="text-[10px] md:text-xs text-slate-400 font-medium">BBB Tech Awards</span>
@@ -571,16 +580,18 @@ export default function Landing() {
       <section className="py-12 md:py-20 px-4 md:px-6 bg-black">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 md:mb-16">
-            <p className="text-slate-400 text-xs md:text-sm mb-3">Teamwork makes the deal work</p>
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-white leading-tight">Discover the meaning of efficiency<br className="hidden sm:block" /> with Escro Business</h2>
+            <p className="text-slate-400 text-xs md:text-sm mb-3">{t.business.subtitle}</p>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-white leading-tight">
+              {t.business.title}
+            </h2>
           </div>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {/* Hold and release payments globally */}
             <div className="bg-[#A3E635] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between md:row-span-2 min-h-[280px] md:min-h-[400px] group hover:scale-[1.02] transition-transform duration-300">
               <div>
-                <h3 className="text-lg md:text-2xl font-display font-bold text-black mb-2">Hold and release payments globally</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-black/70 hover:text-black">Explore Escro Payments →</a>
+                <h3 className="text-lg md:text-2xl font-display font-bold text-black mb-2">{t.business.holdRelease}</h3>
+                <a href="/register" className="text-xs md:text-sm font-medium text-black/70 hover:text-black">{t.business.explore}</a>
               </div>
               <div className="mt-4 md:mt-8 bg-white rounded-xl p-3 md:p-4 shadow-lg group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300">
                 <p className="text-[10px] md:text-xs text-slate-500 mb-1">Escro Amount</p>
@@ -603,8 +614,8 @@ export default function Landing() {
             {/* Invoices backed by escrow */}
             <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[160px] md:min-h-[190px] group hover:bg-[#2a2a2a] hover:-translate-y-1 transition-all duration-300 cursor-pointer">
               <div>
-                <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Invoices backed by escrow</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Learn more about Escro Invoices</a>
+                <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">{t.business.invoices}</h3>
+                <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">{t.business.learnInvoices}</a>
               </div>
               <div className="mt-3 md:mt-4 bg-white rounded-lg p-2 md:p-3 shadow-lg group-hover:-translate-y-1 group-hover:shadow-2xl transition-all duration-300">
                 <div className="flex justify-between items-center mb-1 md:mb-2">
@@ -618,8 +629,8 @@ export default function Landing() {
             {/* Smart company cards with spending control */}
             <div className="bg-[#1f1f1f] rounded-xl md:rounded-2xl p-5 md:p-8 flex flex-col justify-between min-h-[220px] md:min-h-[260px] group hover:bg-[#2a2a2a] transition-all duration-300 cursor-pointer overflow-hidden relative">
               <div className="z-10">
-                <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Smart company cards with spending control</h3>
-                <a href="/register" className="text-xs md:text-sm font-medium text-blue-400 hover:text-blue-300">Learn more about Escro Cards</a>
+                <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">{t.business.cards}</h3>
+                <a href="/register" className="text-xs md:text-sm font-medium text-blue-400 hover:text-blue-300">{t.business.learnCards}</a>
               </div>
               
               <div className="absolute right-[-20px] bottom-[-40px] md:bottom-[-60px] w-full h-40 md:h-52 flex items-end justify-end perspective-1000">
@@ -660,8 +671,8 @@ export default function Landing() {
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center mb-3 md:mb-4 group-hover:bg-[#A3E635] group-hover:rotate-180 transition-all duration-700">
                 <span className="text-black text-xl font-bold">*</span>
               </div>
-              <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">Hold, exchange, and release at fair rates</h3>
-              <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">Explore Escro Exchange</a>
+              <h3 className="text-base md:text-xl font-display font-bold text-white mb-2 group-hover:text-[#A3E635] transition-colors">{t.business.exchange}</h3>
+              <a href="/register" className="text-xs md:text-sm font-medium text-[#A3E635] hover:text-[#b8ed5a]">{t.business.learnExchange}</a>
             </div>
 
             {/* Set and manage escrow permissions */}
@@ -694,7 +705,7 @@ export default function Landing() {
       {/* Control your spend with smart rules */}
       <section className="py-12 md:py-20 px-4 md:px-6 bg-black">
         <div className="max-w-7xl mx-auto text-center mb-10 md:mb-14">
-          <h2 className="text-3xl md:text-5xl lg:text-[64px] font-display font-bold text-white leading-tight tracking-tight">Control your spend<br className="hidden md:block" /> with smart rules</h2>
+          <h2 className="text-3xl md:text-5xl lg:text-[64px] font-display font-bold text-white leading-tight tracking-tight">{t.spend.title}</h2>
         </div>
         <div className="max-w-[540px] mx-auto flex flex-col gap-3 md:gap-4">
           {[
@@ -703,36 +714,36 @@ export default function Landing() {
             { cat: 'Retail', date: 'March 27, 2022', amount: '-$241', active: true },
             { cat: 'Others', date: 'March 25, 2022', amount: '$100' },
             { cat: 'Tech', date: 'March 29, 2022', amount: '$45' },
-          ].map((t, i) => (
+          ].map((item, i) => (
             <div 
               key={i} 
-              className={`group rounded-xl px-5 md:px-8 py-4 flex items-center justify-between cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${t.active ? 'bg-white text-black scale-[1.02] shadow-xl' : 'bg-[#29303D] text-slate-300 hover:bg-white hover:text-black'}`}
+              className={`group rounded-xl px-5 md:px-8 py-4 flex items-center justify-between cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${item.active ? 'bg-white text-black scale-[1.02] shadow-xl' : 'bg-[#29303D] text-slate-300 hover:bg-white hover:text-black'}`}
             >
               <div className="flex items-center gap-4 w-[65%]">
                 <div className="relative flex items-center justify-center">
-                  <div className={`w-3.5 h-3.5 rounded-full border-2 transition-colors duration-300 ${t.active ? 'border-[#ff7a00]' : 'border-slate-500 group-hover:border-[#ff7a00]'}`}></div>
-                  <div className={`absolute w-1.5 h-1.5 rounded-full transition-colors duration-300 ${t.active ? 'bg-[#ff7a00]' : 'bg-transparent group-hover:bg-[#ff7a00]'}`}></div>
+                  <div className={`w-3.5 h-3.5 rounded-full border-2 transition-colors duration-300 ${item.active ? 'border-[#ff7a00]' : 'border-slate-500 group-hover:border-[#ff7a00]'}`}></div>
+                  <div className={`absolute w-1.5 h-1.5 rounded-full transition-colors duration-300 ${item.active ? 'bg-[#ff7a00]' : 'bg-transparent group-hover:bg-[#ff7a00]'}`}></div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 w-full items-center">
-                  <span className={`text-[15px] font-medium transition-colors duration-300 ${t.active ? 'text-black' : 'text-white group-hover:text-black'}`}>{t.cat}</span>
-                  <span className={`text-[13px] transition-colors duration-300 ${t.active ? 'text-slate-500' : 'text-slate-400 group-hover:text-slate-500'}`}>{t.date}</span>
+                  <span className={`text-[15px] font-medium transition-colors duration-300 ${item.active ? 'text-black' : 'text-white group-hover:text-black'}`}>{item.cat}</span>
+                  <span className={`text-[13px] transition-colors duration-300 ${item.active ? 'text-slate-500' : 'text-slate-400 group-hover:text-slate-500'}`}>{item.date}</span>
                 </div>
               </div>
-              <span className={`text-[15px] font-bold transition-colors duration-300 ${t.active ? 'text-black' : 'text-white group-hover:text-black'}`}>{t.amount}</span>
+              <span className={`text-[15px] font-bold transition-colors duration-300 ${item.active ? 'text-black' : 'text-white group-hover:text-black'}`}>{item.amount}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Never transact online without using Escro protection */}
+      {/* Calculator & Escrow Protection Form */}
       <section className="py-12 md:py-20 px-4 md:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-[#1a1a1a] rounded-2xl md:rounded-3xl overflow-hidden p-6 md:p-10 lg:p-14">
+          <div className="bg-[#0a0a0a] rounded-3xl md:rounded-[36px] overflow-hidden p-6 md:p-12 lg:p-16">
             <div className="grid md:grid-cols-2 gap-8 md:gap-12">
               <div>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white mb-3 md:mb-4 leading-tight">Never transact online without using Escro protection</h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white mb-3 md:mb-4 leading-tight">{t.protect.title}</h2>
                 <p className="text-slate-400 text-xs md:text-sm mb-6 md:mb-8 leading-relaxed">
-                  With Escro you can buy and sell anything safely without the risk of chargebacks. Truly secure payments.
+                  {t.protect.desc}
                 </p>
                 <div className="space-y-2 md:space-y-3">
                   <div className="flex flex-wrap items-center gap-2 md:gap-3">
@@ -740,7 +751,7 @@ export default function Landing() {
                     <select 
                       value={payType}
                       onChange={(e) => setPayType(e.target.value)}
-                      className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]"
+                      className="bg-[#1f1f1f] border border-slate-700 rounded-lg px-3 py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]"
                     >
                       <option>Buying</option>
                       <option>Selling</option>
@@ -749,58 +760,58 @@ export default function Landing() {
                     <select 
                       value={itemType}
                       onChange={(e) => setItemType(e.target.value)}
-                      className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]"
+                      className="bg-[#1f1f1f] border border-slate-700 rounded-lg px-3 py-2 text-xs md:text-sm text-white flex-1 min-w-[120px] focus:outline-none focus:border-[#A3E635]"
                     >
                       <option>Services</option>
-                      <option>Products</option>
+                      <option>Physical Goods</option>
+                      <option>Digital Goods</option>
+                      <option>Milestone Contract</option>
                     </select>
                   </div>
-                  <div className="flex flex-wrap items-center gap-2 md:gap-3">
-                    <span className="text-xs text-slate-500 w-8 md:w-12">For $</span>
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <span className="text-xs text-slate-500 w-8 md:w-12">For</span>
                     <input 
-                      type="text" 
-                      value={amount} 
+                      type="number"
+                      value={amount}
                       onChange={(e) => setAmount(e.target.value)}
-                      className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]" 
+                      className="bg-[#1f1f1f] border border-slate-700 rounded-lg px-3 py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]"
+                      placeholder="1000"
                     />
-                    <span className="text-xs text-slate-500 hidden sm:inline">Currency</span>
                     <select 
                       value={currency}
                       onChange={(e) => setCurrency(e.target.value)}
-                      className="bg-[#2a2a2a] border border-slate-700 rounded-lg px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm text-white w-28 md:w-32 focus:outline-none focus:border-[#A3E635]"
+                      className="bg-[#1f1f1f] border border-slate-700 rounded-lg px-3 py-2 text-xs md:text-sm text-white w-24 focus:outline-none focus:border-[#A3E635]"
                     >
                       <option>USD</option>
                       <option>EUR</option>
                       <option>GBP</option>
+                      <option>NGN</option>
                     </select>
                   </div>
+                  <div className="pt-4">
+                    <Link to="/register" className="w-full inline-block py-3 bg-[#A3E635] text-black font-bold rounded-xl text-center text-sm shadow-[0_4px_14px_rgba(163,230,53,0.35)] hover:bg-[#b8ed5a] hover:scale-[1.02] active:scale-[0.98] transition-all">
+                      {t.protect.cta}
+                    </Link>
+                  </div>
                 </div>
-                <button className="mt-4 md:mt-6 w-full py-2.5 md:py-3 bg-[#A3E635] text-black font-semibold rounded-lg hover:bg-[#b8ed5a] transition-colors text-sm" onClick={() => window.location.href = '/register'}>
-                  Get started now
-                </button>
               </div>
-              <div className="space-y-3 md:space-y-4">
-                <div className="flex items-start gap-2.5 md:gap-3 bg-[#2a2a2a] rounded-xl p-3 md:p-4">
-                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-[#A3E635] flex items-center justify-center flex-shrink-0">
-                    <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M8 12l2 2 4-4" /></svg>
+
+              {/* Milestone Steps */}
+              <div className="bg-[#141414] rounded-2xl md:rounded-3xl p-6 md:p-8 flex flex-col justify-center border border-slate-800">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-[#A3E635]/10 flex items-center justify-center text-[#A3E635]">
+                    <Check className="w-5 h-5" />
                   </div>
-                  <div>
-                    <p className="text-white font-medium text-xs md:text-sm">Pay for {itemType.toLowerCase()} as you go with milestone payments</p>
-                  </div>
+                  <h3 className="font-display font-bold text-white text-base md:text-lg">{t.protect.milestone}</h3>
                 </div>
-                <div className="space-y-2 md:space-y-3">
-                  {[
-                    `${payType === 'Buying' ? 'Buyer and seller agree on schedule' : 'Seller and buyer agree on schedule'}`,
-                    `${payType === 'Buying' ? 'Buyer pays Escro.com' : 'Buyer pays Escro.com'}`,
-                    `${payType === 'Buying' ? 'Seller provides the ' : 'You provide the '}${itemType.toLowerCase().slice(0, -1)}`,
-                    `${payType === 'Buying' ? 'Buyer approves the milestone' : 'Buyer approves the milestone'}`,
-                    `Escro.com pays the seller`,
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 md:gap-3">
-                      <div className={`w-3.5 h-3.5 md:w-4 md:h-4 rounded-full border ${i === 0 ? 'border-[#A3E635] bg-[#A3E635]' : 'border-slate-600'} flex items-center justify-center`}>
-                        {i === 0 && <svg className="w-2 h-2 md:w-2.5 md:h-2.5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12l5 5L20 7" /></svg>}
+
+                <div className="space-y-4">
+                  {t.protect.steps.map((step, idx) => (
+                    <div key={idx} className="flex items-center gap-3">
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-[#A3E635] text-black' : 'border border-slate-600 text-slate-400'}`}>
+                        {idx === 0 ? '✓' : idx + 1}
                       </div>
-                      <span className="text-xs md:text-sm text-slate-300">{item}</span>
+                      <span className={`text-xs md:text-sm ${idx === 0 ? 'text-white font-semibold' : 'text-slate-400'}`}>{step}</span>
                     </div>
                   ))}
                 </div>
@@ -810,87 +821,52 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Protect every payment */}
-      <section className="py-8 md:py-12 px-4 md:px-6 bg-white text-center">
-            <p className="text-xs text-slate-400 mb-3 md:mb-4">{t.cta.subtitle}</p>
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold mb-4 md:mb-6">{t.cta.title}</h2>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
-              <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-colors w-full sm:w-auto justify-center">
-                {t.cta.tryProtection}
-              </Link>
-              <Link to="/contact" className="inline-flex items-center gap-2 border border-slate-300 text-black px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold text-sm hover:bg-slate-50 transition-colors w-full sm:w-auto justify-center">
-                {t.cta.contactSales}
-              </Link>
+      {/* CTA Section */}
+      <section className="py-12 md:py-20 px-4 md:px-6 bg-white text-center">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-slate-400 text-xs md:text-sm mb-3">{t.cta.subtitle}</p>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-6 md:mb-8 leading-tight">{t.cta.title}</h2>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-7 py-3.5 rounded-full font-bold text-sm shadow-[0_4px_14px_rgba(163,230,53,0.35)] hover:bg-[#b8ed5a] hover:scale-[1.03] active:scale-[0.98] transition-all">
+              {t.cta.tryProtection}
+            </Link>
+            <Link to="/contact" className="inline-flex items-center gap-2 border border-slate-300 text-black px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-slate-50 transition-colors">
+              {t.cta.contactSales}
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Connect your platform */}
-      <section className="py-12 md:py-20 px-4 md:px-6 bg-black">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-white mb-4 md:mb-6 leading-tight">{t.connect.title}</h2>
-          <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-6 md:px-8 py-2.5 md:py-3 rounded-full font-semibold text-sm hover:bg-[#b8ed5a] transition-colors">
-            {t.connect.cta}
-          </Link>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 md:py-12 px-4 md:px-6 bg-black border-t border-slate-800">
+      {/* Connect Platform with Escrow Trust */}
+      <section className="px-4 md:px-6 pb-12 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6 md:mb-8">
-            <div className="flex items-center gap-4">
-              <Link to="/" className="text-sm text-white font-medium hover:text-[#A3E635] transition-colors">{t.footer.personal}</Link>
-              <Link to="/" className="text-sm text-slate-400 hover:text-white transition-colors">{t.footer.business}</Link>
+          <div className="bg-[#0a0a0a] rounded-3xl md:rounded-[40px] p-8 md:p-16 lg:p-20 text-center text-white shadow-2xl">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-6 md:mb-8 leading-tight">
+              {t.connect.title}
+            </h2>
+            <div className="mb-12">
+              <Link to="/register" className="inline-block bg-[#A3E635] text-black px-8 md:px-10 py-4 rounded-full font-bold text-base shadow-[0_4px_20px_rgba(163,230,53,0.4)] hover:bg-[#b8ed5a] hover:scale-[1.04] active:scale-[0.98] transition-all">
+                {t.connect.cta}
+              </Link>
             </div>
-            <div className="hidden md:flex items-center gap-6 text-sm text-slate-400">
-              <a href="#features" className="hover:text-white transition-colors">{t.nav.features}</a>
-              <a href="#pricing" className="hover:text-white transition-colors">{t.nav.pricing}</a>
-              <a href="#help" className="hover:text-white transition-colors">{t.nav.help}</a>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 py-6 md:py-8 border-t border-slate-800">
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-3 md:mb-4">
-                <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 40 40" fill="none">
-                  <rect width="40" height="40" rx="8" fill="#A3E635" />
-                  <path d="M10 14C12.5 11 15.5 11 18 14C20.5 17 23.5 17 26 14" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-                  <path d="M10 20C12.5 17 15.5 17 18 20C20.5 23 23.5 23 26 20" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-                  <path d="M10 26C12.5 23 15.5 23 18 26C20.5 29 23.5 29 26 26" stroke="black" strokeWidth="2.5" strokeLinecap="round" />
-                </svg>
-            <span className="text-base md:text-lg font-bold text-white">Escro</span>
+
+            {/* Bottom Footer inside card */}
+            <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div className="flex items-center bg-[#1f1f1f] p-1 rounded-full border border-white/10 text-xs">
+                <button className="px-4 py-1.5 rounded-full bg-[#A3E635] text-black font-bold">{t.footer.personal}</button>
+                <button className="px-4 py-1.5 rounded-full text-slate-400 hover:text-white transition-colors">{t.footer.business}</button>
               </div>
-              <p className="text-xs md:text-sm text-slate-500">The future of secure transactions.</p>
+
+              <div className="flex flex-wrap items-center gap-6 text-xs text-slate-400 font-medium">
+                <a href="#features" className="hover:text-white transition-colors">{t.nav.features}</a>
+                <Link to="/pricing" className="hover:text-white transition-colors">{t.nav.pricing}</Link>
+                <Link to="/help" className="hover:text-white transition-colors">{t.nav.help}</Link>
+                <LanguageSwitcher />
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold mb-2 md:mb-3 text-xs md:text-sm text-white">{t.footer.product}</h4>
-              <ul className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-slate-500">
-                <li><Link to="/pricing" className="hover:text-white transition-colors">{t.footer.pricing}</Link></li>
-                <li><Link to="/about" className="hover:text-white transition-colors">{t.footer.about}</Link></li>
-                <li><Link to="/blog" className="hover:text-white transition-colors">{t.footer.blog}</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2 md:mb-3 text-xs md:text-sm text-white">{t.footer.company}</h4>
-              <ul className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-slate-500">
-                <li><Link to="/careers" className="hover:text-white transition-colors">{t.footer.careers}</Link></li>
-                <li><Link to="/contact" className="hover:text-white transition-colors">{t.footer.contact}</Link></li>
-                <li><Link to="/help" className="hover:text-white transition-colors">{t.footer.helpCenter}</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2 md:mb-3 text-xs md:text-sm text-white">{t.footer.legal}</h4>
-              <ul className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-slate-500">
-                <li><Link to="/privacy" className="hover:text-white transition-colors">{t.footer.privacy}</Link></li>
-                <li><Link to="/terms" className="hover:text-white transition-colors">{t.footer.terms}</Link></li>
-                <li><Link to="/terms" className="hover:text-white transition-colors">{t.footer.cookies}</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-6 md:pt-8 border-t border-slate-800 text-center text-xs md:text-sm text-slate-500">
-            &copy; {t.footer.copyright}
           </div>
         </div>
-      </footer>
+      </section>
     </div>
   );
 }
