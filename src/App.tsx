@@ -49,6 +49,8 @@ import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { ToastProvider, useToast } from './components/ui/Toast';
 import { LoadingScreen } from './components/ui/LoadingSpinner';
 
+import LanguageSwitcher from './components/ui/LanguageSwitcher';
+
 function Header({ onMenuToggle, currentUser }: { onMenuToggle: () => void, currentUser?: User | null }) {
   return (
     <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200 z-10 h-[72px]">
@@ -58,7 +60,9 @@ function Header({ onMenuToggle, currentUser }: { onMenuToggle: () => void, curre
         </button>
       </div>
       
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4 sm:gap-6">
+        <LanguageSwitcher />
+        
         <button className="relative p-2 text-slate-400 hover:text-slate-600 transition-colors">
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />

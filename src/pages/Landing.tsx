@@ -42,7 +42,7 @@ export default function Landing() {
           </div>
 
           {/* ===== CARDS: Moved inside so they get clipped by the bottom edge ===== */}
-          <div className="absolute -bottom-[20px] md:-bottom-[40px] left-1/2 -translate-x-1/2 w-[600px] md:w-[700px] h-[380px] md:h-[420px] z-40 pointer-events-none">
+          <div className="absolute -bottom-[20px] md:-bottom-[40px] left-1/2 -translate-x-1/2 w-[600px] md:w-[700px] h-[380px] md:h-[420px] z-40 pointer-events-none scale-[0.68] sm:scale-85 md:scale-100 origin-bottom">
             
             {/* Blue Card (Left, behind Red) */}
             <div className="group absolute left-[20px] bottom-[20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#22d3ee] via-[#06b6d4] to-[#0891b2] shadow-[0_8px_30px_rgba(0,0,0,0.4)] transform -rotate-[15deg] z-10 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:-rotate-[18deg] pointer-events-auto cursor-pointer">
@@ -165,25 +165,16 @@ export default function Landing() {
               <span className="text-white/20">-</span>
               <Link to="/pricing" className="hover:text-[#b8f56c] transition-colors">Pricing</Link>
               <Link to="/help" className="hover:text-[#b8f56c] transition-colors">Help</Link>
-              <div className="flex items-center gap-1.5 cursor-pointer group">
-                <span className="text-sm">🇺🇸</span>
-                <span className="group-hover:text-[#b8f56c] transition-colors">EN</span>
-              </div>
+              <LanguageSwitcher />
             </div>
 
-            <div className="flex items-center gap-5 ml-4">
+            <div className="flex items-center gap-4 ml-2">
               <Link to="/login" className="bg-[#b8f56c] text-black px-6 py-2 rounded-full font-bold text-[13px] hover:bg-[#a3e635] transition-all">
                 Login
               </Link>
               <Link to="/register" className="text-white font-semibold text-[13px] hover:text-[#b8f56c] transition-colors">
                 Register
               </Link>
-            </div>
-
-            {/* Scroll Pill */}
-            <div className="ml-4 bg-[#b8f56c] w-[36px] h-[90px] rounded-[18px] flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-[#a3e635] transition-colors">
-              <span className="text-black text-[10px] font-bold tracking-widest transform -rotate-90 whitespace-nowrap">Scroll</span>
-              <ArrowRight className="w-3.5 h-3.5 text-black transform rotate-90 stroke-[3]" />
             </div>
           </div>
 
@@ -220,7 +211,7 @@ export default function Landing() {
       {/* Mobile Navigation Overlay */}
       {mobileNavOpen && (
         <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col p-6 animate-fade-in">
-          <div className="flex justify-between items-center mb-12">
+          <div className="flex justify-between items-center mb-8">
             <Link to="/" className="flex items-center gap-3">
               <svg className="w-8 h-8" viewBox="0 0 40 40" fill="none">
                 <rect width="40" height="40" rx="8" fill="#A3E635" />
@@ -234,10 +225,14 @@ export default function Landing() {
               <X className="w-8 h-8" />
             </button>
           </div>
-          <div className="flex flex-col gap-6 text-2xl font-bold">
-            <a href="#features" onClick={() => setMobileNavOpen(false)} className="text-white">Features</a>
-            <Link to="/pricing" onClick={() => setMobileNavOpen(false)} className="text-white">Pricing</Link>
-            <Link to="/help" onClick={() => setMobileNavOpen(false)} className="text-white">Help</Link>
+          <div className="flex flex-col gap-6 text-xl font-bold">
+            <a href="#features" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">Features</a>
+            <Link to="/pricing" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">Pricing</Link>
+            <Link to="/help" onClick={() => setMobileNavOpen(false)} className="text-white hover:text-[#A3E635] transition-colors">Help</Link>
+            <div className="pt-2">
+              <span className="text-xs text-slate-400 font-medium block mb-2">Language</span>
+              <LanguageSwitcher />
+            </div>
           </div>
           <div className="mt-auto flex flex-col gap-4">
             <Link to="/login" onClick={() => setMobileNavOpen(false)} className="w-full py-4 text-center rounded-xl bg-white/10 text-white font-bold text-lg">

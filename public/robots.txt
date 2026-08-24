@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Allow: /careers
+Allow: /about
+Allow: /blog
+Allow: /contact
+Allow: /pricing
+Allow: /help
+Allow: /privacy
+Allow: /terms
+
+Disallow: /admin
+Disallow: /seller
+Disallow: /buyer
+Disallow: /agency
+Disallow: /merchant
+Disallow: /courier
+
+Sitemap: https://escrow-trust-platform.vercel.app/sitemap.xml
