@@ -343,48 +343,53 @@ export default function Landing() {
                   Enable Escro Protection <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
-              <div className="relative h-64 md:h-96 flex items-end justify-center overflow-visible">
-                {/* Green Escro Card */}
-                <div className="group absolute right-8 md:right-16 top-[-30px] md:top-[-40px] w-[180px] md:w-[220px] h-[280px] md:h-[340px] rounded-[18px] bg-gradient-to-br from-[#d4f870] via-[#a3e635] to-[#7acc00] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform rotate-[32deg] p-5 overflow-hidden transition-transform duration-700 hover:-translate-y-4 hover:rotate-[35deg] z-20 cursor-pointer">
+              <div className="relative h-[340px] md:h-[420px] flex items-end justify-center overflow-hidden rounded-b-2xl md:rounded-b-none md:rounded-r-3xl">
+                {/* Floating Green Escro Card - Positioned in top-right above the hand */}
+                <div className="group absolute right-4 sm:right-10 md:right-14 top-2 md:top-4 w-[150px] sm:w-[175px] md:w-[200px] h-[230px] sm:h-[270px] md:h-[305px] rounded-[16px] md:rounded-[20px] bg-gradient-to-br from-[#c4f860] via-[#a3e635] to-[#7ac714] shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform rotate-[27deg] p-4 sm:p-5 overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:rotate-[30deg] z-20 cursor-pointer">
                   {/* Static Glare Overlay */}
-                  <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(255,255,255,0.1)_20%,rgba(255,255,255,0.6)_25%,rgba(255,255,255,0)_30%,rgba(255,255,255,0)_45%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0)_55%)] pointer-events-none z-0 mix-blend-overlay"></div>
+                  <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(255,255,255,0.15)_20%,rgba(255,255,255,0.7)_25%,rgba(255,255,255,0)_30%,rgba(255,255,255,0)_45%,rgba(255,255,255,0.25)_50%,rgba(255,255,255,0)_55%)] pointer-events-none z-0 mix-blend-overlay"></div>
                   {/* Animated Glare on Hover */}
-                  <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/70 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
+                  <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/80 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
                   {/* Glassy Inner Border */}
-                  <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/50 pointer-events-none mix-blend-overlay z-0"></div>
+                  <div className="absolute inset-0 rounded-[16px] md:rounded-[20px] border-[1.5px] border-white/60 pointer-events-none mix-blend-overlay z-0"></div>
 
                   {/* Contactless Icon (Top Right) */}
-                  <div className="absolute top-6 right-6 z-10 opacity-90">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" className="drop-shadow-sm">
+                  <div className="absolute top-4 right-4 sm:top-5 sm:right-5 z-10 opacity-90">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.2" strokeLinecap="round" className="drop-shadow-sm mix-blend-overlay opacity-60">
                       <path d="M8.5 2.5a15 15 0 0 1 7 0 M6 6a11 11 0 0 1 12 0 M3.5 10a7 7 0 0 1 17 0" />
                     </svg>
                   </div>
                   
-                  {/* EMV Chip (Bottom Left) */}
-                  <div className="absolute left-6 bottom-14 w-10 h-12 md:w-12 md:h-14 rounded-md border border-black/10 bg-[#dfeb32] flex flex-col justify-between p-[2px] opacity-90 shadow-sm z-10">
-                    <div className="w-full h-[1px] bg-black/10 my-[3px]"></div>
-                    <div className="w-full h-[1px] bg-black/10 my-[3px]"></div>
-                    <div className="w-full h-[1px] bg-black/10 my-[3px]"></div>
-                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-black/10"></div>
+                  {/* EMV Chip (Middle Left) */}
+                  <div className="absolute left-4 sm:left-5 bottom-12 sm:bottom-16 w-8 h-10 sm:w-10 sm:h-12 rounded-md border border-black/25 bg-[#d9ea4b] flex flex-col justify-between p-[2px] opacity-80 shadow-sm z-10">
+                    <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
+                    <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
+                    <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-black/20"></div>
                   </div>
 
                   {/* Text: Numbers */}
-                  <div className="absolute right-4 md:right-6 top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white text-[24px] md:text-[28px] font-sans font-bold tracking-[0.1em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                      34 5678 9012 3456
+                  <div className="absolute right-3 sm:right-5 top-0 h-full flex items-center justify-center z-10">
+                    <p className="text-white text-[20px] sm:text-[24px] md:text-[26px] font-sans font-bold tracking-[0.12em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                      1234 5678 9012 3456
                     </p>
                   </div>
                   {/* Text: Name */}
-                  <div className="absolute right-[46px] md:right-[56px] top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white/80 text-[10px] md:text-[11px] font-sans font-semibold uppercase tracking-[0.25em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                  <div className="absolute right-[38px] sm:right-[48px] md:right-[52px] top-0 h-full flex items-center justify-center z-10">
+                    <p className="text-white/80 text-[9px] sm:text-[10px] md:text-[11px] font-sans font-semibold uppercase tracking-[0.25em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       NAME SURNAME
                     </p>
                   </div>
                 </div>
 
-                {/* Hand reaching out from bottom right */}
-                <div className="absolute bottom-[-8px] right-[-30px] md:right-[-10px] w-[280px] md:w-[360px] z-10 pointer-events-none" style={{ mixBlendMode: 'lighten' }}>
-                  <img src="/hand.png" alt="Hand reaching for card" className="w-full h-auto drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)]" style={{ filter: 'brightness(1.05) contrast(1.1)' }} />
+                {/* Open Hand - Positioned at bottom receiving the floating card */}
+                <div className="absolute bottom-0 right-0 sm:right-2 md:right-6 w-[280px] sm:w-[340px] md:w-[400px] z-10 pointer-events-none" style={{ mixBlendMode: 'lighten' }}>
+                  <img 
+                    src="/hand.png" 
+                    alt="Hand receiving escrow card" 
+                    className="w-full h-auto drop-shadow-[0_12px_24px_rgba(0,0,0,0.8)]" 
+                    style={{ filter: 'brightness(1.08) contrast(1.12)' }} 
+                  />
                 </div>
               </div>
             </div>
@@ -450,25 +455,114 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="grid grid-cols-5 gap-2 md:gap-6 mb-8 md:mb-12">
-            {([1,2,3,4,5] as const).map((num) => (
-              <div key={num} className="text-center">
-                <div className="w-10 h-10 md:w-14 md:h-14 bg-[#A3E635]/10 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-3">
-                  <div className="w-7 h-7 md:w-10 md:h-10 bg-[#A3E635] rounded-full flex items-center justify-center">
-                    <span className="text-black font-bold text-xs md:text-sm">{num}</span>
+          {/* 5-Step Animated Workflow */}
+          <div className="relative mb-12 md:mb-16">
+            {/* Connecting line behind steps on md+ */}
+            <div className="hidden md:block absolute top-[28px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-[#A3E635]/20 via-[#A3E635]/60 to-[#A3E635]/20 z-0"></div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6 relative z-10">
+              {[
+                {
+                  num: 1,
+                  title: t.steps[1].title,
+                  desc: t.steps[1].desc,
+                  icon: (
+                    <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  ),
+                },
+                {
+                  num: 2,
+                  title: t.steps[2].title,
+                  desc: t.steps[2].desc,
+                  icon: (
+                    <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <path d="M6 8h.01M10 8h.01" />
+                      <circle cx="12" cy="12" r="3" />
+                      <path d="M12 15v2" />
+                    </svg>
+                  ),
+                },
+                {
+                  num: 3,
+                  title: t.steps[3].title,
+                  desc: t.steps[3].desc,
+                  icon: (
+                    <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                      <path d="m3.3 7 8.7 5 8.7-5" />
+                      <path d="M12 22V12" />
+                    </svg>
+                  ),
+                },
+                {
+                  num: 4,
+                  title: t.steps[4].title,
+                  desc: t.steps[4].desc,
+                  icon: (
+                    <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      <path d="m9 12 2 2 4-4" />
+                    </svg>
+                  ),
+                },
+                {
+                  num: 5,
+                  title: t.steps[5].title,
+                  desc: t.steps[5].desc,
+                  icon: (
+                    <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="22" y1="2" x2="11" y2="13" />
+                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                  ),
+                },
+              ].map((step, idx) => (
+                <div 
+                  key={step.num} 
+                  className="group flex flex-col items-center text-center p-3 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-[#A3E635]/5 cursor-pointer"
+                  style={{ animation: `fadeInUp 0.5s ease-out ${idx * 0.1}s both` }}
+                >
+                  {/* Step Badge with Glow & Hover Pulse */}
+                  <div className="relative mb-4">
+                    <div className="w-12 h-12 md:w-14 md:h-14 bg-[#A3E635]/20 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-[#A3E635]/30 group-hover:shadow-[0_0_20px_rgba(163,230,53,0.5)]">
+                      <div className="w-9 h-9 md:w-10 md:h-10 bg-[#A3E635] rounded-full flex items-center justify-center shadow-md transition-transform duration-300 group-hover:rotate-6">
+                        {step.icon}
+                      </div>
+                    </div>
+                    {/* Number Indicator Pill */}
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-black text-[#A3E635] border border-[#A3E635]/50 rounded-full text-[10px] font-bold flex items-center justify-center shadow">
+                      {step.num}
+                    </span>
                   </div>
+
+                  <p className="font-display font-bold text-xs md:text-sm mb-1 text-black group-hover:text-emerald-800 transition-colors leading-tight">
+                    {step.title}
+                  </p>
+                  <p className="text-[10px] md:text-xs text-slate-500 leading-normal max-w-[170px]">
+                    {step.desc}
+                  </p>
                 </div>
-                <p className="font-semibold text-[10px] md:text-xs mb-0.5 md:mb-1 text-black">{t.steps[num].title}</p>
-                <p className="text-[8px] md:text-[11px] text-slate-500 leading-tight">{t.steps[num].desc}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <div className="text-center">
-            <Link to="/register" className="inline-flex items-center gap-2 bg-[#A3E635] text-black px-5 md:px-6 py-2.5 md:py-3 rounded-lg font-semibold text-sm hover:bg-[#b8ed5a] transition-colors mb-3 md:mb-4">
-              {t.steps.getStarted}
+            <Link 
+              to="/register" 
+              className="group inline-flex items-center gap-3 bg-[#A3E635] text-black px-7 py-3.5 rounded-full font-bold text-sm shadow-[0_4px_14px_rgba(163,230,53,0.4)] hover:shadow-[0_6px_25px_rgba(163,230,53,0.6)] hover:scale-[1.04] active:scale-[0.98] transition-all duration-300 mb-3"
+            >
+              <span>{t.steps.getStarted}</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <p className="text-xs text-[#A3E635] font-medium">{t.steps.learnMore}</p>
+            <p className="text-xs text-[#65a30d] font-bold uppercase tracking-wider hover:underline cursor-pointer">
+              {t.steps.learnMore}
+            </p>
           </div>
         </div>
       </section>
