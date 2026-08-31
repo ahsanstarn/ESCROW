@@ -41,75 +41,75 @@ export default function Landing() {
             </svg>
           </div>
 
-          {/* ===== CARDS: Metallic 3D credit cards with perspective ===== */}
+          {/* ===== CARDS: Metallic 3D credit cards with sleek dark tones ===== */}
           <div className="absolute -bottom-[20px] md:-bottom-[40px] left-1/2 -translate-x-1/2 w-[600px] md:w-[700px] h-[380px] md:h-[420px] z-40 pointer-events-none scale-[0.68] sm:scale-85 md:scale-100 origin-bottom" style={{ perspective: '1500px' }}>
             
-            {/* Blue/Cyan Metallic Card (Left) */}
+            {/* Dark Slate/Teal Titanium Card (Left) */}
             <div className="group absolute left-[20px] bottom-[20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] transform -rotate-[15deg] z-10 overflow-hidden pointer-events-auto cursor-pointer transition-all duration-500 hover:-translate-y-3 hover:-rotate-[18deg]" style={{ transformStyle: 'preserve-3d' }}>
-              {/* Metallic base */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#67e8f9] via-[#06b6d4] to-[#0e7490]"></div>
+              {/* Dark Titanium Metallic base */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1b303a] via-[#102028] to-[#081217]"></div>
               {/* Brushed metal texture */}
-              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.05) 1px, rgba(255,255,255,0.05) 3px)' }}></div>
+              <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.04) 1px, rgba(255,255,255,0.04) 3px)' }}></div>
               {/* Chrome diagonal band */}
-              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_35%,rgba(255,255,255,0.4)_48%,rgba(255,255,255,0.05)_52%,transparent_65%)] pointer-events-none"></div>
-              {/* Holographic shimmer on hover */}
-              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.5)_25%,rgba(100,255,255,0.2)_30%,transparent_40%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_35%,rgba(255,255,255,0.18)_48%,rgba(255,255,255,0.03)_52%,transparent_65%)] pointer-events-none"></div>
+              {/* Subtle holographic shimmer on hover */}
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.25)_25%,rgba(100,255,255,0.1)_30%,transparent_40%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
               {/* Glass border */}
-              <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/30 pointer-events-none z-20"></div>
+              <div className="absolute inset-0 rounded-[18px] border-[1px] border-white/20 pointer-events-none z-20"></div>
               {/* Shadow */}
-              <div className="absolute inset-0 rounded-[18px] shadow-[0_12px_40px_rgba(0,0,0,0.5)]"></div>
+              <div className="absolute inset-0 rounded-[18px] shadow-[0_16px_40px_rgba(0,0,0,0.7)]"></div>
               
               <div className="relative z-10 p-5 h-full flex flex-col">
                 <div className="flex items-start justify-between">
-                  <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-md">ESCRO</span>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+                  <span className="text-white/90 text-[17px] font-bold tracking-[0.12em] drop-shadow-md">ESCRO</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
                 </div>
                 {/* Gold EMV chip */}
                 <div className="mt-5 w-10 h-7 rounded-md overflow-hidden shadow-sm">
-                  <div className="w-full h-full bg-gradient-to-br from-[#f5e6b8] via-[#d4af37] to-[#b8860b] relative">
-                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#a0852a]/50 -translate-x-1/2"></div>
-                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#a0852a]/50 -translate-y-1/2"></div>
+                  <div className="w-full h-full bg-gradient-to-br from-[#d4af37] via-[#aa820a] to-[#785b00] relative">
+                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#523e00]/60 -translate-x-1/2"></div>
+                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#523e00]/60 -translate-y-1/2"></div>
                   </div>
                 </div>
                 <div className="mt-auto">
-                  <p className="text-white/90 text-[14px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-3">4921 •••• •••• 7812</p>
+                  <p className="text-white/80 text-[14px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-3">4921 •••• •••• 7812</p>
                   <div className="flex justify-between items-end">
-                    <p className="text-white/60 text-[9px] uppercase tracking-wider">A. SMITH</p>
-                    <p className="text-white/60 text-[9px] tracking-wider">03/27</p>
+                    <p className="text-white/50 text-[9px] uppercase tracking-wider">A. SMITH</p>
+                    <p className="text-white/50 text-[9px] tracking-wider">03/27</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Red Metallic Card (Center, tallest) */}
+            {/* Deep Burgundy Obsidian Metallic Card (Center, tallest) */}
             <div className="group absolute left-1/2 -translate-x-1/2 bottom-[40px] w-[240px] md:w-[270px] h-[360px] md:h-[400px] rounded-[20px] transform rotate-0 z-20 overflow-hidden pointer-events-auto cursor-pointer transition-all duration-500 hover:-translate-y-4 hover:scale-[1.03]" style={{ transformStyle: 'preserve-3d' }}>
-              {/* Metallic base */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[#fb7185] via-[#e11d48] to-[#9f1239]"></div>
+              {/* Deep Crimson Obsidian base */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[#3b0d16] via-[#24060c] to-[#120206]"></div>
               {/* Brushed metal */}
-              <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.06) 1px, rgba(255,255,255,0.06) 3px)' }}></div>
+              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.04) 1px, rgba(255,255,255,0.04) 3px)' }}></div>
               {/* Chrome band */}
-              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_30%,rgba(255,255,255,0.35)_45%,rgba(255,255,255,0.05)_55%,transparent_70%)] pointer-events-none"></div>
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_30%,rgba(255,255,255,0.2)_45%,rgba(255,255,255,0.03)_55%,transparent_70%)] pointer-events-none"></div>
               {/* Holographic shimmer */}
-              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.5)_25%,rgba(255,100,100,0.2)_30%,transparent_40%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.3)_25%,rgba(255,100,100,0.1)_30%,transparent_40%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
               {/* Glass border */}
-              <div className="absolute inset-0 rounded-[20px] border-[1.5px] border-white/25 pointer-events-none z-20"></div>
+              <div className="absolute inset-0 rounded-[20px] border-[1px] border-white/20 pointer-events-none z-20"></div>
               {/* Shadow */}
-              <div className="absolute inset-0 rounded-[20px] shadow-[0_16px_50px_rgba(0,0,0,0.6)]"></div>
+              <div className="absolute inset-0 rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.8)]"></div>
               
               <div className="relative z-10 p-6 h-full flex flex-col">
                 <div className="flex items-start justify-between">
-                  <span className="text-white text-[19px] font-bold tracking-[0.15em] drop-shadow-md">ESCRO</span>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+                  <span className="text-white/95 text-[19px] font-bold tracking-[0.15em] drop-shadow-md">ESCRO</span>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
                 </div>
                 {/* Gold EMV chip */}
                 <div className="mt-6 w-11 h-8 rounded-md overflow-hidden shadow-md">
-                  <div className="w-full h-full bg-gradient-to-br from-[#f5e6b8] via-[#d4af37] to-[#b8860b] relative">
-                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#a0852a]/50 -translate-x-1/2"></div>
-                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#a0852a]/50 -translate-y-1/2"></div>
+                  <div className="w-full h-full bg-gradient-to-br from-[#d4af37] via-[#aa820a] to-[#785b00] relative">
+                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#523e00]/60 -translate-x-1/2"></div>
+                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#523e00]/60 -translate-y-1/2"></div>
                   </div>
                 </div>
                 <div className="mt-auto">
-                  <p className="text-white text-[17px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-4">5234 6789 0123 4567</p>
+                  <p className="text-white/90 text-[17px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-4">5234 6789 0123 4567</p>
                   <div className="flex justify-between items-end">
                     <div>
                       <p className="text-[7px] text-white/40 uppercase tracking-wider mb-0.5">Card Holder</p>
@@ -124,38 +124,38 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Green Metallic Card (Right) */}
+            {/* Deep Forest Titanium Metallic Card (Right) */}
             <div className="group absolute right-[10px] bottom-[-20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] transform rotate-[15deg] z-30 overflow-hidden pointer-events-auto cursor-pointer transition-all duration-500 hover:-translate-y-3 hover:rotate-[18deg]" style={{ transformStyle: 'preserve-3d' }}>
-              {/* Metallic base */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#4d7c0f]"></div>
+              {/* Deep Forest base */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1a3820] via-[#0f2414] to-[#07140a]"></div>
               {/* Brushed metal */}
               <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.04) 1px, rgba(255,255,255,0.04) 3px)' }}></div>
               {/* Chrome band */}
-              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_25%,rgba(255,255,255,0.5)_42%,rgba(255,255,255,0.08)_55%,transparent_65%)] pointer-events-none"></div>
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_25%,rgba(255,255,255,0.2)_42%,rgba(255,255,255,0.04)_55%,transparent_65%)] pointer-events-none"></div>
               {/* Holographic shimmer */}
-              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_15%,rgba(255,255,255,0.6)_22%,rgba(200,255,100,0.25)_28%,transparent_38%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_15%,rgba(255,255,255,0.3)_22%,rgba(163,230,53,0.15)_28%,transparent_38%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
               {/* Glass border */}
-              <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/40 pointer-events-none z-20"></div>
+              <div className="absolute inset-0 rounded-[18px] border-[1px] border-white/20 pointer-events-none z-20"></div>
               {/* Shadow */}
-              <div className="absolute inset-0 rounded-[18px] shadow-[0_15px_45px_rgba(0,0,0,0.5)]"></div>
+              <div className="absolute inset-0 rounded-[18px] shadow-[0_16px_45px_rgba(0,0,0,0.7)]"></div>
               
               <div className="relative z-10 p-5 h-full flex flex-col">
                 <div className="flex items-start justify-between">
-                  <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-md" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.3)' }}>ESCRO</span>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.4)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+                  <span className="text-white/90 text-[17px] font-bold tracking-[0.12em] drop-shadow-md">ESCRO</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
                 </div>
                 {/* Gold EMV chip */}
                 <div className="mt-5 w-10 h-7 rounded-md overflow-hidden shadow-sm">
-                  <div className="w-full h-full bg-gradient-to-br from-[#f5e6b8] via-[#d4af37] to-[#b8860b] relative">
-                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#a0852a]/50 -translate-x-1/2"></div>
-                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#a0852a]/50 -translate-y-1/2"></div>
+                  <div className="w-full h-full bg-gradient-to-br from-[#d4af37] via-[#aa820a] to-[#785b00] relative">
+                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#523e00]/60 -translate-x-1/2"></div>
+                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#523e00]/60 -translate-y-1/2"></div>
                   </div>
                 </div>
                 <div className="mt-auto">
-                  <p className="text-white/95 text-[14px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-3" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.3)' }}>3456 •••• •••• 9012</p>
+                  <p className="text-white/85 text-[14px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-3">3456 •••• •••• 9012</p>
                   <div className="flex justify-between items-end">
-                    <p className="text-white/70 text-[9px] uppercase tracking-wider drop-shadow-sm">M. CHEN</p>
-                    <p className="text-white/70 text-[9px] tracking-wider drop-shadow-sm">12/26</p>
+                    <p className="text-white/50 text-[9px] uppercase tracking-wider">M. CHEN</p>
+                    <p className="text-white/50 text-[9px] tracking-wider">12/26</p>
                   </div>
                 </div>
               </div>
@@ -163,27 +163,28 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* ===== TOP CONTENT ROW: Heading + Description ===== */}
-        <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-full max-w-[1200px] px-8 xl:px-12 z-30 flex items-start justify-between gap-8">
-          {/* Left: Title */}
-          <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.2rem] lg:text-[4.8rem] font-display font-bold text-white leading-[1.1] tracking-tight flex-shrink-0">
-            {t.hero.title}
+        {/* ===== TOP CONTENT ROW: Heading + Description Matching Reference ===== */}
+        <div className="absolute top-[16%] sm:top-[18%] left-1/2 -translate-x-1/2 w-full max-w-[1200px] px-6 sm:px-8 xl:px-12 z-30 flex flex-col md:flex-row items-start justify-between gap-6 md:gap-8">
+          {/* Left: Headline with exact wrap */}
+          <h1 className="text-[2.6rem] sm:text-[3.4rem] md:text-[4.2rem] lg:text-[4.75rem] font-display font-bold text-white leading-[1.08] tracking-tight max-w-[560px]">
+            Build trust in<br />every transaction
           </h1>
           
-          {/* Right: Description + CTA */}
-          <div className="hidden md:flex flex-col items-end pt-4 flex-shrink-0">
-            <p className="text-[#9ca3af] text-[13px] leading-relaxed mb-5 text-right max-w-sm">
-              {t.hero.subtitle}
+          {/* Right: Subtitle + Shop Now & Play CTA */}
+          <div className="flex flex-col items-start md:items-end pt-1 md:pt-4 max-w-sm">
+            <p className="text-slate-300 text-[13.5px] sm:text-[14px] leading-relaxed mb-5 text-left md:text-right font-normal">
+              Secure escrow for goods, services, and milestones — holding funds until delivery is confirmed.
             </p>
             <div className="flex items-center gap-3">
-              <Link to="/register" className="bg-[#b8f56c] text-black px-6 py-2.5 rounded-full font-bold text-[14px] shadow-[0_4px_14px_rgba(184,245,108,0.35)] hover:shadow-[0_6px_20px_rgba(184,245,108,0.55)] hover:scale-[1.04] active:scale-[0.98] transition-all whitespace-nowrap">
-                {t.hero.shopNow}
+              <Link to="/register" className="bg-[#A3E635] hover:bg-[#b8f56c] text-black px-7 py-3 rounded-full font-bold text-[14px] shadow-[0_4px_16px_rgba(163,230,53,0.3)] hover:scale-[1.03] active:scale-[0.98] transition-all whitespace-nowrap">
+                Shop Now
               </Link>
               <button 
                 onClick={() => setIsVideoOpen(true)}
-                className="w-10 h-10 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center hover:bg-[#2a2a2a] transition-all cursor-pointer"
+                aria-label="Play video"
+                className="w-11 h-11 rounded-full bg-[#18181b] hover:bg-[#27272a] border border-white/10 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-md"
               >
-                <Play className="w-4 h-4 text-white ml-0.5" fill="white" />
+                <Play className="w-4 h-4 text-white fill-white ml-0.5" />
               </button>
             </div>
           </div>
@@ -407,22 +408,22 @@ export default function Landing() {
                       animation: 'cardFloat 6s ease-in-out infinite',
                     }}
                   >
-                    {/* Metallic Gradient Base */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#d4fc79] via-[#96e628] to-[#4d7c0f]"></div>
+                    {/* Metallic Gradient Base: Sleek Deep Forest Titanium */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#1d4225] via-[#102916] to-[#07160b]"></div>
 
                     {/* Brushed Metal Texture Overlay */}
-                    <div className="absolute inset-0 opacity-30" style={{
+                    <div className="absolute inset-0 opacity-25" style={{
                       backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)',
                     }}></div>
 
                     {/* Chrome Band (diagonal) */}
-                    <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_30%,rgba(255,255,255,0.35)_45%,rgba(255,255,255,0.05)_55%,transparent_70%)] pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_30%,rgba(255,255,255,0.2)_45%,rgba(255,255,255,0.03)_55%,transparent_70%)] pointer-events-none"></div>
 
                     {/* Holographic Shimmer — sweeps on hover */}
-                    <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.6)_25%,rgba(255,200,255,0.15)_30%,rgba(100,255,200,0.15)_35%,transparent_45%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[100%] -translate-x-[100%] transition-all duration-[1200ms] ease-in-out pointer-events-none z-30"></div>
+                    <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.35)_25%,rgba(163,230,53,0.15)_30%,rgba(100,255,200,0.1)_35%,transparent_45%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[100%] -translate-x-[100%] transition-all duration-[1200ms] ease-in-out pointer-events-none z-30"></div>
 
                     {/* Glass Inner Border */}
-                    <div className="absolute inset-0 rounded-[22px] md:rounded-[26px] border-[1.5px] border-white/40 pointer-events-none z-20"></div>
+                    <div className="absolute inset-0 rounded-[22px] md:rounded-[26px] border-[1px] border-white/25 pointer-events-none z-20"></div>
 
                     {/* Card Content */}
                     <div className="relative z-10 p-5 sm:p-6 h-full flex flex-col">

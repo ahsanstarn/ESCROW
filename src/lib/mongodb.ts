@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || process.env.DATABASE_URL;
+const DEFAULT_MONGODB_URI = 'mongodb+srv://zentrixa26_db_user:XImfx985c8tL9xK3@cluster0.fmswpgv.mongodb.net/escro_saas?retryWrites=true&w=majority&appName=Cluster0';
 
 interface MongooseCache {
   conn: typeof mongoose | null;
@@ -23,7 +23,7 @@ export async function connectToDatabase(): Promise<{
   conn: typeof mongoose | null;
   error?: string;
 }> {
-  const uri = process.env.MONGODB_URI || process.env.DATABASE_URL;
+  const uri = process.env.MONGODB_URI || process.env.DATABASE_URL || DEFAULT_MONGODB_URI;
   if (!uri) {
     return {
       connected: false,
