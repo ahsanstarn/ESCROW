@@ -37,7 +37,7 @@ export default function Register() {
       const res = await fetch('/api/auth?action=dev-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, name: fullName, role: 'SELLER' }),
       });
       const data = await res.json();
       if (data.access_token) {
@@ -45,7 +45,7 @@ export default function Register() {
         const role = data.user?.user_metadata?.role || 'SELLER';
         window.location.href = `/${role.toLowerCase()}`;
       } else {
-        setError(data.error || 'Registration failed. Try one of the seed emails.');
+        setError(data.error || 'Registration failed. Please try again.');
       }
     } catch {
       setError('Registration failed. Please try again.');

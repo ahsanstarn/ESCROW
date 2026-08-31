@@ -24,10 +24,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await connectToDatabase();
 
     if (req.method === 'GET') {
-      const { escrowId, raisedBy, status } = req.query;
+      const { escrowId, raisedBy, respondentId, userId, id, status } = req.query;
       const filter: any = {};
+      if (id) filter.id = id;
       if (escrowId) filter.escrowId = escrowId;
       if (raisedBy) filter.raisedBy = raisedBy;
+      if (respondentId) filter.respondentId = respondentId;
+      if (userId) {
+        filter.$or = [
+          { raisedBy: userId },
+          { respondentId: userId }
+        ];
+      }
       if (status) filter.status = status;
 
       const data = await DisputeModel.find(filter).sort({ createdAt: -1 });
@@ -35,6 +43,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'POST') {
+      const { action, disputeId, evidenceContent, evidenceType = 'TEXT', submittedBy } = req.body || {};
+      
+      // If submitting evidence to existing dispute
+      if (action === 'ADD_EVIDENCE' && disputeId) {
+        const dispute = await DisputeModel.findOne({ id: disputeId });
+        if (!dispute) return res.status(404).json({ success: false, error: 'Dispute not found' });
+        
+        dispute.evidence.push({
+          id: uuidv4(),
+          submittedBy: submittedBy || 'user',
+          type: evidenceType,
+          content: evidenceContent || '',
+          createdAt: new Date(),
+        });
+        await dispute.save();
+        return res.json({ success: true, data: dispute });
+      }
+
       const data = createSchema.parse(req.body);
       
       const escrow = await EscrowModel.findOne({ id: data.escrowId });
@@ -56,7 +82,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           id: uuidv4(),
           submittedBy: data.raisedBy,
           type: e.type,
-          content: e.content
+          content: e.content,
+          createdAt: new Date()
         }))
       });
 
@@ -77,8 +104,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (action === 'RESOLVE_BUYER') dispute.status = 'RESOLVED_BUYER';
       else if (action === 'RESOLVE_SELLER') dispute.status = 'RESOLVED_SELLER';
       else if (action === 'CANCEL') dispute.status = 'CANCELLED';
+      else if (action === 'UNDER_REVIEW') dispute.status = 'UNDER_REVIEW';
       
       if (resolutionNotes) dispute.resolutionNotes = resolutionNotes;
+      dispute.resolvedAt = new Date();
       
       await dispute.save();
       return res.json({ success: true, data: dispute });

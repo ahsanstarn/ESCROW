@@ -23,7 +23,8 @@ export async function connectToDatabase(): Promise<{
   conn: typeof mongoose | null;
   error?: string;
 }> {
-  if (!MONGODB_URI) {
+  const uri = process.env.MONGODB_URI || process.env.DATABASE_URL;
+  if (!uri) {
     return {
       connected: false,
       conn: null,
@@ -42,7 +43,7 @@ export async function connectToDatabase(): Promise<{
       serverSelectionTimeoutMS: 5000,
     };
 
-    cached!.promise = mongoose.connect(MONGODB_URI, opts).then((m) => m);
+    cached!.promise = mongoose.connect(uri, opts).then((m) => m);
   }
 
   try {

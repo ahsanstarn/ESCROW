@@ -30,12 +30,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await connectToDatabase();
 
     if (req.method === 'GET') {
-      const { merchantId, buyerId, sellerId, status, page = '1', limit = '50' } = req.query;
+      const { merchantId, buyerId, sellerId, id, status, page = '1', limit = '50' } = req.query;
 
       const filter: any = {};
-      if (merchantId) filter.merchantId = merchantId;
+      if (id) filter.id = id;
+      if (merchantId || sellerId) {
+        filter.$or = [
+          { merchantId: merchantId || sellerId },
+          { sellerId: merchantId || sellerId }
+        ];
+      }
       if (buyerId) filter.buyerId = buyerId;
-      if (sellerId) filter.sellerId = sellerId;
       if (status) filter.status = status;
 
       const skip = (Number(page) - 1) * Number(limit);

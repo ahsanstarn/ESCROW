@@ -153,7 +153,64 @@ export default function Login() {
             </div>
           </form>
 
-          <div className="mt-8 text-center space-y-2" style={{ animation: 'fadeInUp 0.5s ease-out 0.9s both' }}>
+          {/* Quick Demo Test People */}
+          <div className="mt-8 pt-6 border-t border-gray-100" style={{ animation: 'fadeInUp 0.5s ease-out 0.9s both' }}>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-semibold text-slate-800 uppercase tracking-wider">⚡ 1-Click Test People / Demo Accounts</span>
+              <span className="text-[10px] bg-[#DDFC95] text-[#305941] font-bold px-2 py-0.5 rounded-full">MongoDB</span>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { name: 'Marcus Vance', role: 'SELLER', email: 'seller@example.com', sub: 'Seller Dashboard', icon: '💼', color: 'hover:border-emerald-300 hover:bg-emerald-50/50' },
+                { name: 'Sarah Johnson', role: 'BUYER', email: 'buyer@example.com', sub: 'Buyer Overview', icon: '🛍️', color: 'hover:border-blue-300 hover:bg-blue-50/50' },
+                { name: 'TechStore Ltd', role: 'MERCHANT', email: 'merchant@example.com', sub: 'Merchant Dashboard', icon: '🏬', color: 'hover:border-purple-300 hover:bg-purple-50/50' },
+                { name: 'Apex Agency', role: 'AGENCY', email: 'agency@example.com', sub: 'Agency Overview', icon: '🏢', color: 'hover:border-amber-300 hover:bg-amber-50/50' },
+                { name: 'Swift Courier', role: 'COURIER', email: 'courier@example.com', sub: 'Courier Dashboard', icon: '🚚', color: 'hover:border-indigo-300 hover:bg-indigo-50/50' },
+                { name: 'System Admin', role: 'ADMIN', email: 'admin@example.com', sub: 'Admin Control', icon: '🛡️', color: 'hover:border-rose-300 hover:bg-rose-50/50' },
+              ].map((p, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={async () => {
+                    setError('');
+                    setLoading(true);
+                    try {
+                      const res = await fetch('/api/auth?action=dev-login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: p.email, name: p.name, role: p.role }),
+                      });
+                      const data = await res.json();
+                      if (data.access_token) {
+                        localStorage.setItem('escrow_session', JSON.stringify(data));
+                        localStorage.setItem('escrow_role', p.role);
+                        const role = data.user?.user_metadata?.role || p.role;
+                        window.location.href = `/${role.toLowerCase()}`;
+                      } else {
+                        setError('Login failed for test account.');
+                      }
+                    } catch {
+                      setError('Could not connect to MongoDB server.');
+                    }
+                    setLoading(false);
+                  }}
+                  className={`text-left p-2.5 rounded-xl border border-gray-200 bg-gray-50/70 transition-all ${p.color} cursor-pointer group`}
+                >
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <span className="text-sm">{p.icon}</span>
+                    <span className="text-xs font-bold text-slate-800 truncate group-hover:text-black">{p.name}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] text-slate-500">
+                    <span className="font-medium">{p.sub}</span>
+                    <span className="text-emerald-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 text-center space-y-2" style={{ animation: 'fadeInUp 0.5s ease-out 1s both' }}>
             <p className="text-xs text-gray-500">
               Don't have an account? <Link to="/register" className="text-blue-600 hover:underline">Sign up</Link>
             </p>

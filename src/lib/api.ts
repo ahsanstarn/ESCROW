@@ -66,9 +66,11 @@ export const api = {
   },
   ledger: {
     user: (userId: string) =>
-      request<{ success: boolean; data: any }>(`/ledger?userId=${userId}`),
+      request<{ success: boolean; data: any[] }>(`/ledger?userId=${userId}`),
     escrow: (escrowId: string) =>
       request<{ success: boolean; data: any[] }>(`/ledger?escrowId=${escrowId}`),
+    create: (data: { userId: string; escrowId?: string; type: string; amount: number; description: string }) =>
+      request<{ success: boolean; data: any }>('/ledger', { method: 'POST', body: JSON.stringify(data) }),
   },
   analytics: {
     platform: () => request<{ success: boolean; data: any }>('/analytics'),
