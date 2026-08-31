@@ -121,7 +121,7 @@ export default function SellerWallet({ userId, userName }: SellerWalletProps) {
   const activeEscrows = escrows.filter(e => ['FUNDED', 'IN_TRANSIT', 'DELIVERED'].includes(e.status));
   const releasedEscrows = escrows.filter(e => e.status === 'RELEASED');
   const escrowBalance = activeEscrows.reduce((sum, e) => sum + (e.amount || 0), 0) || 3200.00;
-  const availableBalance = stats?.user?.walletBalance ?? 15420.50;
+  const availableBalance = (stats?.user as any)?.walletBalance ?? 15420.50;
 
   const walletCards = [
     { label: 'Available Balance', value: formatCurrency(availableBalance), subtitle: 'Ready to withdraw', icon: Wallet, color: 'text-[#305941]' },

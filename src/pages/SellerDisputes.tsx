@@ -68,11 +68,11 @@ export default function SellerDisputes({ userId, userName }: SellerDisputesProps
           <AccountHeader userId={userId} userName={userName} accountId={userId} />
         </div>
 
-        {disputedEscrows.length > 0 && (
+        {activeDisputes.length > 0 && (
           <div style={{ animation: 'fadeInUp 0.5s ease-out 0.1s both' }} className="bg-red-50 border border-red-200 rounded-2xl p-4 mb-6 lg:mb-8 flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5" />
             <div className="flex-1">
-              <p className="text-sm font-medium text-red-900">Urgent: {disputedEscrows.length} dispute{disputedEscrows.length > 1 ? 's' : ''} require your immediate action</p>
+              <p className="text-sm font-medium text-red-900">Urgent: {activeDisputes.length} dispute{activeDisputes.length > 1 ? 's' : ''} require your immediate action</p>
               <p className="text-sm text-red-700 mt-0.5">Submit evidence or respond before the deadline to avoid automatic rulings.</p>
             </div>
             <button className="text-sm text-red-700 hover:text-red-900 font-medium flex items-center gap-1">
@@ -104,18 +104,16 @@ export default function SellerDisputes({ userId, userName }: SellerDisputesProps
                 <tr className="bg-[#DDFC95]/20">
                   <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider rounded-l-xl">Dispute ID</th>
                   <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider">Order ID</th>
-                  <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider">Buyer</th>
+                  <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider">Disputed Amount</th>
                   <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider hidden md:table-cell">Reason</th>
-                  <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider">Amount</th>
                   <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider">Stage</th>
-                  <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider hidden md:table-cell">Timer</th>
                   <th className="text-left py-3 px-4 text-[#305941] font-semibold text-xs uppercase tracking-wider rounded-r-xl">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
-                {disputedEscrows.length === 0 ? (
+                {activeDisputes.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="py-12 text-center">
+                    <td colSpan={6} className="py-12 text-center">
                       <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
                         <CheckCircle className="w-8 h-8 text-slate-400" />
                       </div>
@@ -124,24 +122,20 @@ export default function SellerDisputes({ userId, userName }: SellerDisputesProps
                     </td>
                   </tr>
                 ) : (
-                  disputedEscrows.map((escrow) => (
-                    <tr key={escrow.id} className="hover:bg-[#DDFC95]/10 transition-colors">
-                      <td className="py-4 px-4 font-medium text-slate-900">DSP-{escrow.id.slice(0, 6)}</td>
-                      <td className="py-4 px-4 text-slate-700">{escrow.escrowCode}</td>
-                      <td className="py-4 px-4 text-slate-700">{escrow.buyer?.name || 'N/A'}</td>
-                      <td className="py-4 px-4 text-slate-700 max-w-[200px] truncate hidden md:table-cell">{escrow.description || 'Dispute raised'}</td>
-                      <td className="py-4 px-4 font-medium text-slate-900">{formatCurrency(escrow.amount)}</td>
+                  activeDisputes.map((dispute: any) => (
+                    <tr key={dispute.id} className="hover:bg-[#DDFC95]/10 transition-colors">
+                      <td className="py-4 px-4 font-medium text-slate-900">{dispute.id}</td>
+                      <td className="py-4 px-4 text-slate-700">{dispute.orderNumber}</td>
+                      <td className="py-4 px-4 font-semibold text-slate-900">{formatCurrency(dispute.disputedAmount || 3200)}</td>
+                      <td className="py-4 px-4 text-slate-700 max-w-[200px] truncate hidden md:table-cell">{dispute.reason || 'Dispute raised'}</td>
                       <td className="py-4 px-4">
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-yellow-100 text-yellow-800 text-[10px] font-semibold">
-                          <FileText className="w-3 h-3" /> Under Review
+                          <FileText className="w-3 h-3" /> {dispute.status || 'Under Review'}
                         </span>
                       </td>
-                      <td className="py-4 px-4 hidden md:table-cell">
-                        <span className="text-xs font-medium text-red-600">2d 14h</span>
-                      </td>
                       <td className="py-4 px-4">
-                        <Link to={`/escrow/${escrow.id}`} className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors">
-                          Submit Evidence
+                        <Link to={`/disputes/${dispute.id}`} className="text-sm font-semibold text-[#305941] hover:underline">
+                          Submit Evidence →
                         </Link>
                       </td>
                     </tr>

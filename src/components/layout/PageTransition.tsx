@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { ReactNode } from 'react';
 
-const pageVariants = {
+const pageVariants: Variants = {
   initial: {
     opacity: 0,
     y: 10,
@@ -13,7 +13,7 @@ const pageVariants = {
     filter: 'blur(0px)',
     transition: {
       duration: 0.35,
-      ease: [0.22, 1, 0.36, 1], // fluid cubic bezier
+      ease: [0.22, 1, 0.36, 1] as unknown as [number, number, number, number],
     },
   },
   exit: {
@@ -22,7 +22,7 @@ const pageVariants = {
     filter: 'blur(2px)',
     transition: {
       duration: 0.2,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as unknown as [number, number, number, number],
     },
   },
 };

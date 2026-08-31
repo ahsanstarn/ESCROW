@@ -49,6 +49,9 @@ import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { ToastProvider, useToast } from './components/ui/Toast';
 import { LoadingScreen } from './components/ui/LoadingSpinner';
 
+import { AnimatePresence } from 'framer-motion';
+import { PageTransition } from './components/layout/PageTransition';
+import { ScrollToTop } from './components/layout/ScrollToTop';
 import LanguageSwitcher from './components/ui/LanguageSwitcher';
 
 function Header({ onMenuToggle, currentUser }: { onMenuToggle: () => void, currentUser?: User | null }) {
@@ -164,7 +167,7 @@ function DashboardLayout() {
       <Sidebar
         currentRole={currentRole}
         onRoleChange={handleRoleChange}
-        currentUser={currentUser}
+        currentUser={currentUser || undefined}
         mobileOpen={mobileOpen}
         onMobileClose={() => setMobileOpen(false)}
       />
