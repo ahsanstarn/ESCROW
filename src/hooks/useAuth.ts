@@ -31,7 +31,7 @@ export function useAuth() {
           if (!cancelled) setLoading(false);
           return;
         }
-        if (parsed.expires_at && parsed.expires_at > Date.now() / 1000) {
+        if (!parsed.expires_at || parsed.expires_at > Date.now() / 1000) {
           if (!cancelled) {
             setSession(parsed);
             setUser(parsed.user);

@@ -83,6 +83,8 @@ export default function Login() {
 
     const fallbackSession = {
       access_token: `token_${Date.now()}`,
+      refresh_token: `refresh_${Date.now()}`,
+      expires_at: Math.floor(Date.now() / 1000) + 86400 * 30,
       user: {
         id: `usr-${targetRole.toLowerCase()}`,
         email,
