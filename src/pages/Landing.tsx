@@ -41,81 +41,123 @@ export default function Landing() {
             </svg>
           </div>
 
-          {/* ===== CARDS: Moved inside so they get clipped by the bottom edge ===== */}
-          <div className="absolute -bottom-[20px] md:-bottom-[40px] left-1/2 -translate-x-1/2 w-[600px] md:w-[700px] h-[380px] md:h-[420px] z-40 pointer-events-none scale-[0.68] sm:scale-85 md:scale-100 origin-bottom">
+          {/* ===== CARDS: Metallic 3D credit cards with perspective ===== */}
+          <div className="absolute -bottom-[20px] md:-bottom-[40px] left-1/2 -translate-x-1/2 w-[600px] md:w-[700px] h-[380px] md:h-[420px] z-40 pointer-events-none scale-[0.68] sm:scale-85 md:scale-100 origin-bottom" style={{ perspective: '1500px' }}>
             
-            {/* Blue Card (Left, behind Red) */}
-            <div className="group absolute left-[20px] bottom-[20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#22d3ee] via-[#06b6d4] to-[#0891b2] shadow-[0_8px_30px_rgba(0,0,0,0.4)] transform -rotate-[15deg] z-10 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:-rotate-[18deg] pointer-events-auto cursor-pointer">
-              {/* Shiny Glare Overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.4)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.15)_50%,transparent_55%)] pointer-events-none z-0"></div>
-              {/* Animated Glare on Hover */}
-              <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/50 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
-              {/* Glassy Inner Border */}
-              <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/40 pointer-events-none mix-blend-overlay z-0"></div>
+            {/* Blue/Cyan Metallic Card (Left) */}
+            <div className="group absolute left-[20px] bottom-[20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] transform -rotate-[15deg] z-10 overflow-hidden pointer-events-auto cursor-pointer transition-all duration-500 hover:-translate-y-3 hover:-rotate-[18deg]" style={{ transformStyle: 'preserve-3d' }}>
+              {/* Metallic base */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#67e8f9] via-[#06b6d4] to-[#0e7490]"></div>
+              {/* Brushed metal texture */}
+              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.05) 1px, rgba(255,255,255,0.05) 3px)' }}></div>
+              {/* Chrome diagonal band */}
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_35%,rgba(255,255,255,0.4)_48%,rgba(255,255,255,0.05)_52%,transparent_65%)] pointer-events-none"></div>
+              {/* Holographic shimmer on hover */}
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.5)_25%,rgba(100,255,255,0.2)_30%,transparent_40%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
+              {/* Glass border */}
+              <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/30 pointer-events-none z-20"></div>
+              {/* Shadow */}
+              <div className="absolute inset-0 rounded-[18px] shadow-[0_12px_40px_rgba(0,0,0,0.5)]"></div>
               
-              <div className="relative z-10">
-                <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-sm">ESCRO</span>
-                <svg className="w-6 h-6 text-white mt-1.5 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
-              </div>
-              <div className="absolute right-4 top-0 h-full flex items-center justify-center z-10">
-                <p className="text-white/95 text-[26px] font-sans font-semibold tracking-[0.15em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                  12 3456
-                </p>
-              </div>
-              <div className="absolute right-[52px] top-0 h-full flex items-center justify-center z-10">
-                <p className="text-white/70 text-[10px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                  Name Surname
-                </p>
-              </div>
-            </div>
-
-            {/* Red Card (Center, front of Blue, behind Green) */}
-            <div className="group absolute left-1/2 -translate-x-1/2 bottom-[40px] w-[240px] md:w-[270px] h-[360px] md:h-[400px] rounded-[20px] bg-gradient-to-b from-[#f43f5e] via-[#e11d48] to-[#dc2626] shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform rotate-0 z-20 p-7 overflow-hidden transition-transform duration-500 hover:-translate-y-4 hover:scale-[1.03] pointer-events-auto cursor-pointer">
-              {/* Shiny Glare Overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.35)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.15)_50%,transparent_55%)] pointer-events-none z-0"></div>
-              {/* Animated Glare on Hover */}
-              <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/50 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
-              {/* Glassy Inner Border */}
-              <div className="absolute inset-0 rounded-[20px] border-[1.5px] border-white/40 pointer-events-none mix-blend-overlay z-0"></div>
-
-              <div className="relative z-10">
-                <span className="text-white text-[19px] font-bold tracking-[0.15em] drop-shadow-sm">ESCRO</span>
-                <svg className="w-7 h-7 text-white mt-2 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
-              </div>
-              <div className="absolute right-5 top-0 h-full flex items-center justify-center z-10">
-                <p className="text-white text-[32px] font-sans font-semibold tracking-[0.15em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                  78 9012 3456
-                </p>
-              </div>
-              <div className="absolute right-[64px] top-0 h-full flex items-center justify-center z-10">
-                <p className="text-white/70 text-[12px] font-sans font-medium uppercase tracking-[0.35em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                  Name Surname
-                </p>
+              <div className="relative z-10 p-5 h-full flex flex-col">
+                <div className="flex items-start justify-between">
+                  <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-md">ESCRO</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+                </div>
+                {/* Gold EMV chip */}
+                <div className="mt-5 w-10 h-7 rounded-md overflow-hidden shadow-sm">
+                  <div className="w-full h-full bg-gradient-to-br from-[#f5e6b8] via-[#d4af37] to-[#b8860b] relative">
+                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#a0852a]/50 -translate-x-1/2"></div>
+                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#a0852a]/50 -translate-y-1/2"></div>
+                  </div>
+                </div>
+                <div className="mt-auto">
+                  <p className="text-white/90 text-[14px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-3">4921 •••• •••• 7812</p>
+                  <div className="flex justify-between items-end">
+                    <p className="text-white/60 text-[9px] uppercase tracking-wider">A. SMITH</p>
+                    <p className="text-white/60 text-[9px] tracking-wider">03/27</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Green Card (Right, front of Red) */}
-            <div className="group absolute right-[10px] bottom-[-20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#65a30d] shadow-[0_15px_40px_rgba(0,0,0,0.5)] transform rotate-[15deg] z-30 p-6 overflow-hidden transition-transform duration-500 hover:-translate-y-3 hover:rotate-[18deg] pointer-events-auto cursor-pointer">
-              {/* Shiny Glare Overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.5)_25%,transparent_30%,transparent_45%,rgba(255,255,255,0.2)_50%,transparent_55%)] pointer-events-none z-0"></div>
-              {/* Animated Glare on Hover */}
-              <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/50 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
-              {/* Glassy Inner Border */}
-              <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/50 pointer-events-none mix-blend-overlay z-0"></div>
+            {/* Red Metallic Card (Center, tallest) */}
+            <div className="group absolute left-1/2 -translate-x-1/2 bottom-[40px] w-[240px] md:w-[270px] h-[360px] md:h-[400px] rounded-[20px] transform rotate-0 z-20 overflow-hidden pointer-events-auto cursor-pointer transition-all duration-500 hover:-translate-y-4 hover:scale-[1.03]" style={{ transformStyle: 'preserve-3d' }}>
+              {/* Metallic base */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[#fb7185] via-[#e11d48] to-[#9f1239]"></div>
+              {/* Brushed metal */}
+              <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.06) 1px, rgba(255,255,255,0.06) 3px)' }}></div>
+              {/* Chrome band */}
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_30%,rgba(255,255,255,0.35)_45%,rgba(255,255,255,0.05)_55%,transparent_70%)] pointer-events-none"></div>
+              {/* Holographic shimmer */}
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.5)_25%,rgba(255,100,100,0.2)_30%,transparent_40%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
+              {/* Glass border */}
+              <div className="absolute inset-0 rounded-[20px] border-[1.5px] border-white/25 pointer-events-none z-20"></div>
+              {/* Shadow */}
+              <div className="absolute inset-0 rounded-[20px] shadow-[0_16px_50px_rgba(0,0,0,0.6)]"></div>
+              
+              <div className="relative z-10 p-6 h-full flex flex-col">
+                <div className="flex items-start justify-between">
+                  <span className="text-white text-[19px] font-bold tracking-[0.15em] drop-shadow-md">ESCRO</span>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+                </div>
+                {/* Gold EMV chip */}
+                <div className="mt-6 w-11 h-8 rounded-md overflow-hidden shadow-md">
+                  <div className="w-full h-full bg-gradient-to-br from-[#f5e6b8] via-[#d4af37] to-[#b8860b] relative">
+                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#a0852a]/50 -translate-x-1/2"></div>
+                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#a0852a]/50 -translate-y-1/2"></div>
+                  </div>
+                </div>
+                <div className="mt-auto">
+                  <p className="text-white text-[17px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-4">5234 6789 0123 4567</p>
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <p className="text-[7px] text-white/40 uppercase tracking-wider mb-0.5">Card Holder</p>
+                      <p className="text-white/80 text-[10px] font-semibold uppercase tracking-[0.2em]">J. WILSON</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[7px] text-white/40 uppercase tracking-wider mb-0.5">Valid</p>
+                      <p className="text-white/80 text-[10px] font-semibold tracking-wider">09/28</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              <div className="relative z-10">
-                <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-sm">ESCRO</span>
-                <svg className="w-6 h-6 text-white mt-1.5 opacity-90 drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
-              </div>
-              <div className="absolute right-4 top-0 h-full flex items-center justify-center z-10">
-                <p className="text-white/95 text-[26px] font-sans font-semibold tracking-[0.15em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                  34 5678 9012 3456
-                </p>
-              </div>
-              <div className="absolute right-[52px] top-0 h-full flex items-center justify-center z-10">
-                <p className="text-white/70 text-[10px] font-sans font-medium uppercase tracking-[0.3em] drop-shadow-md" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                  Name Surname
-                </p>
+            {/* Green Metallic Card (Right) */}
+            <div className="group absolute right-[10px] bottom-[-20px] w-[210px] md:w-[230px] h-[320px] md:h-[350px] rounded-[18px] transform rotate-[15deg] z-30 overflow-hidden pointer-events-auto cursor-pointer transition-all duration-500 hover:-translate-y-3 hover:rotate-[18deg]" style={{ transformStyle: 'preserve-3d' }}>
+              {/* Metallic base */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#d9f99d] via-[#a3e635] to-[#4d7c0f]"></div>
+              {/* Brushed metal */}
+              <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.04) 1px, rgba(255,255,255,0.04) 3px)' }}></div>
+              {/* Chrome band */}
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_25%,rgba(255,255,255,0.5)_42%,rgba(255,255,255,0.08)_55%,transparent_65%)] pointer-events-none"></div>
+              {/* Holographic shimmer */}
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_15%,rgba(255,255,255,0.6)_22%,rgba(200,255,100,0.25)_28%,transparent_38%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[120%] -translate-x-[100%] transition-all duration-[1000ms] pointer-events-none z-30"></div>
+              {/* Glass border */}
+              <div className="absolute inset-0 rounded-[18px] border-[1.5px] border-white/40 pointer-events-none z-20"></div>
+              {/* Shadow */}
+              <div className="absolute inset-0 rounded-[18px] shadow-[0_15px_45px_rgba(0,0,0,0.5)]"></div>
+              
+              <div className="relative z-10 p-5 h-full flex flex-col">
+                <div className="flex items-start justify-between">
+                  <span className="text-white text-[17px] font-bold tracking-[0.12em] drop-shadow-md" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.3)' }}>ESCRO</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.4)" strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01"/></svg>
+                </div>
+                {/* Gold EMV chip */}
+                <div className="mt-5 w-10 h-7 rounded-md overflow-hidden shadow-sm">
+                  <div className="w-full h-full bg-gradient-to-br from-[#f5e6b8] via-[#d4af37] to-[#b8860b] relative">
+                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-[#a0852a]/50 -translate-x-1/2"></div>
+                    <div className="absolute top-1/2 left-0 right-0 h-[0.5px] bg-[#a0852a]/50 -translate-y-1/2"></div>
+                  </div>
+                </div>
+                <div className="mt-auto">
+                  <p className="text-white/95 text-[14px] font-mono font-semibold tracking-[0.15em] drop-shadow-md mb-3" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.3)' }}>3456 •••• •••• 9012</p>
+                  <div className="flex justify-between items-end">
+                    <p className="text-white/70 text-[9px] uppercase tracking-wider drop-shadow-sm">M. CHEN</p>
+                    <p className="text-white/70 text-[9px] tracking-wider drop-shadow-sm">12/26</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -346,60 +388,98 @@ export default function Landing() {
                 </a>
               </div>
 
-              {/* Right Visual: Floating Card at Top Right & Hand at Bottom Right */}
-              <div className="relative h-[380px] sm:h-[440px] md:h-[480px] flex items-end justify-center overflow-hidden">
+              {/* Right Visual: Centered 3D Metallic Card — No Hand */}
+              <div className="relative h-[340px] sm:h-[400px] md:h-[440px] flex items-center justify-center overflow-hidden">
                 
-                {/* Floating Green Escro Card - Cleanly elevated in top-right well above hand */}
-                <div className="group absolute right-6 sm:right-12 md:right-16 top-4 sm:top-6 md:top-8 w-[145px] sm:w-[170px] md:w-[195px] h-[225px] sm:h-[265px] md:h-[295px] rounded-[18px] md:rounded-[22px] bg-gradient-to-br from-[#cbf865] via-[#a3e635] to-[#7ac714] shadow-[0_25px_60px_rgba(0,0,0,0.7)] transform rotate-[24deg] p-4 sm:p-5 overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:rotate-[27deg] z-20 cursor-pointer">
-                  {/* Static Glare Overlay */}
-                  <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(255,255,255,0.15)_20%,rgba(255,255,255,0.7)_25%,rgba(255,255,255,0)_30%,rgba(255,255,255,0)_45%,rgba(255,255,255,0.25)_50%,rgba(255,255,255,0)_55%)] pointer-events-none z-0 mix-blend-overlay"></div>
-                  {/* Animated Glare on Hover */}
-                  <div className="absolute top-0 bottom-0 left-0 w-[150%] bg-gradient-to-r from-transparent via-white/80 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-[120%] transition-transform duration-1000 ease-in-out pointer-events-none mix-blend-overlay z-0"></div>
-                  {/* Glassy Inner Border */}
-                  <div className="absolute inset-0 rounded-[18px] md:rounded-[22px] border-[1.5px] border-white/60 pointer-events-none mix-blend-overlay z-0"></div>
+                {/* Ambient glow behind the card */}
+                <div className="absolute w-[280px] h-[280px] rounded-full bg-[#A3E635]/15 blur-[80px] pointer-events-none z-0"></div>
+                
+                {/* 3D Metallic Credit Card */}
+                <div 
+                  className="group relative w-[220px] sm:w-[260px] md:w-[290px] h-[340px] sm:h-[400px] md:h-[440px] z-10 cursor-pointer"
+                  style={{ perspective: '1200px' }}
+                >
+                  <div 
+                    className="relative w-full h-full rounded-[22px] md:rounded-[26px] overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_40px_rgba(163,230,53,0.15)] transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    style={{ 
+                      transform: 'rotateY(-8deg) rotateX(5deg) rotate(12deg)',
+                      transformStyle: 'preserve-3d',
+                      animation: 'cardFloat 6s ease-in-out infinite',
+                    }}
+                  >
+                    {/* Metallic Gradient Base */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#d4fc79] via-[#96e628] to-[#4d7c0f]"></div>
 
-                  {/* Contactless Icon (Top Right) */}
-                  <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 z-10 opacity-90">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.2" strokeLinecap="round" className="drop-shadow-sm mix-blend-overlay opacity-60">
-                      <path d="M8.5 2.5a15 15 0 0 1 7 0 M6 6a11 11 0 0 1 12 0 M3.5 10a7 7 0 0 1 17 0" />
-                    </svg>
-                  </div>
-                  
-                  {/* EMV Chip (Bottom Left) */}
-                  <div className="absolute left-3.5 sm:left-4 bottom-10 sm:bottom-14 w-8 h-9 sm:w-10 sm:h-12 rounded-md border border-black/25 bg-[#d9ea4b] flex flex-col justify-between p-[2px] opacity-80 shadow-sm z-10">
-                    <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
-                    <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
-                    <div className="w-full h-[1px] bg-black/20 my-[2px]"></div>
-                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-black/20"></div>
-                  </div>
+                    {/* Brushed Metal Texture Overlay */}
+                    <div className="absolute inset-0 opacity-30" style={{
+                      backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)',
+                    }}></div>
 
-                  {/* Text: Numbers */}
-                  <div className="absolute right-3 sm:right-4 top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white text-[19px] sm:text-[23px] md:text-[25px] font-sans font-bold tracking-[0.12em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                      1234 5678 9012 3456
-                    </p>
-                  </div>
-                  {/* Text: Name */}
-                  <div className="absolute right-[36px] sm:right-[44px] md:right-[48px] top-0 h-full flex items-center justify-center z-10">
-                    <p className="text-white/80 text-[8px] sm:text-[9px] md:text-[10px] font-sans font-semibold uppercase tracking-[0.25em] drop-shadow-sm mix-blend-overlay" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                      NAME SURNAME
-                    </p>
-                  </div>
-                </div>
+                    {/* Chrome Band (diagonal) */}
+                    <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_30%,rgba(255,255,255,0.35)_45%,rgba(255,255,255,0.05)_55%,transparent_70%)] pointer-events-none"></div>
 
-                {/* Open Hand - Positioned at bottom receiving the floating card */}
-                <div className="absolute bottom-0 right-0 sm:right-2 md:right-4 w-[300px] sm:w-[380px] md:w-[440px] z-10 pointer-events-none" style={{ mixBlendMode: 'lighten' }}>
-                  <img 
-                    src="/hand.png" 
-                    alt="Hand receiving escrow card" 
-                    className="w-full h-auto drop-shadow-[0_16px_32px_rgba(0,0,0,0.9)]" 
-                    style={{ filter: 'brightness(1.08) contrast(1.12)' }} 
-                  />
+                    {/* Holographic Shimmer — sweeps on hover */}
+                    <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_20%,rgba(255,255,255,0.6)_25%,rgba(255,200,255,0.15)_30%,rgba(100,255,200,0.15)_35%,transparent_45%)] opacity-0 group-hover:opacity-100 group-hover:translate-x-[100%] -translate-x-[100%] transition-all duration-[1200ms] ease-in-out pointer-events-none z-30"></div>
+
+                    {/* Glass Inner Border */}
+                    <div className="absolute inset-0 rounded-[22px] md:rounded-[26px] border-[1.5px] border-white/40 pointer-events-none z-20"></div>
+
+                    {/* Card Content */}
+                    <div className="relative z-10 p-5 sm:p-6 h-full flex flex-col">
+                      {/* Top Row: Brand + Contactless */}
+                      <div className="flex items-start justify-between">
+                        <span className="text-white text-[18px] sm:text-[20px] font-bold tracking-[0.15em] drop-shadow-md" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>ESCRO</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth="2" strokeLinecap="round">
+                          <path d="M8.5 2.5a15 15 0 0 1 7 0 M6 6a11 11 0 0 1 12 0 M3.5 10a7 7 0 0 1 17 0" />
+                        </svg>
+                      </div>
+
+                      {/* EMV Chip — Metallic */}
+                      <div className="mt-6 sm:mt-8 w-11 h-8 sm:w-12 sm:h-9 rounded-md overflow-hidden shadow-md">
+                        <div className="w-full h-full bg-gradient-to-br from-[#f5e6b8] via-[#d4af37] to-[#b8860b] relative">
+                          <div className="absolute inset-0 flex flex-col justify-between p-[3px]">
+                            <div className="h-[1px] bg-[#a0852a]/40"></div>
+                            <div className="h-[1px] bg-[#a0852a]/40"></div>
+                            <div className="h-[1px] bg-[#a0852a]/40"></div>
+                          </div>
+                          <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-[#a0852a]/40 -translate-x-1/2"></div>
+                          <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-[#a0852a]/40 -translate-y-1/2"></div>
+                        </div>
+                      </div>
+
+                      {/* Card Number */}
+                      <div className="mt-auto">
+                        <p className="text-white text-[15px] sm:text-[17px] md:text-[19px] font-mono font-semibold tracking-[0.18em] drop-shadow-md mb-4 sm:mb-5" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.4)' }}>
+                          5234 5678 9012 3456
+                        </p>
+                        
+                        {/* Bottom Row: Name + Expiry */}
+                        <div className="flex items-end justify-between">
+                          <div>
+                            <p className="text-[8px] text-white/50 uppercase tracking-wider mb-0.5">Card Holder</p>
+                            <p className="text-white/90 text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.2em] drop-shadow-sm">JAMES WILSON</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-[8px] text-white/50 uppercase tracking-wider mb-0.5">Expires</p>
+                            <p className="text-white/90 text-[11px] sm:text-[12px] font-semibold tracking-wider drop-shadow-sm">09/28</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Float keyframe animation */}
+        <style>{`
+          @keyframes cardFloat {
+            0%, 100% { transform: rotateY(-8deg) rotateX(5deg) rotate(12deg) translateY(0px); }
+            50% { transform: rotateY(-8deg) rotateX(5deg) rotate(12deg) translateY(-14px); }
+          }
+        `}</style>
       </section>
 
       {/* International Escro Section */}

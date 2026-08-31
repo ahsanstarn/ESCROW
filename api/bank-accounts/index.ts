@@ -1,79 +1,66 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import connectToDatabase from '../../src/lib/mongodb';
+import { BankAccountModel } from '../../src/lib/models/index';
+import { z } from 'zod';
+import { v4 as uuidv4 } from 'uuid';
 
-const BASE = () => `${process.env.SUPABASE_URL}/rest/v1`;
-const KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' });
-
-function hasConfig() {
-  return !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
-}
-
-async function sbGet(table: string, params: Record<string, string> = {}) {
-  if (!hasConfig()) return { data: [], error: null };
-  const url = new URL(`${BASE()}/${table}`);
-  url.searchParams.set('select', '*');
-  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
-  const res = await fetch(url.toString(), { headers: HDRS() });
-  const text = await res.text();
-  return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
-}
-
-async function sbPost(table: string, row: Record<string, any>) {
-  if (!hasConfig()) return { data: row, error: null };
-  const res = await fetch(`${BASE()}/${table}`, { method: 'POST', headers: HDRS(), body: JSON.stringify(row) });
-  const text = await res.text();
-  const data = text ? JSON.parse(text) : [];
-  return { data: Array.isArray(data) ? data[0] : data, error: res.ok ? null : { message: text } };
-}
-
-async function sbPatch(table: string, updates: Record<string, any>, filterCol: string, filterVal: string) {
-  const res = await fetch(`${BASE()}/${table}?${filterCol}=eq.${encodeURIComponent(filterVal)}`, { method: 'PATCH', headers: HDRS(), body: JSON.stringify(updates) });
-  const text = await res.text();
-  return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
-}
-
-async function sbDelete(table: string, filterCol: string, filterVal: string) {
-  if (!hasConfig()) return { error: null };
-  const res = await fetch(`${BASE()}/${table}?${filterCol}=eq.${encodeURIComponent(filterVal)}`, { method: 'DELETE', headers: HDRS() });
-  if (!res.ok) { const t = await res.text(); return { error: { message: t } }; }
-  return { error: null };
-}
+const createSchema = z.object({
+  userId: z.string(),
+  bankName: z.string(),
+  accountNumber: z.string(),
+  routingNumber: z.string(),
+  accountType: z.enum(['CHECKING', 'SAVINGS', 'BUSINESS']).default('CHECKING'),
+  isDefault: z.boolean().default(false)
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
+    await connectToDatabase();
+
     if (req.method === 'GET') {
       const { userId } = req.query;
-      if (!userId) return res.status(400).json({ error: 'Missing userId' });
-      const { data, error } = await sbGet('bank_accounts', { user_id: `eq.${userId}`, select: '*' });
-      if (error) throw new Error(error.message);
-      return res.json({ success: true, data: data || [] });
+      const filter: any = {};
+      if (userId) filter.userId = userId;
+
+      const data = await BankAccountModel.find(filter).sort({ createdAt: -1 });
+      return res.json({ success: true, data });
     }
 
     if (req.method === 'POST') {
-      const { userId, bankName, accountNumber, currency } = req.body;
-      if (!userId || !bankName || !accountNumber) return res.status(400).json({ error: 'Missing required fields' });
-      const { data, error } = await sbPost('bank_accounts', {
-        user_id: userId, bank_name: bankName, account_number: accountNumber, currency: currency || 'USD',
+      const data = createSchema.parse(req.body);
+      
+      // If setting to default, unset other defaults
+      if (data.isDefault) {
+        await BankAccountModel.updateMany({ userId: data.userId }, { $set: { isDefault: false } });
+      }
+
+      const account = new BankAccountModel({
+        id: uuidv4(),
+        ...data
       });
-      if (error) throw new Error(error.message);
-      return res.status(201).json({ success: true, data });
+
+      await account.save();
+      return res.status(201).json({ success: true, data: account });
     }
 
     if (req.method === 'DELETE') {
       const { id } = req.query;
-      if (!id) return res.status(400).json({ error: 'Missing id' });
-      const { error } = await sbDelete('bank_accounts', 'id', id as string);
-      if (error) throw new Error(error.message);
-      return res.json({ success: true });
+      if (!id) return res.status(400).json({ success: false, error: 'Missing account id' });
+      
+      const account = await BankAccountModel.findOneAndDelete({ id });
+      if (!account) return res.status(404).json({ success: false, error: 'Account not found' });
+      
+      return res.json({ success: true, data: { deleted: true } });
     }
 
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
   } catch (err) {
+    if (err instanceof z.ZodError) return res.status(400).json({ success: false, error: err.errors[0].message });
     return res.status(500).json({ success: false, error: (err as Error).message });
   }
 }

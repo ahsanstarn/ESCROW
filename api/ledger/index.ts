@@ -1,69 +1,73 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import connectToDatabase from '../../src/lib/mongodb';
+import { TransactionModel, UserModel } from '../../src/lib/models/index';
+import { z } from 'zod';
+import { v4 as uuidv4 } from 'uuid';
 
-const BASE = () => `${process.env.SUPABASE_URL}/rest/v1`;
-const KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' });
-
-function hasConfig() {
-  return !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
-}
-
-async function sbGet(table: string, params: Record<string, string> = {}) {
-  if (!hasConfig()) return { data: [], error: null };
-  const url = new URL(`${BASE()}/${table}`);
-  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
-  const res = await fetch(url.toString(), { headers: HDRS() });
-  const text = await res.text();
-  return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
-}
-
-async function sbPost(table: string, row: Record<string, any> | Record<string, any>[]) {
-  const res = await fetch(`${BASE()}/${table}`, { method: 'POST', headers: HDRS(), body: JSON.stringify(row) });
-  const text = await res.text();
-  const data = text ? JSON.parse(text) : [];
-  return { data: Array.isArray(data) ? data[0] : data, error: res.ok ? null : { message: text } };
-}
-
-async function sbPatch(table: string, updates: Record<string, any>, filterCol: string, filterVal: string) {
-  const res = await fetch(`${BASE()}/${table}?${filterCol}=eq.${encodeURIComponent(filterVal)}`, { method: 'PATCH', headers: HDRS(), body: JSON.stringify(updates) });
-  const text = await res.text();
-  return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
-}
-
-async function sbDelete(table: string, filterCol: string, filterVal: string) {
-  const res = await fetch(`${BASE()}/${table}?${filterCol}=eq.${encodeURIComponent(filterVal)}`, { method: 'DELETE', headers: HDRS() });
-  if (!res.ok) { const t = await res.text(); return { error: { message: t } }; }
-  return { error: null };
-}
+const createSchema = z.object({
+  userId: z.string(),
+  escrowId: z.string().optional(),
+  type: z.enum(['DEPOSIT', 'WITHDRAWAL', 'ESCROW_LOCK', 'ESCROW_RELEASE', 'FEE', 'REFUND']),
+  amount: z.number().positive(),
+  description: z.string()
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  if (req.method === 'GET') {
-    const { userId, escrowId } = req.query;
-    if (userId) {
-      const { data, error } = await sbGet('ledger_entries', {
-        select: '*, escrow:escrows(id, escrow_code, status)',
-        user_id: `eq.${userId}`,
-        order: 'created_at.desc',
-        limit: '50',
-      });
-      const balance = data && data.length > 0 ? data[0].balance : 0;
-      return res.json({ success: true, data: { entries: data || [], balance } });
-    }
-    if (escrowId) {
-      const { data, error } = await sbGet('ledger_entries', {
-        select: '*, user:users(id, name, email)',
-        escrow_id: `eq.${escrowId}`,
-        order: 'created_at.asc',
-      });
-      return res.json({ success: true, data: data || [] });
-    }
-    return res.json({ success: true, data: [] });
-  }
+  try {
+    await connectToDatabase();
 
-  return res.status(405).json({ error: 'Method not allowed' });
+    if (req.method === 'GET') {
+      const { userId, escrowId, type } = req.query;
+      const filter: any = {};
+      if (userId) filter.userId = userId;
+      if (escrowId) filter.escrowId = escrowId;
+      if (type) filter.type = type;
+
+      const data = await TransactionModel.find(filter).sort({ createdAt: -1 });
+      return res.json({ success: true, data });
+    }
+
+    if (req.method === 'POST') {
+      const data = createSchema.parse(req.body);
+      
+      const user = await UserModel.findOne({ id: data.userId });
+      if (!user) return res.status(404).json({ success: false, error: 'User not found' });
+      
+      let balanceAfter = user.walletBalance;
+      if (data.type === 'DEPOSIT' || data.type === 'ESCROW_RELEASE' || data.type === 'REFUND') {
+        balanceAfter += data.amount;
+      } else if (data.type === 'WITHDRAWAL' || data.type === 'ESCROW_LOCK' || data.type === 'FEE') {
+        balanceAfter -= data.amount;
+      }
+
+      const transaction = new TransactionModel({
+        id: uuidv4(),
+        userId: data.userId,
+        escrowId: data.escrowId,
+        type: data.type,
+        amount: data.amount,
+        balanceAfter,
+        description: data.description,
+        status: 'COMPLETED'
+      });
+
+      await transaction.save();
+      
+      // Update user balance
+      user.walletBalance = balanceAfter;
+      await user.save();
+
+      return res.status(201).json({ success: true, data: transaction });
+    }
+
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
+  } catch (err) {
+    if (err instanceof z.ZodError) return res.status(400).json({ success: false, error: err.errors[0].message });
+    return res.status(500).json({ success: false, error: (err as Error).message });
+  }
 }

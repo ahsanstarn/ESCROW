@@ -1,45 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import connectToDatabase from '../../src/lib/mongodb';
+import { UserModel, EscrowModel, DisputeModel } from '../../src/lib/models/index';
 import { z } from 'zod';
-
-const BASE = () => `${process.env.SUPABASE_URL}/rest/v1`;
-const KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const HDRS = () => ({ apikey: KEY(), Authorization: `Bearer ${KEY()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' });
-
-function hasSupabaseConfig() {
-  return !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
-}
-
-async function sbGet(table: string, params: Record<string, string> = {}, countOnly = false) {
-  if (!hasSupabaseConfig()) return { data: [], count: 0, error: null };
-  const url = new URL(`${BASE()}/${table}`);
-  url.searchParams.set('select', '*');
-  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
-  const headers: Record<string, string> = { ...HDRS() };
-  if (countOnly) { headers.Prefer = 'count=exact'; headers.Range = '0-0'; }
-  const res = await fetch(url.toString(), { headers });
-  if (countOnly) {
-    const cr = res.headers.get('content-range');
-    return { data: null, count: cr ? parseInt(cr.split('/')[1]) : 0, error: null };
-  }
-  const text = await res.text();
-  const rows = text ? JSON.parse(text) : [];
-  return { data: rows, error: res.ok ? null : { message: text } };
-}
-
-async function sbPost(table: string, row: Record<string, any>) {
-  if (!hasSupabaseConfig()) return { data: row, error: null };
-  const res = await fetch(`${BASE()}/${table}`, { method: 'POST', headers: HDRS(), body: JSON.stringify(row) });
-  const text = await res.text();
-  const data = text ? JSON.parse(text) : [];
-  return { data: Array.isArray(data) ? data[0] : data, error: res.ok ? null : { message: text } };
-}
-
-async function sbPatch(table: string, updates: Record<string, any>, filterCol: string, filterVal: string) {
-  if (!hasSupabaseConfig()) return { data: updates, error: null };
-  const res = await fetch(`${BASE()}/${table}?${filterCol}=eq.${encodeURIComponent(filterVal)}`, { method: 'PATCH', headers: HDRS(), body: JSON.stringify(updates) });
-  const text = await res.text();
-  return { data: text ? JSON.parse(text) : [], error: res.ok ? null : { message: text } };
-}
+import { v4 as uuidv4 } from 'uuid';
 
 const createSchema = z.object({
   email: z.string().email(),
@@ -55,71 +18,75 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
+    await connectToDatabase();
+
     if (req.method === 'GET') {
       const { role, id, stats, email } = req.query;
 
       if (email) {
-        const { data: users } = await sbGet('users', { email: `eq.${email}` });
-        const user = Array.isArray(users) ? users[0] : users;
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        const user = await UserModel.findOne({ email });
+        if (!user) return res.status(404).json({ success: false, error: 'User not found' });
         return res.json({ success: true, data: user });
       }
 
       if (stats === 'true' && id) {
-        const { data: users } = await sbGet('users', { id: `eq.${id}` });
-        const user = Array.isArray(users) ? users[0] : users;
-        if (!user) return res.status(404).json({ error: 'Not found' });
-        const field = (user.role === 'MERCHANT' || user.role === 'SELLER') ? 'merchant_id' : 'buyer_id';
-        const [totalRes, activeRes, completedRes, disputesRes] = await Promise.all([
-          sbGet('escrows', { [field]: `eq.${id}` }, true),
-          sbGet('escrows', { [field]: `eq.${id}`, status: 'in.(CREATED,DEPOSITED,SHIPPED,IN_TRANSIT,DELIVERED)' }, true),
-          sbGet('escrows', { [field]: `eq.${id}`, status: 'eq.RELEASED' }, true),
-          sbGet('disputes', { opened_by_id: `eq.${id}` }, true),
-        ]);
-        const totalEscrows = totalRes.count || 0;
-        const completedEscrows = completedRes.count || 0;
+        const user = await UserModel.findOne({ id });
+        if (!user) return res.status(404).json({ success: false, error: 'Not found' });
+        
+        const field = (user.role === 'MERCHANT' || user.role === 'SELLER') ? 'merchantId' : 'buyerId';
+        const totalEscrows = await EscrowModel.countDocuments({ [field]: id });
+        const activeEscrows = await EscrowModel.countDocuments({ [field]: id, status: { $in: ['PENDING', 'FUNDED', 'IN_TRANSIT'] } });
+        const completedEscrows = await EscrowModel.countDocuments({ [field]: id, status: 'RELEASED' });
+        const disputes = await DisputeModel.countDocuments({ raisedBy: id });
+
         return res.json({
           success: true,
           data: {
-            user: { id: user.id, name: user.name, role: user.role, trustScore: user.trust_score },
-            totalEscrows, activeEscrows: activeRes.count || 0, completedEscrows, disputes: disputesRes.count || 0,
+            user: { id: user.id, name: user.name, role: user.role, trustScore: user.trustScore },
+            totalEscrows,
+            activeEscrows,
+            completedEscrows,
+            disputes,
             successRate: totalEscrows > 0 ? ((completedEscrows / totalEscrows) * 100).toFixed(1) : '0',
           },
         });
       }
 
-      const params: Record<string, string> = {};
-      if (role) params.role = `eq.${role}`;
-      const { data, error } = await sbGet('users', params);
-      if (error) throw error;
-      return res.json({ success: true, data: data || [] });
+      const params: any = {};
+      if (role) params.role = role;
+      const data = await UserModel.find(params).sort({ createdAt: -1 });
+      return res.json({ success: true, data });
     }
 
     if (req.method === 'POST') {
       const data = createSchema.parse(req.body);
-      const { data: user, error } = await sbPost('users', {
-        email: data.email, name: data.name, role: data.role, phone: data.phone,
+      const user = new UserModel({
+        id: uuidv4(),
+        ...data,
       });
-      if (error) throw error;
+      await user.save();
       return res.status(201).json({ success: true, data: user });
     }
 
     if (req.method === 'PUT') {
       const { userId, name, phone, username } = req.body || {};
-      if (!userId) return res.status(400).json({ error: 'Missing userId' });
-      const updates: Record<string, any> = {};
+      if (!userId) return res.status(400).json({ success: false, error: 'Missing userId' });
+      
+      const updates: any = {};
       if (name) updates.name = name;
-      if (phone) updates.phone = phone;
-      if (username) updates.username = username;
-      if (Object.keys(updates).length === 0) return res.status(400).json({ error: 'No fields to update' });
-      const { data, error } = await sbPatch('users', updates, 'id', userId);
-      if (error) throw new Error(error.message);
-      return res.json({ success: true, data });
+      if (phone) updates.phone = phone; // Assuming phone exists or added to schema or flexible
+      if (username) updates.name = username;
+      
+      if (Object.keys(updates).length === 0) return res.status(400).json({ success: false, error: 'No fields to update' });
+      
+      const user = await UserModel.findOneAndUpdate({ id: userId }, { $set: updates }, { new: true });
+      if (!user) return res.status(404).json({ success: false, error: 'User not found' });
+      return res.json({ success: true, data: user });
     }
 
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
   } catch (err) {
-    if (err instanceof z.ZodError) return res.status(400).json({ success: false, errors: err.errors });
+    if (err instanceof z.ZodError) return res.status(400).json({ success: false, error: err.errors[0].message });
     return res.status(500).json({ success: false, error: (err as Error).message });
   }
 }
